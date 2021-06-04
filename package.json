@@ -1,0 +1,25 @@
+{
+  "scripts": {
+    "build": "rimraf dist && tsc && rollup -c rollup.config.js",
+    "start:build": "npm run build && web-dev-server --root-dir dist --app-index index.html --open --compatibility none",
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\""
+  },
+  "devDependencies": {
+    "@open-wc/building-rollup": "^1.10.0",
+    "deepmerge": "^4.2.2",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.50.6",
+    "@web/dev-server": "^0.1.17",
+    "concurrently": "^5.3.0",
+    "typescript": "^4.3.2",
+    "tslib": "^2.2.0"
+  },
+  "name": "manifest-previewer",
+  "version": "0.0.0",
+  "description": "Webcomponent manifest-previewer following open-wc recommendations",
+  "author": "manifest-previewer",
+  "license": "MIT",
+  "dependencies": {
+    "lit": "^2.0.0-rc.2"
+  }
+}
