@@ -2,6 +2,56 @@ import { LitElement, css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
+/**
+ * Supported platforms for the preview component
+ */
+enum Platform {
+  Windows = 'windows', 
+  Android = 'android'
+}
+
+/**
+ * Reference: https://www.w3.org/TR/image-resource/#dom-imageresource
+ */
+type ImageResource = {
+  src?: string;
+  sizes?: string;
+  type?: string;
+  label?: string;
+}
+
+/**
+ * Web app manifest
+ */
+interface Manifest {
+  name: string;
+  short_name?: string;
+  icons: ImageResource[];
+  display?: 'fullscreen' | 'standalone' | 'minimal-ui' | 'browser';
+  orientation?: 'any' | 'natural' | 'landscape' | 'landscape-primary' | 'landscape-secondary' | 'portrait' | 'portrait-primary' | 'portrait-secondary';
+  dir?: 'auto' | 'ltr' | 'rtl';
+  lang?: string;
+  theme_color?: string;
+  related_applications?: {
+    platform?: string;
+    url?: string;
+    id?: string;
+  }[];
+  prefer_related_applications?: boolean;
+  background_color?: string;
+  shortcuts?: {
+    name: string;
+    url: string;
+    short_name?: string;
+    description?: string;
+    icons?: ImageResource[];
+  }[];
+  categories?: string[];
+  description?: string;
+  screenshots?: ImageResource[];
+  iarc_rating_id?: string;
+}
+
 export class ManifestPreviewer extends LitElement {
   static styles = css`
     .container {
@@ -69,18 +119,17 @@ export class ManifestPreviewer extends LitElement {
     }
 
     .name {
-      position: absolute;
-      top: 134.54px;
-      left: calc(50% - 27.5px);
       background: rgba(194, 194, 194, 0.4);
       border-radius: 4px;
-      width: 55px;
       height: 24px;
       font-weight: 700;
       font-size: 16px;
       line-height: 25px;
       text-align: center;
       color: #000;
+      margin: 134.54px auto 0;
+      width: fit-content;
+      padding: 0 5px;
     }
 
     .name-text {
@@ -183,10 +232,24 @@ export class ManifestPreviewer extends LitElement {
   `;
 
   /**
+   * The input web manifest.
+   */
+  @property({ 
+    type: Object,
+    converter: value => {
+      if (value === null) {
+        return null;
+      }
+      return JSON.parse(value);
+    }
+  })
+  manifest = {} as Manifest;
+
+  /**
    * The platform currently being previewed.
    */
   @property({ type: String})
-  selectedPlatform = 'windows';
+  selectedPlatform = Platform.Windows;
 
   render() {
     return html`
@@ -196,17 +259,17 @@ export class ManifestPreviewer extends LitElement {
           <h4 class="title">Preview</h4>
           <div class="buttons-div">
             <button 
-            class=${classMap({ selected: this.selectedPlatform === 'windows' })} 
-            @click=${() => this.handlePlatformButtonClick('windows')}>
+            class=${classMap({ selected: this.selectedPlatform === Platform.Windows })} 
+            @click=${() => this.handlePlatformButtonClick(Platform.Windows)}>
               Windows
             </button>
             <button 
-            class=${classMap({ selected: this.selectedPlatform === 'android' })} 
-            @click=${() => this.handlePlatformButtonClick('android')}>
+            class=${classMap({ selected: this.selectedPlatform === Platform.Android })} 
+            @click=${() => this.handlePlatformButtonClick(Platform.Android)}>
               Android
             </button>
           </div>
-          <div class="name">Name</div>
+          <div class="name">${this.manifest.name}</div>
           <p class="name-text">
             Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, 
             sed quia consequuntur.
@@ -215,8 +278,8 @@ export class ManifestPreviewer extends LitElement {
           alt="Application mobile preview"
           src="../assets/images/${this.selectedPlatform}_preview_placeholder.png"
           class=${classMap({ 
-            'windows-preview': this.selectedPlatform === 'windows', 
-            'android-preview': this.selectedPlatform === 'android'
+            'windows-preview': this.selectedPlatform === Platform.Windows, 
+            'android-preview': this.selectedPlatform === Platform.Android
             })
           } />
           <p class="preview-text">Click to enlarge Preview</p>
@@ -230,7 +293,7 @@ export class ManifestPreviewer extends LitElement {
    * 
    * @param platform - Platform corresponding to the selected button
    */
-  private handlePlatformButtonClick(platform: string) {
+  private handlePlatformButtonClick(platform: Platform) {
     this.selectedPlatform = platform;
   }
 }
