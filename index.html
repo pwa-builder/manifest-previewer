@@ -5,10 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="Description" content="Put your description here.">
-  <script type="module" src="https://unpkg.com/@microsoft/fast-components"></script>
   <base href="/">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Hind" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hind&family=Roboto" rel="stylesheet">
   <style>
     html,
     body {
@@ -16,12 +15,34 @@
       padding: 0;
     }
   </style>
+  <script type="module" src="./out-tsc/src/manifest-previewer.js"></script>
   <title>manifest-previewer</title>
 </head>
 
 <body>
-  <manifest-previewer manifest='{"name": "My first app"}'></manifest-previewer>
-  <script type="module" src="./out-tsc/src/manifest-previewer.js"></script>
+  <manifest-previewer 
+  manifesturl="https://www.experienceramble.com/manifest.json"
+  manifest='{
+    "short_name": "Ramble",
+    "name": "Ramble Website",
+    "icons": [
+        {
+            "src": "favicon/favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "favicon/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#FFFFFF"
+  }'></manifest-previewer>
+  <!-- <script type="module" src="./out-tsc/src/manifest-previewer.js"></script> -->
 </body>
 
 </html>
