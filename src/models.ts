@@ -1,3 +1,5 @@
+// TODO: Delete this file later and use the already defined types
+
 /**
  * Supported platforms for the preview component
  */

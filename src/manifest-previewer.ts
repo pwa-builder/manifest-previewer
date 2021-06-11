@@ -1,13 +1,22 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { styleMap } from 'lit/directives/style-map.js';
 
+import { PreviewMixin } from './preview-mixin';
 import './device-preview.js';
-import { Manifest, Platform } from './models';
+import './splash-screen.js';
+import { Platform } from './models';
+
+/**
+ * Supported previews.
+ */
+enum PreviewStage {
+  Splashscreen,
+  Install
+}
 
 @customElement('manifest-previewer')
-export class ManifestPreviewer extends LitElement {
+export class ManifestPreviewer extends PreviewMixin(LitElement) {
   static styles = css`
     .container {
       width: 100vw;
@@ -46,11 +55,15 @@ export class ManifestPreviewer extends LitElement {
 
     .buttons-div {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       position: absolute;
       top: 71px;
       left: calc(50% - 88.5px);
       width: 177px;
+    }
+
+    .buttons-div > :nth-child(2) {
+      margin-left: 16px;
     }
 
     button {
@@ -166,33 +179,10 @@ export class ManifestPreviewer extends LitElement {
   `;
 
   /**
-   * The input web manifest.
-   */
-  @property({ 
-    type: Object,
-    converter: value => {
-      if (!value) {
-        return undefined;
-      }
-      return JSON.parse(value);
-    }
-  })
-  manifest: Manifest = {
-    name: 'My app',
-    icons: []
-  }
-
-  /**
-   * The url where the manifest resides.
-   */
-  @property({ type: String })
-  manifestUrl = "";
-
-  /**
-   * The platform currently being previewed.
+   * The kind of preview currently shown.
    */
   @state()
-  selectedPlatform = Platform.Windows;
+  stage = PreviewStage.Install;
 
   /**
    * Based on the buttom clicked, change the platform to preview.
@@ -207,37 +197,50 @@ export class ManifestPreviewer extends LitElement {
     return html`
       <div class="container">
         <div class="card">
-          <img src="../assets/images/nav_arrow.png" alt="Navigate right" class="nav-arrow" />
+          <img 
+          src="../assets/images/nav_arrow.svg" 
+          alt="Navigate right" 
+          class="nav-arrow"
+          @click=${() => { 
+            this.stage = 
+              this.stage === PreviewStage.Splashscreen ?
+              PreviewStage.Install : PreviewStage.Splashscreen;
+          }} />
           <h4 class="title">Preview</h4>
           <div class="buttons-div">
+            ${this.stage === PreviewStage.Install ?
+            html`
+              <button 
+              class=${classMap({ selected: this.selectedPlatform === Platform.Windows })} 
+              @click=${() => this.handlePlatformButtonClick(Platform.Windows)}>
+                Windows
+              </button>` : 
+              null}
             <button 
-            class=${classMap({ selected: this.selectedPlatform === Platform.Windows })} 
-            @click=${() => this.handlePlatformButtonClick(Platform.Windows)}>
-              Windows
-            </button>
-            <button 
-            class=${classMap({ selected: this.selectedPlatform === Platform.Android })} 
+            class=${classMap({ 
+              selected: (this.selectedPlatform === Platform.Android) || (this.stage === PreviewStage.Splashscreen) 
+            })} 
             @click=${() => this.handlePlatformButtonClick(Platform.Android)}>
               Android
             </button>
           </div>
           <div class="name">${this.manifest.name}</div>
-          <p class="name-text">Should the description be here?</p>
-          <!-- <div 
-          class=${classMap({ 
-            'windows-preview': this.selectedPlatform === Platform.Windows, 
-            'android-preview': this.selectedPlatform === Platform.Android
-            })
-          }
-          style=${styleMap({
-            backgroundColor: this.manifest.background_color || '#FFF'
-          })}>
-          </div> -->
-          <device-preview
-          .manifest=${this.manifest} 
-          .manifestUrl=${this.manifestUrl}
-          .selectedPlatform=${this.selectedPlatform}>
-          </device-preview>
+          <p class="name-text">${this.manifest.description || 'A description about your app'}</p>
+          ${this.stage === PreviewStage.Install ?
+          html`
+            <device-preview
+            .manifest=${this.manifest} 
+            .manifestUrl=${this.manifestUrl}
+            .selectedPlatform=${this.selectedPlatform}>
+            </device-preview>` :
+          this.stage === PreviewStage.Splashscreen ?
+          html`
+            <splash-screen 
+            .manifest=${this.manifest} 
+            .manifestUrl=${this.manifestUrl}
+            .selectedPlatform=${this.selectedPlatform}>
+            </splash-screen>
+          ` : null}
           <p class="preview-text">Click to enlarge Preview</p>
         </div>
       </div>

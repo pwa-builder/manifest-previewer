@@ -1,11 +1,12 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { Manifest, Platform } from './models';
+import { PreviewMixin } from './preview-mixin';
+import { Platform } from './models';
 
 @customElement('device-preview')
-export class DevicePreview extends LitElement {
+export class DevicePreview extends PreviewMixin(LitElement) {
   static styles = css`
     .android-preview {
       position: absolute;
@@ -20,14 +21,18 @@ export class DevicePreview extends LitElement {
       z-index: -1;
     }
 
-    .windows-preview {
+    .android-url-bar {
+      background-color: #D7D7D7;
+      opacity: 0.5;
+      width: fit-content;
       position: absolute;
-      width: 222px;
-      height: 204px;
-      top: 294px;
-      left: calc(50% - 111px);
+      top: 278px;
+      left: 190px;
+      font-size: 6.5px;
+      width: 105px;
+      overflow-x: hidden;
     }
-    
+
     .android-add-dialog {
       width: 207.17px;
       height: 108.29px;
@@ -67,13 +72,6 @@ export class DevicePreview extends LitElement {
       margin: 0;
     }
 
-    .android-add-dialog .app-info .app-url {
-      font-family: Roboto;
-      font-weight: 400;
-      font-size: 7.84722px;
-      margin: 0;
-    }
-
     .android-add-dialog .dialog-actions {
       display: flex;
       margin: 7.85px 0 0 108px;
@@ -87,6 +85,76 @@ export class DevicePreview extends LitElement {
       margin-right: 20px;
     }
 
+    .windows-preview {
+      position: absolute;
+      width: 222px;
+      height: 204px;
+      top: 294px;
+      left: calc(50% - 111px);
+    }
+
+    .windows-add-dialog {
+      background-color: #FFF;
+      width: 208px;
+      height: 118px;
+      position: absolute;
+      top: 327px;
+      left: 73px;
+      z-index: 1;
+      padding: 12px;
+      box-sizing: border-box;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 6px;
+    }
+
+    .windows-add-dialog .header {
+      display: flex;
+    }
+
+    .windows-add-dialog .round-icon {
+      width: 17.5px;
+      height: 17.5px;
+      border-radius: 50%;
+    }
+
+    .windows-add-dialog .dialog-title {
+      margin: 0 0 0 7px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .windows-add-dialog .dialog-text {
+      margin: 0 0 7px 25px;
+      font-size: 7px;
+    }
+
+    .dialog-text {
+      font-family: Roboto;
+      font-weight: 400;
+      font-size: 7.84722px;
+      margin: 0;
+    }
+
+     /* 800 designs */
+     @media(max-width: 1024px) {
+      .android-url-bar {
+        top: 280px;
+        left: 130px;
+      }
+    }
+
+    /* 1024 designs */
+    @media(min-width: 1024px) and (max-width: 1366px) {
+      .windows-add-dialog {
+        left: 79px;
+      }
+
+      .android-url-bar {
+        top: 280px;
+        left: 134px;
+      }
+    }
+
     /* 1366 designs */
     @media(min-width: 1366px) {
       .android-preview {
@@ -94,77 +162,45 @@ export class DevicePreview extends LitElement {
         height: 510px;
         left: calc(50% - 115.5px);
       }
+
+      .windows-add-dialog {
+        left: 136px;
+      }
     }
   `;
-
-  /**
-   * The input web manifest.
-   */
-  @property({ 
-    type: Object,
-    converter: value => {
-      if (!value) {
-        return undefined;
-      }
-      return JSON.parse(value);
-    }
-  })
-  manifest: Manifest = {
-    name: 'My app',
-    icons: []
-  }
-
-  /**
-   * The url where the manifest resides.
-   */
-  @property({ type: String })
-  manifestUrl = "";
-
-  /**
-   * The platform currently being previewed.
-   */
-  @property()
-  selectedPlatform = Platform.Windows;
-
-  /**
-   * @returns The icon to use for the Android icon preview.
-   */
-  private getAndroidIconUrl() {
-    // Try to get the icon for Android Chrome, or the first one by default
-    let iconUrl = this.manifest.icons[0].src;
-    for (const icon of this.manifest.icons) {
-      if (icon.sizes === '192x192') {
-        iconUrl = icon.src;
-        break;
-      }
-    }
-
-    const absoluteUrl = new URL(iconUrl, this.manifestUrl).href;
-    return `https://pwabuilder-safe-url.azurewebsites.net/api/getsafeurl?url=${absoluteUrl}`;
-  }
 
   render() {
     switch (this.selectedPlatform) {
       case Platform.Windows:
         return html`
-          <img 
+          <div class="windows-add-dialog">
+            <div class="header">
+              <img class="round-icon" alt="App's Windows icon" src=${this.getIconUrl()} />
+              <p class="dialog-title">Install ${this.manifest.name}</p>
+            </div>
+            <p class="dialog-text">Publisher: ${this.getSiteUrl()}</p>
+            <p class="dialog-text">
+              This site can be installed as an application. It will open in its own window and 
+              safely integrate with Window Features.
+            </p>
+          </div>
+          <img  
           class="windows-preview"
           alt="Application mobile preview" 
           src="../assets/images/windows_background.svg" />
         `;
       case Platform.Android:
         return html`
+          <div class="android-url-bar">${this.getSiteUrl()}</div>
           <div class="android-add-dialog">
             <p class="dialog-title">Add to Home screen</p>
             <div class="app-info">
               ${this.manifest.icons.length > 0 ? 
-                html`<img class="icon" alt="App's Android icon" src=${this.getAndroidIconUrl()} />` : 
+                html`<img class="icon" alt="App's Android icon" src=${this.getIconUrl()} />` : 
                 html`<div class="icon" style=${styleMap({ backgroundColor: '#C4C4C4' })}></div>`}
               <div>
                 <p class="app-name">${this.manifest.short_name || this.manifest.name}</p>
-                <p class="app-url">
-                  ${this.manifestUrl.substring(0, this.manifestUrl.lastIndexOf('.com'))}.com
-                </p>
+                <p class="dialog-text">${this.getSiteUrl()}</p>
               </div>
             </div>
             <div class="dialog-actions">
