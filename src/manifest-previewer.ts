@@ -1,22 +1,14 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, state, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { PreviewMixin } from './preview-mixin';
-import './device-preview.js';
+import './install-screen.js';
 import './splash-screen.js';
-import { Platform } from './models';
-
-/**
- * Supported previews.
- */
-enum PreviewStage {
-  Splashscreen,
-  Install
-}
+import './name-screen.js';
+import type { platform, Manifest, PreviewStage } from './models';
 
 @customElement('manifest-previewer')
-export class ManifestPreviewer extends PreviewMixin(LitElement) {
+export class ManifestPreviewer extends LitElement {
   static styles = css`
     .container {
       width: 100vw;
@@ -101,7 +93,7 @@ export class ManifestPreviewer extends PreviewMixin(LitElement) {
       padding: 0 5px;
     }
 
-    .name-text {
+    .preview-info {
       position: absolute;
       top: 171px;
       font-weight: 400;
@@ -131,6 +123,7 @@ export class ManifestPreviewer extends PreviewMixin(LitElement) {
       right: 16px;
     }
 
+    /* The card is hidden for smaller screens */
     @media(min-width: 800px) {
       .card {
         display: block;
@@ -143,7 +136,7 @@ export class ManifestPreviewer extends PreviewMixin(LitElement) {
         width: 354px;
       }
 
-      .name-text {
+      .preview-info {
         width: 273px;
         left: calc(50% - 136.5px);
       }
@@ -155,7 +148,7 @@ export class ManifestPreviewer extends PreviewMixin(LitElement) {
         width: 366px;
       }
 
-      .name-text {
+      .preview-info {
         width: 282px;
         left: calc(50% - 141px);
       }
@@ -167,7 +160,7 @@ export class ManifestPreviewer extends PreviewMixin(LitElement) {
         width: 479.03px;
       }
 
-      .name-text {
+      .preview-info {
         width: 282px;
         left: calc(50% - 141px);
       }
@@ -179,68 +172,172 @@ export class ManifestPreviewer extends PreviewMixin(LitElement) {
   `;
 
   /**
-   * The kind of preview currently shown.
+   * The website's URL
    */
   @state()
-  stage = PreviewStage.Install;
+  _siteUrl: string | undefined;
+
+  /**
+   * The website's URL
+   */
+  @state()
+  _iconUrl: string | undefined;
+
+  /**
+   * Thekind of preview currently shown.
+   */
+  @property()
+  stage: PreviewStage = 'Name';
+
+  /**
+   * The input web manifest.
+   */
+  @property({ 
+    type: Object,
+    converter: value => {
+      if (!value) {
+        return undefined;
+      }
+      
+      return JSON.parse(value);
+    }
+  })
+  manifest = {} as Manifest;
+
+  /**
+   * The url where the manifest resides.
+   */
+  @property()
+  manifestUrl = '';
+
+  /**
+   * The platform currently being previewed.
+   */
+  @property()
+  selectedPlatform: platform = 'windows';
+
+  /**
+   * @returns The site's URL, assuming it can be derived from the manifest's URL.
+   */
+  @property()
+  get siteUrl() {
+    if (typeof this._siteUrl === 'undefined') {
+      this._siteUrl = this.manifestUrl.substring(0, this.manifestUrl.lastIndexOf('manifest.json'));
+    }
+
+    return this._siteUrl;
+  }
+
+  /**
+   * @returns The URL for icon previews, or undefined if the manifest specifies no icons.
+   */
+  @property()
+  get iconUrl() {
+    if (typeof this._iconUrl === 'undefined' && this.manifest.icons) {
+      // Try to get the icon for Android Chrome, or the first one by default
+      let iconUrl = this.manifest.icons[0].src;
+      for (const icon of this.manifest.icons) {
+        if (icon.sizes?.includes('192x192')) {
+          iconUrl = icon.src;
+          break;
+        }
+      }
+      const absoluteUrl = new URL(iconUrl, this.manifestUrl).href;
+      this._iconUrl = `https://pwabuilder-safe-url.azurewebsites.net/api/getsafeurl?url=${absoluteUrl}`;
+    }
+
+    return this._iconUrl;
+  }
 
   /**
    * Based on the buttom clicked, change the platform to preview.
    * 
    * @param platform - Platform corresponding to the selected button
    */
-   private handlePlatformButtonClick(platform: Platform) {
+  private handlePlatformButtonClick(platform: platform) {
     this.selectedPlatform = platform;
+  }
+
+  private getScreenContent() {
+    switch (this.stage) {
+      case 'Install':
+        return html`
+          <img 
+          src="../assets/images/nav_arrow.svg" 
+          alt="Navigate right" 
+          class="nav-arrow"
+          @click=${() => { this.stage = 'Splashscreen'; }} />
+          <p class="preview-info">
+            The icon, app name, and website URL will be included when installing 
+            the PWA.
+          </p>
+          <install-screen
+          .selectedPlatform=${this.selectedPlatform}
+          .iconUrl=${this.iconUrl}
+          .siteUrl=${this.siteUrl}
+          .appName=${this.manifest.name}
+          .appShortName=${this.manifest.short_name}>
+          </install-screen>
+        `;
+      case 'Splashscreen':
+        return html`
+          <img 
+          src="../assets/images/nav_arrow.svg" 
+          alt="Navigate right" 
+          class="nav-arrow"
+          @click=${() => { this.stage = 'Name'; }} />
+          <p class="preview-info">
+            In some browsers, a splash screen is shown when the PWA is launched and while 
+            its content is loading.
+          </p>
+          <splash-screen
+          .selectedPlatform=${this.selectedPlatform}
+          .iconUrl=${this.iconUrl}
+          .backgroundColor=${this.manifest.background_color}
+          .themeColor=${this.manifest.theme_color}
+          .appName=${this.manifest.name}>
+          </splash-screen>
+        `;
+      case 'Name':
+        return html`
+          <img 
+          src="../assets/images/nav_arrow.svg" 
+          alt="Navigate right" 
+          class="nav-arrow"
+          @click=${() => { this.stage = 'Install'; }} />
+          <p class="preview-info">
+            The name of the web application is displayed on menus, system preferences, dialogs, etc.
+          </p>
+          <name-screen
+          .selectedPlatform=${this.selectedPlatform}
+          .appName=${this.manifest.name}
+          .iconUrl=${this.iconUrl}>
+          </name-screen>
+        `;
+      default:
+        return null;
+    }
   }
 
   render() {
     return html`
       <div class="container">
         <div class="card">
-          <img 
-          src="../assets/images/nav_arrow.svg" 
-          alt="Navigate right" 
-          class="nav-arrow"
-          @click=${() => { 
-            this.stage = 
-              this.stage === PreviewStage.Splashscreen ?
-              PreviewStage.Install : PreviewStage.Splashscreen;
-          }} />
           <h4 class="title">Preview</h4>
           <div class="buttons-div">
-            ${this.stage === PreviewStage.Install ?
-            html`
-              <button 
-              class=${classMap({ selected: this.selectedPlatform === Platform.Windows })} 
-              @click=${() => this.handlePlatformButtonClick(Platform.Windows)}>
-                Windows
-              </button>` : 
-              null}
             <button 
-            class=${classMap({ 
-              selected: (this.selectedPlatform === Platform.Android) || (this.stage === PreviewStage.Splashscreen) 
-            })} 
-            @click=${() => this.handlePlatformButtonClick(Platform.Android)}>
+            class=${classMap({ selected: this.selectedPlatform === 'windows' })} 
+            @click=${() => this.handlePlatformButtonClick('windows')}>
+              Windows
+            </button>
+            <button 
+            class=${classMap({ selected: this.selectedPlatform === 'android' })} 
+            @click=${() => this.handlePlatformButtonClick('android')}>
               Android
             </button>
           </div>
           <div class="name">${this.manifest.name}</div>
-          <p class="name-text">${this.manifest.description || 'A description about your app'}</p>
-          ${this.stage === PreviewStage.Install ?
-          html`
-            <device-preview
-            .manifest=${this.manifest} 
-            .manifestUrl=${this.manifestUrl}
-            .selectedPlatform=${this.selectedPlatform}>
-            </device-preview>` :
-          this.stage === PreviewStage.Splashscreen ?
-          html`
-            <splash-screen 
-            .manifest=${this.manifest} 
-            .manifestUrl=${this.manifestUrl}
-            .selectedPlatform=${this.selectedPlatform}>
-            </splash-screen>
-          ` : null}
+          ${this.getScreenContent()}
           <p class="preview-text">Click to enlarge Preview</p>
         </div>
       </div>

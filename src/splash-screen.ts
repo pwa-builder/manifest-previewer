@@ -1,11 +1,11 @@
 import { LitElement, css, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { PreviewMixin } from './preview-mixin';
+import type { platform } from './models';
 
 @customElement('splash-screen')
-export class Splashscreen extends PreviewMixin(LitElement) {
+export class SplashScreen extends LitElement {
   static styles = css`
     .android-phone {
       position: absolute;
@@ -13,7 +13,19 @@ export class Splashscreen extends PreviewMixin(LitElement) {
       height: 504px;
       top: 226px;
       left: calc(50% - 109.5px);
+      background: #FFF;
       box-shadow: 0px 3px 5.41317px rgba(0, 0, 0, 0.25);
+      border-radius: 8.11976px;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .android-screen {
+      position: absolute;
+      width: 219px;
+      height: 413px;
+      top: 260px;
+      left: calc(50% - 109.5px);
       border-radius: 8.12px;
       display: flex;
       flex-direction: column;
@@ -40,59 +52,107 @@ export class Splashscreen extends PreviewMixin(LitElement) {
   `;
 
   /**
-   * Computes the color to use for the app's title, in such a way that
+   * The color to use for the app's title, in such a way that
    * it contrasts with the background color.
-   * 
-   * @param color - The background color indicated in the manifest
-   * @returns The color to use for the app's name
    */
-  private getAppNameColor(color?: string){
-    // If the manifest doesn't specify background_color, just use black for the title
-    // since the background will be white.
-    if (!color) {
-      return '#000';
+  @state()
+  _appNameColor = '';
+
+  /**
+   * The platform currently being previewed.
+   */
+  @property()
+  selectedPlatform: platform = 'windows';
+
+  /**
+   * Background color attribute on the manifest.
+   */
+  @property()
+  backgroundColor: string | undefined;
+
+  /**
+   * Theme color attribute on the manifest.
+   */
+  @property()
+  themeColor: string | undefined;
+
+  /**
+   * The URL to use for icon previews, or undefined if the manifest has no
+   * icons.
+   */
+  @property()
+  iconUrl: string | undefined;
+
+  /**
+   * Name attribute on the manifest.
+   */
+  @property()
+  appName: string | undefined;
+
+  @property()
+  get appNameColor() {
+    if (!this._appNameColor) {
+      if (!this.backgroundColor) {
+        // If the manifest doesn't specify a background color, just use black for the title
+        // since the background will be white.
+        this._appNameColor = '#000';
+      } else {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1;
+        canvas.height = 1;
+        const context = canvas.getContext('2d')!;
+        context.fillStyle = this.backgroundColor;
+        context.fillRect(0, 0, 1, 1);
+        const [red, green, blue] = context.getImageData(0, 0, 1, 1).data;
+        // From the RGB values, compute the perceived lightness using the sRGB Luma method.
+        const perceived_lightness = ((red * 0.2126) + (green * 0.7152) + (blue * 0.0722)) / 255;
+        this._appNameColor = `hsl(0, 0%, ${(perceived_lightness - 0.5) * - 10000000}%)`;
+      }
     }
 
-    const canvas = document.createElement('canvas');
-    canvas.width = 1;
-    canvas.height = 1;
-    const context = canvas.getContext('2d')!;
-    context.fillStyle = color;
-    context.fillRect(0, 0, 1, 1);
-    const [red, green, blue] = context.getImageData(0, 0, 1, 1).data;
-    // From the RGB values, compute the perceived lightness using the sRGB Luma method.
-    const perceived_lightness = ((red * 0.2126) + (green * 0.7152) + (blue * 0.0722)) / 255;
-    return `hsl(0, 0%, ${(perceived_lightness - 0.5) * - 10000000}%)`;
+    return this._appNameColor;
   }
 
   render() {
-    return html`
-      <div 
-      class="android-phone" 
-      style=${styleMap({ backgroundColor: this.manifest.background_color || '#FFF' })}>
-        <div 
-        class="phone-bar"
-        style=${styleMap({ 
-          backgroundColor: this.manifest.theme_color || '#FFF',
-          borderRadius: '8.12px 8.12px 0 0' 
-        })}></div>
-        <img class="icon" src=${this.getIconUrl()} alt="App's splash screen" />
-        <h5 class="appName" style=${styleMap({ color: this.getAppNameColor(this.manifest.background_color) })}>
-          ${this.manifest.name}
-        </h5>
-        <div
-        class="phone-bar"
-        style=${styleMap({ 
-          backgroundColor: this.manifest.theme_color || '#FFF',
-          borderRadius: '0 0 8.12px 8.12px' 
-        })}></div>
-      </div>
-    `;
+    switch (this.selectedPlatform) {
+      case 'windows':
+        return html`
+          <p style=${styleMap({ margin: '100px auto' })}>
+            Not sure of what to show here
+          </p>
+        `;
+      case 'android':
+        return html`
+          <img 
+          class="android-phone"
+          alt="Application mobile preview" 
+          src="../assets/images/android_background.svg" />
+          <div 
+          class="android-screen" 
+          style=${styleMap({ backgroundColor: this.backgroundColor || '#FFF' })}>
+            <div 
+            class="phone-bar"
+            style=${styleMap({ backgroundColor: this.themeColor || '#000' })}></div>
+            <img 
+            class="icon" 
+            src=${this.iconUrl || '../assets/images/noicon_android.svg'} 
+            alt="App's splash screen" />
+            <h5 class="appName" style=${styleMap({ color: this.appNameColor })}>
+              ${this.appName || 'PWA App'}
+            </h5>
+            <div
+            class="phone-bar"
+            style=${styleMap({ backgroundColor: this.themeColor || '#000' })}></div>
+          </div>
+        `;
+    
+      default: return null;
+    }
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'splash-screen': Splashscreen;
+    'splash-screen': SplashScreen;
   }
 }

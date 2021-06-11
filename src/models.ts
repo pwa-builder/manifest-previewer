@@ -1,17 +1,19 @@
 // TODO: Delete this file later and use the already defined types
 
 /**
- * Supported platforms for the preview component
+ * Possible stages of the preview component
  */
- export enum Platform {
-  Windows = 'windows', 
-  Android = 'android'
-}
+export type PreviewStage = 'Install' | 'Splashscreen' | 'Name';
+
+/**
+ * Supported platforms
+ */
+export type platform = 'windows' | 'android' | 'samsung';
 
 /**
  * Reference: https://www.w3.org/TR/image-resource/#dom-imageresource
  */
-export type ImageResource = {
+ export type ImageResource = {
   src: string;
   sizes?: string;
   type?: string;

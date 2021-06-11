@@ -1,12 +1,11 @@
 import { LitElement, css, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { PreviewMixin } from './preview-mixin';
-import { Platform } from './models';
+import { platform } from './models';
 
-@customElement('device-preview')
-export class DevicePreview extends PreviewMixin(LitElement) {
+@customElement('install-screen')
+export class InstallScreen extends LitElement {
   static styles = css`
     .android-preview {
       position: absolute;
@@ -111,7 +110,7 @@ export class DevicePreview extends PreviewMixin(LitElement) {
       display: flex;
     }
 
-    .windows-add-dialog .round-icon {
+    .windows-add-dialog .icon {
       width: 17.5px;
       height: 17.5px;
       border-radius: 50%;
@@ -169,16 +168,49 @@ export class DevicePreview extends PreviewMixin(LitElement) {
     }
   `;
 
+  /**
+   * The platform currently being previewed.
+   */
+  @property()
+  selectedPlatform: platform = 'windows';
+
+  /**
+   * The URL to use for icon previews, or undefined if the manifest has no
+   * icons.
+   */
+  @property()
+  iconUrl: string | undefined;
+
+  /**
+   * The website's URL.
+   */
+  @property() 
+  siteUrl = '';
+
+  /**
+   * Name attribute on the manifest.
+   */
+  @property()
+  appName: string | undefined;
+
+  /**
+   * Short name attribute on the manifest.
+   */
+  @property()
+  appShortName: string | undefined;
+
   render() {
     switch (this.selectedPlatform) {
-      case Platform.Windows:
+      case 'windows':
         return html`
           <div class="windows-add-dialog">
             <div class="header">
-              <img class="round-icon" alt="App's Windows icon" src=${this.getIconUrl()} />
-              <p class="dialog-title">Install ${this.manifest.name}</p>
+              ${this.iconUrl ? 
+              html`<img class="icon" alt="App's Windows icon" src=${this.iconUrl} />` :
+              html`<div class="icon"></div>`}
+              <p class="dialog-title">Install ${this.appName || 'PWA App'}</p>
             </div>
-            <p class="dialog-text">Publisher: ${this.getSiteUrl()}</p>
+            <p class="dialog-text">Publisher: ${this.siteUrl}</p>
             <p class="dialog-text">
               This site can be installed as an application. It will open in its own window and 
               safely integrate with Window Features.
@@ -189,18 +221,18 @@ export class DevicePreview extends PreviewMixin(LitElement) {
           alt="Application mobile preview" 
           src="../assets/images/windows_background.svg" />
         `;
-      case Platform.Android:
+      case 'android':
         return html`
-          <div class="android-url-bar">${this.getSiteUrl()}</div>
+          <div class="android-url-bar">${this.siteUrl}</div>
           <div class="android-add-dialog">
             <p class="dialog-title">Add to Home screen</p>
             <div class="app-info">
-              ${this.manifest.icons.length > 0 ? 
-                html`<img class="icon" alt="App's Android icon" src=${this.getIconUrl()} />` : 
+              ${this.iconUrl ? 
+                html`<img class="icon" alt="App's Android icon" src=${this.iconUrl} />` : 
                 html`<div class="icon" style=${styleMap({ backgroundColor: '#C4C4C4' })}></div>`}
               <div>
-                <p class="app-name">${this.manifest.short_name || this.manifest.name}</p>
-                <p class="dialog-text">${this.getSiteUrl()}</p>
+                <p class="app-name">${this.appShortName || this.appName || 'PWA App'}</p>
+                <p class="dialog-text">${this.siteUrl}</p>
               </div>
             </div>
             <div class="dialog-actions">
@@ -220,6 +252,6 @@ export class DevicePreview extends PreviewMixin(LitElement) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'device-preview': DevicePreview;
+    'install-screen': InstallScreen;
   }
 }
