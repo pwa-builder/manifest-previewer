@@ -1,9 +1,14 @@
-// TODO: Delete this file later and use the already defined types
-
 /**
  * Possible stages of the preview component
  */
-export type PreviewStage = 'Install' | 'Splashscreen' | 'Name';
+export enum PreviewStage {
+  Install,
+  Splashscreen,
+  Name,
+  Shortname,
+  Themecolor,
+  Shortcuts
+}
 
 /**
  * Supported platforms
@@ -18,6 +23,14 @@ export type platform = 'windows' | 'android' | 'samsung';
   sizes?: string;
   type?: string;
   label?: string;
+}
+
+export type Shortcut = {
+  name: string;
+  url: string;
+  short_name?: string;
+  description?: string;
+  icons?: ImageResource[];
 }
 
 /**
@@ -39,13 +52,7 @@ export interface Manifest {
   }[];
   prefer_related_applications?: boolean;
   background_color?: string;
-  shortcuts?: {
-    name: string;
-    url: string;
-    short_name?: string;
-    description?: string;
-    icons?: ImageResource[];
-  }[];
+  shortcuts?: Shortcut[];
   categories?: string[];
   description?: string;
   screenshots?: ImageResource[];

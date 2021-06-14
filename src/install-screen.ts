@@ -10,8 +10,8 @@ export class InstallScreen extends LitElement {
     .android-preview {
       position: absolute;
       width: 219px;
-      height: 504px;
-      top: 226px;
+      height: 480px;
+      top: 240px;
       left: calc(50% - 109.5px);
       background: #FFF;
       box-shadow: 0px 3px 5.41317px rgba(0, 0, 0, 0.25);
@@ -28,14 +28,15 @@ export class InstallScreen extends LitElement {
       top: 278px;
       left: 190px;
       font-size: 6.5px;
-      width: 105px;
+      width: 100px;
       overflow-x: hidden;
+      white-space: nowrap;
     }
 
     .android-add-dialog {
       width: 207.17px;
       height: 108.29px;
-      margin: 255px auto 0;
+      margin: 200px auto 0;
       background: #FFF;
       box-shadow: 0px 3.13889px 3.13889px rgba(0, 0, 0, 0.25);
       border-radius: 4.70833px;
@@ -137,8 +138,8 @@ export class InstallScreen extends LitElement {
      /* 800 designs */
      @media(max-width: 1024px) {
       .android-url-bar {
-        top: 280px;
-        left: 130px;
+        top: 288px;
+        left: 132px;
       }
     }
 
@@ -149,8 +150,8 @@ export class InstallScreen extends LitElement {
       }
 
       .android-url-bar {
-        top: 280px;
-        left: 134px;
+        top: 288px;
+        left: 136px;
       }
     }
 
@@ -158,7 +159,6 @@ export class InstallScreen extends LitElement {
     @media(min-width: 1366px) {
       .android-preview {
         width: 231px;
-        height: 510px;
         left: calc(50% - 115.5px);
       }
 

@@ -8,7 +8,7 @@ export class NameScreen extends LitElement {
   static styles = css`
     .container {
       position: relative;
-      margin: 140px auto 0;
+      margin: 70px auto 0;
     }
 
     .menu-img {
@@ -32,7 +32,7 @@ export class NameScreen extends LitElement {
     .windows .app-name {
       background-color: #3D3D3D;
       position: absolute;
-      color: #FFF;
+      color: rgba(255, 255, 255, 0.7);
       top: 105px;
       left: 89px;
       font-size: 10px;
@@ -46,7 +46,7 @@ export class NameScreen extends LitElement {
       position: absolute;
       width: 55px;
       height: 55px;
-      left: calc(50% - 22.5px);
+      left: calc(50% - 27.5px);
     }
 
     .android .app-name {
@@ -82,7 +82,7 @@ export class NameScreen extends LitElement {
         height: 28px;
         width: 28px;
         top: 98px;
-        left: 55px;
+        left: 57px;
       }
 
       .android .app-icon {
@@ -148,8 +148,8 @@ export class NameScreen extends LitElement {
    * The URL to use for icon previews, or undefined if the manifest has no
    * icons.
    */
-   @property()
-   iconUrl: string | undefined;
+  @property()
+  iconUrl: string | undefined;
 
   render() {
     switch (this.selectedPlatform) {

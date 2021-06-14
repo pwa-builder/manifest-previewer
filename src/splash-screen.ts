@@ -1,7 +1,8 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
+import { getContrastingColor } from './utils';
 import type { platform } from './models';
 
 @customElement('splash-screen')
@@ -10,8 +11,8 @@ export class SplashScreen extends LitElement {
     .android-phone {
       position: absolute;
       width: 219px;
-      height: 504px;
-      top: 226px;
+      height: 480px;
+      top: 240px;
       left: calc(50% - 109.5px);
       background: #FFF;
       box-shadow: 0px 3px 5.41317px rgba(0, 0, 0, 0.25);
@@ -23,8 +24,8 @@ export class SplashScreen extends LitElement {
     .android-screen {
       position: absolute;
       width: 219px;
-      height: 413px;
-      top: 260px;
+      height: 415px;
+      top: 255px;
       left: calc(50% - 109.5px);
       border-radius: 8.12px;
       display: flex;
@@ -52,13 +53,6 @@ export class SplashScreen extends LitElement {
   `;
 
   /**
-   * The color to use for the app's title, in such a way that
-   * it contrasts with the background color.
-   */
-  @state()
-  _appNameColor = '';
-
-  /**
    * The platform currently being previewed.
    */
   @property()
@@ -77,8 +71,7 @@ export class SplashScreen extends LitElement {
   themeColor: string | undefined;
 
   /**
-   * The URL to use for icon previews, or undefined if the manifest has no
-   * icons.
+   * The splash screen's icon.
    */
   @property()
   iconUrl: string | undefined;
@@ -88,30 +81,6 @@ export class SplashScreen extends LitElement {
    */
   @property()
   appName: string | undefined;
-
-  @property()
-  get appNameColor() {
-    if (!this._appNameColor) {
-      if (!this.backgroundColor) {
-        // If the manifest doesn't specify a background color, just use black for the title
-        // since the background will be white.
-        this._appNameColor = '#000';
-      } else {
-        const canvas = document.createElement('canvas');
-        canvas.width = 1;
-        canvas.height = 1;
-        const context = canvas.getContext('2d')!;
-        context.fillStyle = this.backgroundColor;
-        context.fillRect(0, 0, 1, 1);
-        const [red, green, blue] = context.getImageData(0, 0, 1, 1).data;
-        // From the RGB values, compute the perceived lightness using the sRGB Luma method.
-        const perceived_lightness = ((red * 0.2126) + (green * 0.7152) + (blue * 0.0722)) / 255;
-        this._appNameColor = `hsl(0, 0%, ${(perceived_lightness - 0.5) * - 10000000}%)`;
-      }
-    }
-
-    return this._appNameColor;
-  }
 
   render() {
     switch (this.selectedPlatform) {
@@ -137,7 +106,11 @@ export class SplashScreen extends LitElement {
             class="icon" 
             src=${this.iconUrl || '../assets/images/noicon_android.svg'} 
             alt="App's splash screen" />
-            <h5 class="appName" style=${styleMap({ color: this.appNameColor })}>
+            <h5 
+            class="appName" 
+            style=${styleMap({ 
+              color: this.backgroundColor ? getContrastingColor(this.backgroundColor) : '#000'
+            })}>
               ${this.appName || 'PWA App'}
             </h5>
             <div
