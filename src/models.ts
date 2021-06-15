@@ -7,13 +7,14 @@ export enum PreviewStage {
   Name,
   Shortname,
   Themecolor,
-  Shortcuts
+  Shortcuts,
+  Display
 }
 
 /**
  * Supported platforms
  */
-export type platform = 'windows' | 'android' | 'samsung';
+export type Platform = 'windows' | 'android' | 'iOS';
 
 /**
  * Reference: https://www.w3.org/TR/image-resource/#dom-imageresource

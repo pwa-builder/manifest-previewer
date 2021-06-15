@@ -8,7 +8,8 @@ import './name-screen.js';
 import './shortname-screen.js';
 import './themecolor-screen.js';
 import './shortcuts-screen.js';
-import { platform, Manifest, PreviewStage } from './models';
+import './display-screen.js';
+import { Manifest, PreviewStage, Platform } from './models';
 
 @customElement('manifest-previewer')
 export class ManifestPreviewer extends LitElement {
@@ -50,18 +51,12 @@ export class ManifestPreviewer extends LitElement {
 
     .buttons-div {
       display: flex;
-      justify-content: center;
-      position: absolute;
-      top: 71px;
-      left: calc(50% - 88.5px);
-      width: 177px;
+      justify-content: space-between;
+      margin: 71px auto 0;
+      width: 272px;
     }
 
-    .buttons-div > :nth-child(2) {
-      margin-left: 16px;
-    }
-
-    button {
+    .platform-button {
       height: 35px;
       border-radius: 33.2847px;
       border: none;
@@ -70,13 +65,13 @@ export class ManifestPreviewer extends LitElement {
       font-weight: 700;
       font-size: 12.5751px;
       line-height: 19px;
-      width: 80.5px;
+      width: 80px;
       background: #FFF;
       box-shadow: 0px 3px 3.02588px rgba(0, 0, 0, 0.25);
       color: #292C3A;
     }
 
-    button.selected {
+    .platform-button.selected {
       background: #292C3A;
       box-shadow: 0px 0.75647px 3.02588px rgba(0, 0, 0, 0.25);
       color: #FFF;
@@ -91,7 +86,7 @@ export class ManifestPreviewer extends LitElement {
       line-height: 25px;
       text-align: center;
       color: #000;
-      margin: 134.54px auto 0;
+      margin: 20px auto 0;
       width: fit-content;
       padding: 0 5px;
     }
@@ -167,22 +162,28 @@ export class ManifestPreviewer extends LitElement {
   `;
 
   /**
-   * The website's URL
+   * The website's URL.
    */
   @state()
-  _siteUrl: string | undefined;
+  private _siteUrl: string | undefined;
 
   /**
-   * The website's URL
+   * The URL used for icon previews.
    */
   @state()
-  _iconUrl: string | undefined;
+  private _iconUrl: string | undefined;
 
   /**
-   * Thekind of preview currently shown.
+   * Callback fired when clicking the navigation arrow.
+   */
+  @state()
+  private navigationAction = () => {};
+
+  /**
+   * The kind of preview currently shown.
    */
   @property({ type: Number })
-  stage: PreviewStage = PreviewStage.Shortcuts;
+  stage: PreviewStage = PreviewStage.Themecolor;
 
   /**
    * The input web manifest.
@@ -206,16 +207,16 @@ export class ManifestPreviewer extends LitElement {
   manifestUrl = '';
 
   /**
-   * The platform currently being previewed.
+   * The currently selected platform.
    */
   @property()
-  selectedPlatform: platform = 'android';
+  platform: Platform = 'windows';
 
   /**
    * @returns The site's URL, assuming it can be derived from the manifest's URL.
    */
-  @property()
-  get siteUrl() {
+  @state()
+  private get siteUrl() {
     if (typeof this._siteUrl === 'undefined') {
       this._siteUrl = this.manifestUrl.substring(0, this.manifestUrl.lastIndexOf('manifest.json'));
     }
@@ -226,8 +227,8 @@ export class ManifestPreviewer extends LitElement {
   /**
    * @returns The URL for icon previews, or undefined if the manifest specifies no icons.
    */
-  @property()
-  get iconUrl() {
+  @state()
+  private get iconUrl() {
     if (typeof this._iconUrl === 'undefined' && this.manifest.icons) {
       // Try to get the icon for Android Chrome, or the first one by default
       let iconUrl = this.manifest.icons[0].src;
@@ -244,121 +245,140 @@ export class ManifestPreviewer extends LitElement {
     return this._iconUrl;
   }
 
-  private getScreenContent() {
+  /**
+   * Dispatches the platform change event for all screens to update
+   * accordingly.
+   */
+  private handlePlatformChange(event: Event) {
+    const platform = (event.target as HTMLButtonElement).name;
+    this.platform = platform as Platform;
+  }
+
+  /**
+   * Enlarges the preview content.
+   */
+  private handleEnlargePreview() {
+    this.renderRoot.querySelector('#fullscreen-content')!.requestFullscreen();
+  }
+
+  private screenContent() {
     switch (this.stage) {
       case PreviewStage.Install:
+        this.navigationAction = () => { this.stage = PreviewStage.Splashscreen; }
         return html`
-          <img 
-          src="../assets/images/nav_arrow.svg" 
-          alt="Navigate right" 
-          class="nav-arrow"
-          @click=${() => { this.stage = PreviewStage.Splashscreen; }} />
           <p class="preview-title">Installation dialog</p>
           <p class="preview-info">
             The icon, app name, and website URL will be included when installing 
             the PWA.
           </p>
-          <install-screen
-          .selectedPlatform=${this.selectedPlatform}
-          .iconUrl=${this.iconUrl}
-          .siteUrl=${this.siteUrl}
-          .appName=${this.manifest.name}
-          .appShortName=${this.manifest.short_name}>
-          </install-screen>
+          <div id="fullscreen-content">
+            <install-screen
+            .platform=${this.platform}
+            .iconUrl=${this.iconUrl}
+            .siteUrl=${this.siteUrl}
+            .appName=${this.manifest.name}
+            .appShortName=${this.manifest.short_name}>
+            </install-screen>
+          </div>
         `;
       case PreviewStage.Splashscreen:
+        this.navigationAction = () => { this.stage = PreviewStage.Name; }
         return html`
-          <img 
-          src="../assets/images/nav_arrow.svg" 
-          alt="Navigate right" 
-          class="nav-arrow"
-          @click=${() => { this.stage = PreviewStage.Name; }} />
           <p class="preview-title">Splash screen</p>
           <p class="preview-info">
             In some browsers, a splash screen is shown when the PWA is launched and while 
             its content is loading.
           </p>
-          <splash-screen
-          .selectedPlatform=${this.selectedPlatform}
-          .iconUrl=${this.iconUrl}
-          .backgroundColor=${this.manifest.background_color}
-          .themeColor=${this.manifest.theme_color}
-          .appName=${this.manifest.name}>
-          </splash-screen>
+          <div id="fullscreen-content">
+            <splash-screen
+            .platform=${this.platform}
+            .iconUrl=${this.iconUrl}
+            .backgroundColor=${this.manifest.background_color}
+            .themeColor=${this.manifest.theme_color}
+            .appName=${this.manifest.name}>
+            </splash-screen>
+          </div>
         `;
       case PreviewStage.Name:
+        this.navigationAction = () => { this.stage = PreviewStage.Shortname; }
         return html`
-          <img 
-          src="../assets/images/nav_arrow.svg" 
-          alt="Navigate right" 
-          class="nav-arrow"
-          @click=${() => { this.stage = PreviewStage.Shortname; }} />
           <p class="preview-title">The name attribute</p>
           <p class="preview-info">
             The name of the web application is displayed on menus, system preferences, dialogs, etc.
           </p>
-          <name-screen
-          .selectedPlatform=${this.selectedPlatform}
-          .appName=${this.manifest.name}
-          .iconUrl=${this.iconUrl}>
-          </name-screen>
+          <div id="fullscreen-content">
+            <name-screen
+            .platform=${this.platform}
+            .appName=${this.manifest.name}
+            .iconUrl=${this.iconUrl}>
+            </name-screen>
+          </div>
         `;
       case PreviewStage.Shortname:
+        this.navigationAction = () => { this.stage = PreviewStage.Themecolor; }
         return html`
-          <img 
-          src="../assets/images/nav_arrow.svg" 
-          alt="Navigate right" 
-          class="nav-arrow"
-          @click=${() => { this.stage = PreviewStage.Themecolor; }} />
           <p class="preview-title">The short name attribute</p>
           <p class="preview-info">
             The short name member is used when there is no enough space to display the 
             entire name of the application (e.g., as a label for an icon on the phone home 
             screen).
           </p>
-          <shortname-screen
-          .selectedPlatform=${this.selectedPlatform}
-          .appShortName=${this.manifest.short_name}
-          .iconUrl=${this.iconUrl}>
-          </shortname-screen>
+          <div id="fullscreen-content">
+            <shortname-screen
+            .platform=${this.platform}
+            .appShortName=${this.manifest.short_name}
+            .iconUrl=${this.iconUrl}>
+            </shortname-screen>
+          </div>
         `;
       case PreviewStage.Themecolor:
+        this.navigationAction = () => { this.stage = PreviewStage.Shortcuts; }
         return html`
-          <img 
-          src="../assets/images/nav_arrow.svg" 
-          alt="Navigate right" 
-          class="nav-arrow"
-          @click=${() => { this.stage = PreviewStage.Shortcuts; }} />
           <p class="preview-title">The theme color attribute</p>
           <p class="preview-info">
             The theme color defines the default color theme for the application, and affects
             how the site is displayed.
           </p>
-          <themecolor-screen
-          .selectedPlatform=${this.selectedPlatform}
-          .themeColor=${this.manifest.theme_color}
-          .appName=${this.manifest.name}
-          .iconUrl=${this.iconUrl}>
-          </themecolor-screen>
+          <div id="fullscreen-content">
+            <themecolor-screen
+            .platform=${this.platform}
+            .themeColor=${this.manifest.theme_color}
+            .appName=${this.manifest.name}
+            .iconUrl=${this.iconUrl}>
+            </themecolor-screen>
+          </div>
         `;
       case PreviewStage.Shortcuts:
+        this.navigationAction = () => { this.stage = PreviewStage.Display; }
         return html`
-          <img 
-          src="../assets/images/nav_arrow.svg" 
-          alt="Navigate right" 
-          class="nav-arrow"
-          @click=${() => { this.stage = PreviewStage.Install; }} />
           <p class="preview-title">The shortcuts attribute</p>
           <p class="preview-info">
             This attribute defines an array of shortcuts/links to key tasks or pages 
             within a web app, assembling a context menu when a user interacts with the app's icon.
           </p>
-          <shortcuts-screen
-          .selectedPlatform=${this.selectedPlatform}
-          .shortcuts=${this.manifest.shortcuts}
-          .iconUrl=${this.iconUrl}
-          .manifestUrl=${this.manifestUrl}>
-          </shortcuts-screen>
+          <div id="fullscreen-content">
+            <shortcuts-screen
+            .platform=${this.platform}
+            .shortcuts=${this.manifest.shortcuts}
+            .iconUrl=${this.iconUrl}
+            .manifestUrl=${this.manifestUrl}>
+            </shortcuts-screen>
+          </div>
+        `;
+      case PreviewStage.Display:
+        this.navigationAction = () => { this.stage = PreviewStage.Install; }
+        return html`
+          <p class="preview-title">The display attribute</p>
+          <p class="preview-info">
+            The display mode changes how much of the browser's UI is shown to the user. It can 
+            range from browser (the full browser window is shown) to fullscreen (the app is 
+            full-screened).
+          </p>
+          <div id="fullscreen-content">
+            <display-screen
+            .platform=${this.platform}>
+            </display-screen>
+          </div>
         `;
       default:
         return null;
@@ -372,19 +392,41 @@ export class ManifestPreviewer extends LitElement {
           <h4 class="title">Preview</h4>
           <div class="buttons-div">
             <button 
-            class=${classMap({ selected: this.selectedPlatform === 'windows' })} 
-            @click=${() => { this.selectedPlatform = 'windows'; }}>
+            class=${classMap({ 
+              'platform-button': true, 
+              selected: this.platform === 'windows' 
+            })} 
+            name="windows"
+            @click=${this.handlePlatformChange}>
               Windows
             </button>
             <button 
-            class=${classMap({ selected: this.selectedPlatform === 'android' })} 
-            @click=${() => { this.selectedPlatform = 'android'; }}>
+            class=${classMap({ 
+              'platform-button': true, 
+              selected: this.platform === 'android' 
+            })} 
+            name="android"
+            @click=${this.handlePlatformChange}>
               Android
+            </button>
+            <button
+            class=${classMap({
+              'platform-button': true,
+              selected: this.platform === 'iOS'
+            })}
+            name="iOS"
+            @click=${this.handlePlatformChange}>
+              iOS
             </button>
           </div>
           <div class="name">${this.manifest.name}</div>
-          ${this.getScreenContent()}
-          <p class="preview-text">Click to enlarge Preview</p>
+          ${this.screenContent()}
+          <img 
+          src="../assets/images/nav_arrow.svg" 
+          alt="Navigate right" 
+          class="nav-arrow"
+          @click=${this.navigationAction} />
+          <p class="preview-text" @click=${this.handleEnlargePreview}>Click to enlarge Preview</p>
         </div>
       </div>
     `;

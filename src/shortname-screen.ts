@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import type { platform } from './models';
+import type { Platform } from './models';
 
 @customElement('shortname-screen')
 export class ShortnameScreen extends LitElement {
@@ -69,11 +69,8 @@ export class ShortnameScreen extends LitElement {
     }
   `;
 
-  /**
-   * The platform currently being previewed.
-   */
   @property()
-  selectedPlatform: platform = 'windows';
+  platform: Platform = 'windows';
 
   /**
    * Short name attribute on the manifest.
@@ -89,7 +86,7 @@ export class ShortnameScreen extends LitElement {
   iconUrl: string | undefined;
 
   render() {
-    switch(this.selectedPlatform) {
+    switch(this.platform) {
       case 'windows':
         return html`
           <p class="windows-message">
@@ -107,7 +104,7 @@ export class ShortnameScreen extends LitElement {
                 null}
               <div class="app-name">${this.appShortName || 'PWA App'}</div>
             </div>
-            <img class="homescreen" alt="Android's home screen" src="../assets/images/android-homescreen.png" />
+            <img class="homescreen" alt="Android's home screen" src="../assets/images/android/homescreen.png" />
           </div>
         `;
       default: return null;

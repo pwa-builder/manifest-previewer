@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import type { platform, Shortcut, ImageResource } from './models';
+import type { Shortcut, ImageResource, Platform } from './models';
 
 @customElement('shortcuts-screen')
 export class ShortcutsScreen extends LitElement {
@@ -144,11 +144,8 @@ export class ShortcutsScreen extends LitElement {
     }
   `;
 
-  /**
-   * The platform currently being previewed.
-   */
   @property()
-  selectedPlatform: platform = 'windows';
+  platform: Platform = 'windows';
 
   /**
    * The url where the manifest resides.
@@ -180,16 +177,16 @@ export class ShortcutsScreen extends LitElement {
   }
 
   render() {
-    switch(this.selectedPlatform) {
+    switch(this.platform) {
       case 'windows':
       case 'android':
         return html`
-          <div class="container ${this.selectedPlatform}">
+          <div class="container ${this.platform}">
             <img 
             class="menu-img" 
             alt="Application shortcuts" 
-            src="../assets/images/${this.selectedPlatform}-shortcutsmenu.png" />
-            ${this.selectedPlatform === 'android' ?
+            src="../assets/images/${this.platform}/shortcutsmenu.png" />
+            ${this.platform === 'android' ?
               html`<img alt="Chrome" class="chrome-icon" src="../assets/images/chrome-icon.png" />` : null}
             ${this.iconUrl ? 
               html`<img class="app-icon" alt="Application's icon" src=${this.iconUrl} />`: null}

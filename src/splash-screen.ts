@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
 import { getContrastingColor } from './utils';
-import type { platform } from './models';
+import type { Platform } from './models';
 
 @customElement('splash-screen')
 export class SplashScreen extends LitElement {
@@ -52,11 +52,8 @@ export class SplashScreen extends LitElement {
     }
   `;
 
-  /**
-   * The platform currently being previewed.
-   */
   @property()
-  selectedPlatform: platform = 'windows';
+  platform: Platform = 'windows';
 
   /**
    * Background color attribute on the manifest.
@@ -83,7 +80,7 @@ export class SplashScreen extends LitElement {
   appName: string | undefined;
 
   render() {
-    switch (this.selectedPlatform) {
+    switch (this.platform) {
       case 'windows':
         return html`
           <p style=${styleMap({ margin: '100px auto' })}>
@@ -95,7 +92,7 @@ export class SplashScreen extends LitElement {
           <img 
           class="android-phone"
           alt="Application mobile preview" 
-          src="../assets/images/android_background.svg" />
+          src="../assets/images/android/background.svg" />
           <div 
           class="android-screen" 
           style=${styleMap({ backgroundColor: this.backgroundColor || '#FFF' })}>
@@ -104,7 +101,7 @@ export class SplashScreen extends LitElement {
             style=${styleMap({ backgroundColor: this.themeColor || '#000' })}></div>
             <img 
             class="icon" 
-            src=${this.iconUrl || '../assets/images/noicon_android.svg'} 
+            src=${this.iconUrl || '../assets/images/android/noicon.svg'} 
             alt="App's splash screen" />
             <h5 
             class="appName" 

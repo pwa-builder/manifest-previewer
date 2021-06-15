@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import type { platform } from './models';
+import type { Platform } from './models';
 
 @customElement('name-screen')
 export class NameScreen extends LitElement {
@@ -132,11 +132,8 @@ export class NameScreen extends LitElement {
     }
   `;
 
-  /**
-   * The platform currently being previewed.
-   */
   @property()
-  selectedPlatform: platform = 'windows';
+  platform: Platform = 'windows';
 
   /**
    * Name attribute on the manifest.
@@ -152,11 +149,11 @@ export class NameScreen extends LitElement {
   iconUrl: string | undefined;
 
   render() {
-    switch (this.selectedPlatform) {
+    switch (this.platform) {
       case 'windows':
         return html`
           <div class="windows container">
-            <img alt="Windows start menu" src="../assets/images/windows-startmenu.png" class="menu-img" />
+            <img alt="Windows start menu" src="../assets/images/windows/startmenu.png" class="menu-img" />
             ${this.iconUrl ?
               html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : 
               null}
@@ -168,7 +165,7 @@ export class NameScreen extends LitElement {
       case 'android':
         return html`
           <div class="android container">
-            <img alt="Android app info" src="../assets/images/android-appinfo.png" class="menu-img" />
+            <img alt="Android app info" src="../assets/images/android/appinfo.png" class="menu-img" />
             ${this.iconUrl ?
               html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : 
               null}

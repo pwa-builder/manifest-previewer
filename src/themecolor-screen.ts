@@ -3,19 +3,20 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
 import { getContrastingColor } from './utils';
-import type { platform } from './models';
+import type { Platform } from './models';
 
 @customElement('themecolor-screen')
 export class ThemecolorScreen extends LitElement {
   static styles = css`
     .container {
       position: relative;
-      width: 60%;
-      min-width: 220px;
+      width: 225px;
       margin: 120px auto 0;
     }
 
     .windows .titlebar-img {
+      position: absolute;
+      top: 0;
       width: 100%;
     }
 
@@ -120,11 +121,8 @@ export class ThemecolorScreen extends LitElement {
     }
   `;
 
-  /**
-   * The platform currently being previewed.
-   */
   @property()
-  selectedPlatform: platform = 'windows';
+  platform: Platform = 'windows';
 
   /**
    * Theme color attribute on the manifest.
@@ -148,10 +146,10 @@ export class ThemecolorScreen extends LitElement {
    * The color to use on top of the theme color, such that the text is visible.
    */
   @state()
-  _contrastingColor = '';
+  private _contrastingColor = '';
 
   @state()
-  get contrastingColor() {
+  private get contrastingColor() {
     if (!this._contrastingColor) {
       this._contrastingColor = this.themeColor ? getContrastingColor(this.themeColor) : '#FFF';
     }
@@ -159,11 +157,11 @@ export class ThemecolorScreen extends LitElement {
   }
 
   render() {
-    switch(this.selectedPlatform) {
+    switch(this.platform) {
       case 'windows':
         return html`
           <div class="container windows">
-            <img alt="Windows' title bar" src="../assets/images/windows-titlebar.png" class="titlebar-img" />
+            <img alt="Windows' title bar" src="../assets/images/windows/titlebar.png" class="titlebar-img" />
             <div 
             class="titlebar" 
             style=${styleMap({ 
@@ -185,13 +183,13 @@ export class ThemecolorScreen extends LitElement {
       case 'android':
         return html`
           <div class="container android">
-            <img alt="Android's app switcher" src="../assets/images/android-appswitcher.jpg" class="switcher-img" />
+            <img alt="Android's app switcher" src="../assets/images/android/appswitcher.jpg" class="switcher-img" />
             <div 
             class="app-box" 
             style=${styleMap({ 
               backgroundColor: this.themeColor || '#1F59A1'
             })}>
-              <img class="app-icon" alt="Application's icon" src=${this.iconUrl || '../assets/images/noicon_android.svg'} />
+              <img class="app-icon" alt="Application's icon" src=${this.iconUrl || '../assets/images/android/noicon.svg'} />
               <div class="menu-actions" style=${styleMap({ color: this.contrastingColor })}>
                 <span>HOME</span>
                 <span>PROFILE</span>
