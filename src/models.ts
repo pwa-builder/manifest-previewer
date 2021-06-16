@@ -34,6 +34,8 @@ export type Shortcut = {
   icons?: ImageResource[];
 }
 
+export type Display = 'fullscreen' | 'standalone' | 'minimal-ui' | 'browser';
+
 /**
  * Web app manifest
  */
@@ -41,7 +43,7 @@ export interface Manifest {
   name: string;
   short_name?: string;
   icons: ImageResource[];
-  display?: 'fullscreen' | 'standalone' | 'minimal-ui' | 'browser';
+  display?: Display;
   orientation?: 'any' | 'natural' | 'landscape' | 'landscape-primary' | 'landscape-secondary' | 'portrait' | 'portrait-primary' | 'portrait-secondary';
   dir?: 'auto' | 'ltr' | 'rtl';
   lang?: string;

@@ -1,5 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, state, property } from 'lit/decorators.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import './install-screen.js';
@@ -111,13 +112,13 @@ export class ManifestPreviewer extends LitElement {
     .preview-text {
       position: absolute;
       bottom: 25px;
-      left: calc(50% - 52px);
+      left: calc(50% - 55px);
       font-weight: 400;
       font-size: 10px;
       line-height: 16px;
       text-align: center;
       color: #808080;
-      width: 104px;
+      width: 110px;
     }
 
     img.nav-arrow {
@@ -183,7 +184,7 @@ export class ManifestPreviewer extends LitElement {
    * The kind of preview currently shown.
    */
   @property({ type: Number })
-  stage: PreviewStage = PreviewStage.Themecolor;
+  stage: PreviewStage = PreviewStage.Install;
 
   /**
    * The input web manifest.
@@ -255,9 +256,13 @@ export class ManifestPreviewer extends LitElement {
   }
 
   /**
-   * Enlarges the preview content.
+   * True if the preview content is enlarged.
    */
-  private handleEnlargePreview() {
+  @state()
+  isEnlarged = false;
+
+  private handleToggleEnlarge() {
+    this.isEnlarged = !this.isEnlarged;
     this.renderRoot.querySelector('#fullscreen-content')!.requestFullscreen();
   }
 
@@ -376,7 +381,13 @@ export class ManifestPreviewer extends LitElement {
           </p>
           <div id="fullscreen-content">
             <display-screen
-            .platform=${this.platform}>
+            .platform=${this.platform}
+            .display=${this.manifest.display}
+            .themeColor=${this.manifest.theme_color}
+            .backgroundColor=${this.manifest.background_color}
+            .iconUrl=${this.iconUrl}
+            .appName=${this.manifest.name}
+            .siteUrl=${this.siteUrl}>
             </display-screen>
           </div>
         `;
@@ -426,7 +437,10 @@ export class ManifestPreviewer extends LitElement {
           alt="Navigate right" 
           class="nav-arrow"
           @click=${this.navigationAction} />
-          <p class="preview-text" @click=${this.handleEnlargePreview}>Click to enlarge Preview</p>
+          <p 
+          class="preview-text" style=${styleMap({ cursor: 'pointer' })} @click=${this.handleToggleEnlarge}>
+            Click to ${this.isEnlarged ? 'collapse' : 'enlarge'} Preview
+          </p>
         </div>
       </div>
     `;

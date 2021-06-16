@@ -10,7 +10,7 @@ export class ThemecolorScreen extends LitElement {
   static styles = css`
     .container {
       position: relative;
-      width: 225px;
+      width: 250px;
       margin: 120px auto 0;
     }
 
@@ -22,9 +22,9 @@ export class ThemecolorScreen extends LitElement {
 
     .windows .titlebar {
       position: absolute;
-      height: 15px;
+      height: 13px;
       width: calc(100% - 1px);
-      bottom: 20px;
+      top: 49px;
       display: flex;
       align-items: center;
       border: 0.5px solid grey;
@@ -64,13 +64,13 @@ export class ThemecolorScreen extends LitElement {
     }
 
     .android .app-box {
-      width: 188px;
-      position: absolute;
-      top: 39px;
-      height: 47px;
-      left: 50px;
       border-radius: 3px 3px 0 0;
       display: flex;
+      width: 163px;
+      position: absolute;
+      top: 33px;
+      height: 42px;
+      left: 44px;
     }
 
     .android .app-icon {
@@ -103,15 +103,15 @@ export class ThemecolorScreen extends LitElement {
       }
 
       .android .app-box {
-        width: 144px;
-        top: 30px;
-        height: 36px;
-        left: 38px;
+        width: 164px;
+        top: 33px;
+        height: 42px;
+        left: 43px;
       }
 
       .android .app-icon {
-        width: 25px;
-        height: 25px;
+        width: 26px;
+        height: 26px;
         margin: -12px auto 0;
       }
 

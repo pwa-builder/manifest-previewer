@@ -145,11 +145,6 @@ export class InstallScreen extends LitElement {
       font-size: 7.84722px;
       margin: 0;
     }
-
-    /* 1366 designs */
-    @media(max-width: 1366px) {
-      
-    }
   `;
 
   @property()
