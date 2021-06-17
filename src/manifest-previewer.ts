@@ -175,12 +175,6 @@ export class ManifestPreviewer extends LitElement {
   private _iconUrl: string | undefined;
 
   /**
-   * Callback fired when clicking the navigation arrow.
-   */
-  @state()
-  private navigationAction = () => {};
-
-  /**
    * The kind of preview currently shown.
    */
   @property({ type: Number })
@@ -247,8 +241,7 @@ export class ManifestPreviewer extends LitElement {
   }
 
   /**
-   * Dispatches the platform change event for all screens to update
-   * accordingly.
+   * Changes the platform currently being previewed.
    */
   private handlePlatformChange(event: Event) {
     const platform = (event.target as HTMLButtonElement).name;
@@ -256,20 +249,23 @@ export class ManifestPreviewer extends LitElement {
   }
 
   /**
-   * True if the preview content is enlarged.
+   * Navigates to the next preview screen.
    */
-  @state()
-  isEnlarged = false;
+  private handleNavigateRight() {
+    const numStages = Object.keys(PreviewStage).length / 2;
+    this.stage = (this.stage + 1) % numStages;
+  }
 
+  /**
+   * Shows the main preview content in full screen.
+   */
   private handleToggleEnlarge() {
-    this.isEnlarged = !this.isEnlarged;
     this.renderRoot.querySelector('#fullscreen-content')!.requestFullscreen();
   }
 
   private screenContent() {
     switch (this.stage) {
       case PreviewStage.Install:
-        this.navigationAction = () => { this.stage = PreviewStage.Splashscreen; }
         return html`
           <p class="preview-title">Installation dialog</p>
           <p class="preview-info">
@@ -287,7 +283,6 @@ export class ManifestPreviewer extends LitElement {
           </div>
         `;
       case PreviewStage.Splashscreen:
-        this.navigationAction = () => { this.stage = PreviewStage.Name; }
         return html`
           <p class="preview-title">Splash screen</p>
           <p class="preview-info">
@@ -305,7 +300,6 @@ export class ManifestPreviewer extends LitElement {
           </div>
         `;
       case PreviewStage.Name:
-        this.navigationAction = () => { this.stage = PreviewStage.Shortname; }
         return html`
           <p class="preview-title">The name attribute</p>
           <p class="preview-info">
@@ -320,7 +314,6 @@ export class ManifestPreviewer extends LitElement {
           </div>
         `;
       case PreviewStage.Shortname:
-        this.navigationAction = () => { this.stage = PreviewStage.Themecolor; }
         return html`
           <p class="preview-title">The short name attribute</p>
           <p class="preview-info">
@@ -337,7 +330,6 @@ export class ManifestPreviewer extends LitElement {
           </div>
         `;
       case PreviewStage.Themecolor:
-        this.navigationAction = () => { this.stage = PreviewStage.Shortcuts; }
         return html`
           <p class="preview-title">The theme color attribute</p>
           <p class="preview-info">
@@ -354,7 +346,6 @@ export class ManifestPreviewer extends LitElement {
           </div>
         `;
       case PreviewStage.Shortcuts:
-        this.navigationAction = () => { this.stage = PreviewStage.Display; }
         return html`
           <p class="preview-title">The shortcuts attribute</p>
           <p class="preview-info">
@@ -371,7 +362,6 @@ export class ManifestPreviewer extends LitElement {
           </div>
         `;
       case PreviewStage.Display:
-        this.navigationAction = () => { this.stage = PreviewStage.Install; }
         return html`
           <p class="preview-title">The display attribute</p>
           <p class="preview-info">
@@ -436,10 +426,9 @@ export class ManifestPreviewer extends LitElement {
           src="../assets/images/nav_arrow.svg" 
           alt="Navigate right" 
           class="nav-arrow"
-          @click=${this.navigationAction} />
-          <p 
-          class="preview-text" style=${styleMap({ cursor: 'pointer' })} @click=${this.handleToggleEnlarge}>
-            Click to ${this.isEnlarged ? 'collapse' : 'enlarge'} Preview
+          @click=${this.handleNavigateRight} />
+          <p class="preview-text" style=${styleMap({ cursor: 'pointer' })} @click=${this.handleToggleEnlarge}>
+            Click to enlarge Preview
           </p>
         </div>
       </div>
