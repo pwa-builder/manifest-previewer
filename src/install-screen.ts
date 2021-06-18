@@ -152,7 +152,7 @@ export class InstallScreen extends LitElement {
     }
 
     .ios .add-btn {
-      font-family: SF-Pro;
+      font-family: var(--ios-font-family);
       position: absolute;
       font-weight: 600;
       top: 0;
@@ -196,7 +196,7 @@ export class InstallScreen extends LitElement {
       top: 58px;
       left: 52px;
       font-size: 11px;
-      font-family: SF-Pro;
+      font-family: var(--ios-font-family);
       font-weight: 600;
     }
 
@@ -209,7 +209,7 @@ export class InstallScreen extends LitElement {
       left: 52px;
       font-size: 9px;
       width: 159px;
-      font-family: SF-Pro;
+      font-family: var(--ios-font-family);
       white-space: nowrap;
     }
   `;
@@ -315,11 +315,5 @@ export class InstallScreen extends LitElement {
         `;
       default: return null;
     }
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'install-screen': InstallScreen;
   }
 }

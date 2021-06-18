@@ -55,6 +55,35 @@ export class SplashScreen extends LitElement {
       margin: 0 auto 30px;
       font-size: 16px;
     }
+
+    .container.ios {
+      margin-top: 30px;
+    }
+
+    .ios .phone {
+      width: 100%;
+      position: absolute;
+      top: 0;
+    }
+
+    .ios .screen {
+      height: 280px;
+      width: 188px;
+      position: absolute;
+      top: 66px;
+      left: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: var(--ios-font-family);
+    }
+
+    .ios .icon {
+      margin: 0 0 10px;
+      width: 80px;
+      height: 80px;
+    }
   `;
 
   private fsController = new FullScreenController(this);
@@ -117,14 +146,24 @@ export class SplashScreen extends LitElement {
           </div>
         </div>
         `;
-    
+      case 'iOS':
+        return html`
+          <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.5 : 1})` })} class="container ios"> 
+            <img class="phone" alt="Iphone" src="../assets/images/ios/iphone.svg" />
+            <div class="screen" style=${styleMap({ backgroundColor: this.backgroundColor || '#FFF' })}>
+              ${this.iconUrl ? 
+                html`<img class="icon" src=${this.iconUrl} alt="App's splash screen" />` : null}
+              <h5 
+              class="appName" 
+              style=${styleMap({ 
+                color: this.backgroundColor ? getContrastingColor(this.backgroundColor) : '#000'
+              })}>
+                ${this.appName || 'PWA App'}
+              </h5>
+            </div>
+          </div>
+        `;
       default: return null;
     }
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'splash-screen': SplashScreen;
   }
 }

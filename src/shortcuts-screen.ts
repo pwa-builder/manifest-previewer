@@ -102,6 +102,11 @@ export class ShortcutsScreen extends LitElement {
       display: inline-block;
     }
 
+    .ios-message {
+      margin: 100px auto 0px;
+      width: 70%;
+    }
+
     @media(max-width: 1366px) {
       .container {
         width: 250px;
@@ -213,13 +218,15 @@ export class ShortcutsScreen extends LitElement {
             </div>
           </div>
         `;
+      case 'iOS':
+        return html`
+          <div class="ios-message">
+            <disclaimer-message>
+              iOS does not support the shortcuts feature.
+            </disclaimer-message>
+          </div>
+        `;
       default: return null;
     }
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'shortcuts-screen': ShortcutsScreen;
   }
 }

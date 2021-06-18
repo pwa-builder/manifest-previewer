@@ -185,6 +185,11 @@ export class DisplayScreen extends LitElement {
       margin: 4px;
       font-size: 6px;
     }
+
+    .ios-message {
+      margin: 90px auto 0px;
+      width: 70%;
+    }
   `;
 
   private fsController = new FullScreenController(this);
@@ -352,13 +357,15 @@ export class DisplayScreen extends LitElement {
             <img class="phone" alt="Android phone" src="../assets/images/android/background.svg" />
           </div>
         `;
+      case 'iOS':
+        return html`
+          <div class="ios-message">
+              <disclaimer-message>
+                iOS does not support different display modes.
+              </disclaimer-message>
+          </div>
+        `;
       default: return null;
     }
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'display-screen': DisplayScreen;
   }
 }

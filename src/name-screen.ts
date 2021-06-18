@@ -15,16 +15,22 @@ export class NameScreen extends LitElement {
     .container {
       position: relative;
       margin: 70px auto 0;
+      width: 260px;
     }
 
     .menu-img {
+      position: absolute;
+      top: 0;
       width: 100%;
     }
 
     .windows .hidden {
       background-color: var(--windows-background);
       position: absolute;
+      width: calc(100% - 50px);
+      left: 50px;
       height: 50px;
+      top: 121.5px;
     }
     .windows .app-initial {
       background-color: var(--windows-background);
@@ -32,26 +38,33 @@ export class NameScreen extends LitElement {
       position: absolute;
       width: 20px;
       font-size: 12px;
+      top: 69px;
+      left: 61px;
     }
 
     .windows .app-name {
       background-color: var(--windows-background);
       position: absolute;
       color: rgba(255, 255, 255, 0.7);
-      top: 105px;
-      left: 89px;
+      top: 99px;
+      left: 82px;
       font-size: 10px;
     }
 
     .windows .app-icon {
       position: absolute;
+      width: 26px;
+      height: 26px;
+      top: 92px;
+      left: 51px;
     }
 
     .android .app-icon {
       position: absolute;
-      width: 55px;
-      height: 55px;
-      left: calc(50% - 27.5px);
+      top: 62px;
+      width: 42px;
+      height: 42px;
+      left: calc(50% - 21px);
     }
 
     .android .app-name {
@@ -59,81 +72,37 @@ export class NameScreen extends LitElement {
       width: 100%;
       background-color: #FFF;
       text-align: center;
-      font-size: 16px;
+      font-size: 14px;
+      top: 106px;
     }
 
-    @media(min-width: 1366px) {
-      .container {
-        width: 280px;
-      }
-
-      .windows .hidden {
-        bottom: 46px;
-        width: calc(100% - 50px);
-        left: 50px;
-      }
-
-      .windows .app-initial {
-        top: 75px;
-        left: 65px;
-      }
-
-      .windows .app-name {
-        top: 105px;
-        left: 87px;
-      }
-
-      .windows .app-icon {
-        height: 28px;
-        width: 28px;
-        top: 98px;
-        left: 57px;
-      }
-
-      .android .app-icon {
-        top: 60px;
-      }
-
-      .android .app-name {
-        top: 115px;
-      }
+    .ios .app-icon {
+      position: absolute;
+      background-color: #000;
+      top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 21px;
+      height: 21px;
+      top: 143px;
+      left: 10px;
+      border-radius: 5px;
     }
 
-    @media(max-width: 1366px) {
-      .container {
-        width: 250px;
-      }
+    .ios .app-icon img {
+      width: 80%;
+    }
 
-      .windows .hidden {
-        bottom: 42px;
-        width: calc(100% - 45px);
-        left: 45px;
-      }
-
-      .windows .app-initial {
-        top: 65px;
-        left: 58px;
-      }
-
-      .windows .app-name {
-        top: 96px;
-        left: 78px;
-      }
-
-      .windows .app-icon {
-        height: 25px;
-        width: 25px;
-        top: 90px;
-        left: 50px;
-      }
-
-      .android .app-icon {
-        top: 50px;
-      }
-
-      .android .app-name {
-        top: 105px;
-      }
+    .ios .app-name {
+      font-family: var(--ios-font-family);
+      background-color: #F4F4F4;
+      position: absolute;
+      top: 146px;
+      left: 41px;
+      font-size: 13px;
+      font-weight: 600;
+      min-width: 50px;
     }
   `;
 
@@ -189,13 +158,22 @@ export class NameScreen extends LitElement {
             <div class="app-name">${this.appName || 'PWA App'}</div>
           </div>
         `;
+      case 'iOS':
+        return html`
+          <div 
+          style=${styleMap({ 
+            transform: `scale(${this.fsController.isInFullScreen ? 2.2 : 1})`,
+            marginTop: this.fsController.isInFullScreen ? '20vh' : '70px'
+          })} 
+          class="container ios">
+            <img class="menu-img" alt="iOS settings" src="../assets/images/ios/appsettings.jpg" />
+            ${this.iconUrl ?
+              html`<div class="app-icon"><img alt="Application's icon" src=${this.iconUrl} /></div>` : 
+              null}
+            <div class="app-name">${this.appName || 'PWA App'}</div>
+          </div>
+        `;
       default: return null;
     }
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'name-screen': NameScreen;
   }
 }

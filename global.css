@@ -23,10 +23,18 @@
 
 :root {
   --font-family: Hind;
+  --ios-font-family: SF-pro;
+  --font-color: #292C3A;
+  --secondary-font-color: #808080;
 }
 
 html, body {
   font-family: var(--font-family), sans-serif;
   padding: 0;
   margin: 0;
+}
+
+fast-design-system-provider {
+  color: var(--font-color);
+  --background-color: var(--primary-background-color);
 }

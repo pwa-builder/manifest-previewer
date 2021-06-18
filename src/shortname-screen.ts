@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
 import { FullScreenController } from './fullscreen-controller';
+import './disclaimer-message.js';
 import type { Platform } from './models';
 
 @customElement('shortname-screen')
@@ -11,14 +12,11 @@ export class ShortnameScreen extends LitElement {
     .windows-message {
       margin: 100px auto 0px;
       width: 70%;
-      font-style: italic;
-      font-size: 14px;
-      color: rgba(128, 128, 128, 0.8);
-      font-weight: 600;
     }
 
     .container {
       position: relative;
+      width: 260px;
       margin: 70px auto 0;
     }
 
@@ -58,16 +56,39 @@ export class ShortnameScreen extends LitElement {
       text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.46);
     }
 
-    @media(max-width: 1366px) {
-      .container {
-        width: 250px;
-      }
+    .ios .background {
+      width: 100%;
+      position: absolute;
+      top: 0;
     }
 
-    @media(min-width: 1366px) {
-      .container {
-        width: 280px;
-      }
+    .ios .app-name {
+      position: absolute;
+      top: 79px;
+      left: 75px;
+      width: 50px;
+      text-align: center;
+      background-color: rgb(113, 137, 150);
+      color: rgb(255, 255, 255);
+      font-family: var(--ios-font-family);
+      font-size: 9px;
+    }
+
+    .ios .app-icon {
+      background-color: rgb(0, 0, 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      position: absolute;
+      top: 27px;
+      left: 74px;
+      height: 50px;
+      border-radius: 11px;
+    }
+
+    .ios .app-icon img {
+      width: 80%;
     }
   `;
 
@@ -93,10 +114,12 @@ export class ShortnameScreen extends LitElement {
     switch(this.platform) {
       case 'windows':
         return html`
-          <p class="windows-message">
-            Windows always uses the application's name and ignores
-            its short name.
-          </p>
+          <div class="windows-message">
+            <disclaimer-message>
+              Windows always uses the application's name and ignores
+              its short name.
+            </disclaimer-message>
+          </div>
         `;
       case 'android':
         return html`
@@ -116,13 +139,22 @@ export class ShortnameScreen extends LitElement {
             <img class="homescreen" alt="Android's home screen" src="../assets/images/android/homescreen.png" />
           </div>
         `;
+      case 'iOS':
+        return html`
+          <div
+          style=${styleMap({ 
+            transform: `scale(${this.fsController.isInFullScreen ? 2.5 : 1})`,
+            marginTop: this.fsController.isInFullScreen ? '30vh' : '70px'
+          })} 
+          class="ios container">
+            <img class="background" alt="iOS home screen" src="../assets/images/ios/homemenu.png" />
+            <div class="app-name">${this.appShortName || 'PWA App'}</div>
+            ${this.iconUrl ? 
+            html`<div class="app-icon"><img alt="Application's icon" src=${this.iconUrl} /></div>` : 
+            null}
+          </div>
+        `;
       default: return null;
     }
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'shortname-screen': ShortnameScreen;
   }
 }

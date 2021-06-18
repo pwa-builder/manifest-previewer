@@ -28,11 +28,7 @@ export class ManifestPreviewer extends LitElement {
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       border-radius: 6px;
       height: 792px;
-      position: relative;
       display: none;
-      font-family: Hind;
-      font-style: normal;
-      z-index: 0;
     }
 
     .title {
@@ -44,8 +40,8 @@ export class ManifestPreviewer extends LitElement {
       font-weight: 700;
       font-size: 18px;
       line-height: 24px;
-      color: #292C3A;
-      text-decoration: underline solid #292C3A;
+      color: var(--font-color);
+      text-decoration: underline solid var(--secondary-font-color);
       text-underline-position: under;
       text-decoration-thickness: 2px;
     }
@@ -57,19 +53,19 @@ export class ManifestPreviewer extends LitElement {
       width: 272px;
     }
 
-    .platform-button {
+    fast-button.platform-button {
       height: 35px;
-      border-radius: 33.2847px;
-      border: none;
-      font-family: Hind;
-      font-style: normal;
-      font-weight: 700;
+      border-radius: 33px;
       font-size: 12.5751px;
       line-height: 19px;
       width: 80px;
       background: #FFF;
       box-shadow: 0px 3px 3.02588px rgba(0, 0, 0, 0.25);
-      color: #292C3A;
+      color: var(--font-color);
+    }
+    
+    fast-button::part(control) {
+      font-weight: 700;
     }
 
     .platform-button.selected {
@@ -105,7 +101,7 @@ export class ManifestPreviewer extends LitElement {
       font-size: 12px;
       line-height: 16px;
       text-align: center;
-      color: #808080;
+      color: var(--secondary-font-color);
       width: 280px;
     }
 
@@ -117,7 +113,7 @@ export class ManifestPreviewer extends LitElement {
       font-size: 10px;
       line-height: 16px;
       text-align: center;
-      color: #808080;
+      color: var(--secondary-font-color);
       width: 110px;
     }
 
@@ -178,7 +174,7 @@ export class ManifestPreviewer extends LitElement {
    * The kind of preview currently shown.
    */
   @property({ type: Number })
-  stage: PreviewStage = PreviewStage.Splashscreen;
+  stage: PreviewStage = PreviewStage.Shortname;
 
   /**
    * The input web manifest.
@@ -381,10 +377,10 @@ export class ManifestPreviewer extends LitElement {
   render() {
     return html`
       <div class="container">
-        <div class="card">
+        <fast-card class="card">
           <h4 class="title">Preview</h4>
           <div class="buttons-div">
-            <button 
+            <fast-button 
             class=${classMap({ 
               'platform-button': true, 
               selected: this.platform === 'windows' 
@@ -392,8 +388,8 @@ export class ManifestPreviewer extends LitElement {
             name="windows"
             @click=${this.handlePlatformChange}>
               Windows
-            </button>
-            <button 
+            </fast-button>
+            <fast-button 
             class=${classMap({ 
               'platform-button': true, 
               selected: this.platform === 'android' 
@@ -401,8 +397,8 @@ export class ManifestPreviewer extends LitElement {
             name="android"
             @click=${this.handlePlatformChange}>
               Android
-            </button>
-            <button
+            </fast-button>
+            <fast-button
             class=${classMap({
               'platform-button': true,
               selected: this.platform === 'iOS'
@@ -410,7 +406,7 @@ export class ManifestPreviewer extends LitElement {
             name="iOS"
             @click=${this.handlePlatformChange}>
               iOS
-            </button>
+            </fast-button>
           </div>
           <div class="name">${this.manifest.name}</div>
           ${this.screenContent()}
@@ -422,7 +418,7 @@ export class ManifestPreviewer extends LitElement {
           <p class="preview-text" style=${styleMap({ cursor: 'pointer' })} @click=${this.handleToggleEnlarge}>
             Click to enlarge Preview
           </p>
-        </div>
+        </fast-card>
       </div>
     `;
   }

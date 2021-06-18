@@ -98,6 +98,36 @@ export class ThemecolorScreen extends LitElement {
       text-decoration: underline;
     }
 
+    .container.ios {
+      margin-top: 60px;
+    }
+
+    .ios .phone {
+      width: 100%;
+      height: 200px;
+      position: absolute;
+      top: 0px;
+      overflow-y: hidden;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .ios .status-bar {
+      position: absolute;
+      top: 76px;
+      height: 18px;
+      left: 19px;
+      width: 211.5px;
+    }
+
+    .ios .status-bar img {
+      width: 100%;
+      height: 16px;
+      overflow-y: hidden;
+      object-fit: cover;
+      object-position: top;
+    }
+
     @media(max-width: 1366px) {
       .windows .titlebar {
         bottom: 16px;
@@ -205,13 +235,18 @@ export class ThemecolorScreen extends LitElement {
             </div>
           </div>
         `;
+      case 'iOS':
+        return html`
+          <div 
+          style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 2.2 : 1})` })} 
+          class="container ios">
+            <img class="phone" alt="Iphone" src="../assets/images/ios/iphone.svg" />
+            <div class="status-bar" style=${styleMap({ backgroundColor: this.themeColor || '#FFF' })}>
+              <img alt="Status bar" src="../assets/images/ios/statusbar.svg" />
+            </div>
+          </div>
+        `;
       default: return null;
     }
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'themecolor-screen': ThemecolorScreen;
   }
 }
