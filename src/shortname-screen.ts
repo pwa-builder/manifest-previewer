@@ -1,6 +1,8 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { styleMap } from 'lit/directives/style-map.js';
 
+import { FullScreenController } from './fullscreen-controller';
 import type { Platform } from './models';
 
 @customElement('shortname-screen')
@@ -69,6 +71,8 @@ export class ShortnameScreen extends LitElement {
     }
   `;
 
+  private fsController = new FullScreenController(this);
+
   @property()
   platform: Platform = 'windows';
 
@@ -96,7 +100,12 @@ export class ShortnameScreen extends LitElement {
         `;
       case 'android':
         return html`
-          <div class="android container">
+          <div 
+          style=${styleMap({ 
+            transform: `scale(${this.fsController.isInFullScreen ? 2.5 : 1})`,
+            marginTop: this.fsController.isInFullScreen ? '30vh' : '70px'
+          })} 
+          class="android container">
             <div class="background"></div>
             <div class="icon-container">
               ${this.iconUrl ?

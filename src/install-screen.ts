@@ -2,6 +2,7 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
+import { FullScreenController } from './fullscreen-controller';
 import type { Platform } from './models';
 
 @customElement('install-screen')
@@ -145,7 +146,75 @@ export class InstallScreen extends LitElement {
       font-size: 7.84722px;
       margin: 0;
     }
+
+    .ios .phone-img {
+      width: 100%;
+    }
+
+    .ios .add-btn {
+      font-family: SF-Pro;
+      position: absolute;
+      font-weight: 600;
+      top: 0;
+      right: 0;
+      background-color: #FAFAFA;
+      width: 38px;
+      height: 28px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #147EFB;
+    }
+
+    .ios .icon {
+      position: absolute;
+      top: 58px;
+      left: 7px;
+      background-color: rgb(255, 255, 255);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .ios .icon img {
+      width: 37px;
+      height: 37px;
+    }
+
+    .ios .hidden {
+      position: absolute;
+      background-color: #F1F1F1;
+      top: 238px;
+      height: 34px;
+      width: 100%;
+    }
+
+    .ios .app-name {
+      background-color: #FFF;
+      position: absolute;
+      top: 58px;
+      left: 52px;
+      font-size: 11px;
+      font-family: SF-Pro;
+      font-weight: 600;
+    }
+
+    .ios .app-link {
+      overflow-x: hidden;
+      color: rgb(186, 191, 200);
+      background-color: #FFF;
+      position: absolute;
+      top: 86px;
+      left: 52px;
+      font-size: 9px;
+      width: 159px;
+      font-family: SF-Pro;
+      white-space: nowrap;
+    }
   `;
+
+  private fsController = new FullScreenController(this);
 
   @property()
   platform: Platform = 'windows';
@@ -179,7 +248,7 @@ export class InstallScreen extends LitElement {
     switch (this.platform) {
       case 'windows':
         return html`
-          <div class="container windows">
+          <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 3 : 1})` })} class="container windows">
             <div class="add-dialog">
               <div class="header">
                 ${this.iconUrl ? 
@@ -201,7 +270,7 @@ export class InstallScreen extends LitElement {
         `;
       case 'android':
         return html`
-          <div class="container android">
+          <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.7 : 1})` })} class="container android">
             <div class="url-bar">${this.siteUrl}</div>
             <div class="add-dialog">
               <p class="dialog-title">Add to Home screen</p>
@@ -223,6 +292,25 @@ export class InstallScreen extends LitElement {
             class="preview-img"
             alt="Application mobile preview" 
             src="../assets/images/android/background.svg" />
+          </div>
+        `;
+      case 'iOS':
+        return html`
+          <div 
+          style=${styleMap({ 
+            transform: `scale(${this.fsController.isInFullScreen ? 1.7 : 1})`,
+            marginTop: this.fsController.isInFullScreen ? '20vh' : '30px'
+          })}
+          class="container ios">
+              <div class="add-btn">
+                Add
+              </div>
+              <img class="phone-img" alt="iOS PWA installation" src="../assets/images/ios/add-to-home.png" />
+              <div class="hidden"></div>
+              ${this.iconUrl ? 
+                html`<div class="icon"><img alt="App icon" src=${this.iconUrl} /></div>` : null}
+              <div class="app-name">${this.appName}</div>
+              <div class="app-link">${this.siteUrl}</div>
           </div>
         `;
       default: return null;

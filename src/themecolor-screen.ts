@@ -2,6 +2,7 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
+import { FullScreenController } from './fullscreen-controller';
 import { getContrastingColor } from './utils';
 import type { Platform } from './models';
 
@@ -121,6 +122,8 @@ export class ThemecolorScreen extends LitElement {
     }
   `;
 
+  private fsController = new FullScreenController(this);
+
   @property()
   platform: Platform = 'windows';
 
@@ -160,7 +163,9 @@ export class ThemecolorScreen extends LitElement {
     switch(this.platform) {
       case 'windows':
         return html`
-          <div class="container windows">
+          <div 
+          style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 3 : 1})` })} 
+          class="container windows">
             <img alt="Windows' title bar" src="../assets/images/windows/titlebar.png" class="titlebar-img" />
             <div 
             class="titlebar" 
@@ -182,7 +187,9 @@ export class ThemecolorScreen extends LitElement {
         `;
       case 'android':
         return html`
-          <div class="container android">
+          <div 
+          style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 3 : 1})` })} 
+          class="container android">
             <img alt="Android's app switcher" src="../assets/images/android/appswitcher.jpg" class="switcher-img" />
             <div 
             class="app-box" 

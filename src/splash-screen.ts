@@ -2,18 +2,24 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
+import { FullScreenController } from './fullscreen-controller';
 import { getContrastingColor } from './utils';
 import type { Platform } from './models';
 
 @customElement('splash-screen')
 export class SplashScreen extends LitElement {
   static styles = css`
-    .android-phone {
+    .container {
+      position: relative;
+      width: 220px;
+      margin: 10px auto 0;
+    }
+
+    .android .phone {
       position: absolute;
-      width: 219px;
+      width: 100%;
       height: 480px;
-      top: 240px;
-      left: calc(50% - 109.5px);
+      top: 0;
       background: #FFF;
       box-shadow: 0px 3px 5.41317px rgba(0, 0, 0, 0.25);
       border-radius: 8.11976px;
@@ -21,12 +27,11 @@ export class SplashScreen extends LitElement {
       z-index: -1;
     }
 
-    .android-screen {
+    .android .screen {
       position: absolute;
-      width: 219px;
-      height: 415px;
-      top: 255px;
-      left: calc(50% - 109.5px);
+      width: 100%;
+      height: 400px;
+      top: 29px;
       border-radius: 8.12px;
       display: flex;
       flex-direction: column;
@@ -51,6 +56,8 @@ export class SplashScreen extends LitElement {
       font-size: 16px;
     }
   `;
+
+  private fsController = new FullScreenController(this);
 
   @property()
   platform: Platform = 'windows';
@@ -89,13 +96,9 @@ export class SplashScreen extends LitElement {
         `;
       case 'android':
         return html`
-          <img 
-          class="android-phone"
-          alt="Application mobile preview" 
-          src="../assets/images/android/background.svg" />
-          <div 
-          class="android-screen" 
-          style=${styleMap({ backgroundColor: this.backgroundColor || '#FFF' })}>
+        <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.7 : 1})` })} class="container android">
+          <img class="phone" alt="Application mobile preview" src="../assets/images/android/background.svg" />
+          <div class="screen" style=${styleMap({ backgroundColor: this.backgroundColor || '#FFF' })}>
             <div 
             class="phone-bar"
             style=${styleMap({ backgroundColor: this.themeColor || '#000' })}></div>
@@ -110,10 +113,9 @@ export class SplashScreen extends LitElement {
             })}>
               ${this.appName || 'PWA App'}
             </h5>
-            <div
-            class="phone-bar"
-            style=${styleMap({ backgroundColor: this.themeColor || '#000' })}></div>
+            <div class="phone-bar" style=${styleMap({ backgroundColor: this.themeColor || '#000' })}></div>
           </div>
+        </div>
         `;
     
       default: return null;

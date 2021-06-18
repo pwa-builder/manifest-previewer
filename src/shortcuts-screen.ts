@@ -1,6 +1,8 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { styleMap } from 'lit/directives/style-map.js';
 
+import { FullScreenController } from './fullscreen-controller';
 import type { Shortcut, ImageResource, Platform } from './models';
 
 @customElement('shortcuts-screen')
@@ -144,6 +146,8 @@ export class ShortcutsScreen extends LitElement {
     }
   `;
 
+  private fsController = new FullScreenController(this);
+
   @property()
   platform: Platform = 'windows';
 
@@ -181,7 +185,12 @@ export class ShortcutsScreen extends LitElement {
       case 'windows':
       case 'android':
         return html`
-          <div class="container ${this.platform}">
+          <div 
+          style=${styleMap({ 
+            transform: `scale(${this.fsController.isInFullScreen ? 2.5 : 1})`,
+            marginTop: this.fsController.isInFullScreen ? '30vh' : '40px'
+          })} 
+          class="container ${this.platform}">
             <img 
             class="menu-img" 
             alt="Application shortcuts" 

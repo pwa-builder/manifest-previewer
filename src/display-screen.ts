@@ -3,6 +3,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
+import { FullScreenController } from './fullscreen-controller';
 import { getContrastingColor } from './utils';
 import { Platform, Display } from './models';
 
@@ -13,7 +14,7 @@ export class DisplayScreen extends LitElement {
       position: relative;
       display: flex;
       justify-content: center;
-      margin: 30px auto 0;
+      margin: 0 auto;
       width: fit-content;
     }
 
@@ -97,7 +98,7 @@ export class DisplayScreen extends LitElement {
       width: 99%;
       position: absolute;
       left: 0;
-      height: 215px;
+      height: 214.5px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -185,6 +186,8 @@ export class DisplayScreen extends LitElement {
       font-size: 6px;
     }
   `;
+
+  private fsController = new FullScreenController(this);
 
   @property()
   platform: Platform = 'windows';
@@ -310,13 +313,20 @@ export class DisplayScreen extends LitElement {
     switch(this.platform) {
       case 'windows':
         return html`
-          <div class="container windows">
+          <div 
+          style=${styleMap({ 
+            transform: `scale(${this.fsController.isInFullScreen ? 2.5 : 1})`,
+            marginTop: this.fsController.isInFullScreen ? '30vh' : '30px' 
+          })} 
+          class="container windows">
             ${this.screenContent()}
           </div>
         `;
       case 'android':
         return html`
-          <div class="container android">
+          <div
+          style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.6 : 1})` })} 
+          class="container android">
             ${this.display !== 'fullscreen' ? 
             html`
               <div class="status-bar" style=${styleMap({ backgroundColor: this.themeColor || '#E0E0E0' })}>

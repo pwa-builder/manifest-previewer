@@ -1,11 +1,17 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { styleMap } from 'lit/directives/style-map.js';
 
+import { FullScreenController } from './fullscreen-controller';
 import type { Platform } from './models';
 
 @customElement('name-screen')
 export class NameScreen extends LitElement {
   static styles = css`
+    :host {
+      --windows-background: #3C3B3B;
+    }
+
     .container {
       position: relative;
       margin: 70px auto 0;
@@ -16,13 +22,12 @@ export class NameScreen extends LitElement {
     }
 
     .windows .hidden {
-      background-color: #3D3D3D;
+      background-color: var(--windows-background);
       position: absolute;
       height: 50px;
     }
-
     .windows .app-initial {
-      background-color: #3D3D3D;
+      background-color: var(--windows-background);
       color: #FFF;
       position: absolute;
       width: 20px;
@@ -30,7 +35,7 @@ export class NameScreen extends LitElement {
     }
 
     .windows .app-name {
-      background-color: #3D3D3D;
+      background-color: var(--windows-background);
       position: absolute;
       color: rgba(255, 255, 255, 0.7);
       top: 105px;
@@ -64,7 +69,7 @@ export class NameScreen extends LitElement {
 
       .windows .hidden {
         bottom: 46px;
-        width: 220px;
+        width: calc(100% - 50px);
         left: 50px;
       }
 
@@ -101,7 +106,7 @@ export class NameScreen extends LitElement {
 
       .windows .hidden {
         bottom: 42px;
-        width: 200px;
+        width: calc(100% - 45px);
         left: 45px;
       }
 
@@ -132,6 +137,8 @@ export class NameScreen extends LitElement {
     }
   `;
 
+  private fsController = new FullScreenController(this);
+
   @property()
   platform: Platform = 'windows';
 
@@ -152,7 +159,12 @@ export class NameScreen extends LitElement {
     switch (this.platform) {
       case 'windows':
         return html`
-          <div class="windows container">
+          <div 
+          style=${styleMap({ 
+            transform: `scale(${this.fsController.isInFullScreen ? 2.2 : 1})`,
+            marginTop: this.fsController.isInFullScreen ? '30vh' : '70px'
+          })} 
+          class="windows container">
             <img alt="Windows start menu" src="../assets/images/windows/startmenu.png" class="menu-img" />
             ${this.iconUrl ?
               html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : 
@@ -164,7 +176,12 @@ export class NameScreen extends LitElement {
         `;
       case 'android':
         return html`
-          <div class="android container">
+          <div 
+          style=${styleMap({ 
+            transform: `scale(${this.fsController.isInFullScreen ? 2.2 : 1})`,
+            marginTop: this.fsController.isInFullScreen ? '30vh' : '70px'
+          })} 
+          class="android container">
             <img alt="Android app info" src="../assets/images/android/appinfo.png" class="menu-img" />
             ${this.iconUrl ?
               html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : 

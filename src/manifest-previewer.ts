@@ -178,7 +178,7 @@ export class ManifestPreviewer extends LitElement {
    * The kind of preview currently shown.
    */
   @property({ type: Number })
-  stage: PreviewStage = PreviewStage.Install;
+  stage: PreviewStage = PreviewStage.Splashscreen;
 
   /**
    * The input web manifest.
@@ -205,7 +205,7 @@ export class ManifestPreviewer extends LitElement {
    * The currently selected platform.
    */
   @property()
-  platform: Platform = 'windows';
+  platform: Platform = 'iOS';
 
   /**
    * @returns The site's URL, assuming it can be derived from the manifest's URL.
@@ -272,15 +272,14 @@ export class ManifestPreviewer extends LitElement {
             The icon, app name, and website URL will be included when installing 
             the PWA.
           </p>
-          <div id="fullscreen-content">
-            <install-screen
-            .platform=${this.platform}
-            .iconUrl=${this.iconUrl}
-            .siteUrl=${this.siteUrl}
-            .appName=${this.manifest.name}
-            .appShortName=${this.manifest.short_name}>
-            </install-screen>
-          </div>
+          <install-screen
+          id="fullscreen-content"
+          .platform=${this.platform}
+          .iconUrl=${this.iconUrl}
+          .siteUrl=${this.siteUrl}
+          .appName=${this.manifest.name}
+          .appShortName=${this.manifest.short_name}>
+          </install-screen>
         `;
       case PreviewStage.Splashscreen:
         return html`
@@ -289,15 +288,14 @@ export class ManifestPreviewer extends LitElement {
             In some browsers, a splash screen is shown when the PWA is launched and while 
             its content is loading.
           </p>
-          <div id="fullscreen-content">
-            <splash-screen
-            .platform=${this.platform}
-            .iconUrl=${this.iconUrl}
-            .backgroundColor=${this.manifest.background_color}
-            .themeColor=${this.manifest.theme_color}
-            .appName=${this.manifest.name}>
-            </splash-screen>
-          </div>
+          <splash-screen
+          id="fullscreen-content"
+          .platform=${this.platform}
+          .iconUrl=${this.iconUrl}
+          .backgroundColor=${this.manifest.background_color}
+          .themeColor=${this.manifest.theme_color}
+          .appName=${this.manifest.name}>
+          </splash-screen>
         `;
       case PreviewStage.Name:
         return html`
@@ -305,13 +303,12 @@ export class ManifestPreviewer extends LitElement {
           <p class="preview-info">
             The name of the web application is displayed on menus, system preferences, dialogs, etc.
           </p>
-          <div id="fullscreen-content">
-            <name-screen
-            .platform=${this.platform}
-            .appName=${this.manifest.name}
-            .iconUrl=${this.iconUrl}>
-            </name-screen>
-          </div>
+          <name-screen
+          id="fullscreen-content"
+          .platform=${this.platform}
+          .appName=${this.manifest.name}
+          .iconUrl=${this.iconUrl}>
+          </name-screen>
         `;
       case PreviewStage.Shortname:
         return html`
@@ -321,13 +318,12 @@ export class ManifestPreviewer extends LitElement {
             entire name of the application (e.g., as a label for an icon on the phone home 
             screen).
           </p>
-          <div id="fullscreen-content">
-            <shortname-screen
-            .platform=${this.platform}
-            .appShortName=${this.manifest.short_name}
-            .iconUrl=${this.iconUrl}>
-            </shortname-screen>
-          </div>
+          <shortname-screen
+          id="fullscreen-content"
+          .platform=${this.platform}
+          .appShortName=${this.manifest.short_name}
+          .iconUrl=${this.iconUrl}>
+          </shortname-screen>
         `;
       case PreviewStage.Themecolor:
         return html`
@@ -336,14 +332,13 @@ export class ManifestPreviewer extends LitElement {
             The theme color defines the default color theme for the application, and affects
             how the site is displayed.
           </p>
-          <div id="fullscreen-content">
-            <themecolor-screen
-            .platform=${this.platform}
-            .themeColor=${this.manifest.theme_color}
-            .appName=${this.manifest.name}
-            .iconUrl=${this.iconUrl}>
-            </themecolor-screen>
-          </div>
+          <themecolor-screen
+          id="fullscreen-content"
+          .platform=${this.platform}
+          .themeColor=${this.manifest.theme_color}
+          .appName=${this.manifest.name}
+          .iconUrl=${this.iconUrl}>
+          </themecolor-screen>
         `;
       case PreviewStage.Shortcuts:
         return html`
@@ -352,14 +347,13 @@ export class ManifestPreviewer extends LitElement {
             This attribute defines an array of shortcuts/links to key tasks or pages 
             within a web app, assembling a context menu when a user interacts with the app's icon.
           </p>
-          <div id="fullscreen-content">
-            <shortcuts-screen
-            .platform=${this.platform}
-            .shortcuts=${this.manifest.shortcuts}
-            .iconUrl=${this.iconUrl}
-            .manifestUrl=${this.manifestUrl}>
-            </shortcuts-screen>
-          </div>
+          <shortcuts-screen
+          id="fullscreen-content"
+          .platform=${this.platform}
+          .shortcuts=${this.manifest.shortcuts}
+          .iconUrl=${this.iconUrl}
+          .manifestUrl=${this.manifestUrl}>
+          </shortcuts-screen>
         `;
       case PreviewStage.Display:
         return html`
@@ -369,20 +363,18 @@ export class ManifestPreviewer extends LitElement {
             range from browser (the full browser window is shown) to fullscreen (the app is 
             full-screened).
           </p>
-          <div id="fullscreen-content">
-            <display-screen
-            .platform=${this.platform}
-            .display=${this.manifest.display}
-            .themeColor=${this.manifest.theme_color}
-            .backgroundColor=${this.manifest.background_color}
-            .iconUrl=${this.iconUrl}
-            .appName=${this.manifest.name}
-            .siteUrl=${this.siteUrl}>
-            </display-screen>
-          </div>
+          <display-screen
+          id="fullscreen-content"
+          .platform=${this.platform}
+          .display=${this.manifest.display}
+          .themeColor=${this.manifest.theme_color}
+          .backgroundColor=${this.manifest.background_color}
+          .iconUrl=${this.iconUrl}
+          .appName=${this.manifest.name}
+          .siteUrl=${this.siteUrl}>
+          </display-screen>
         `;
-      default:
-        return null;
+      default: return null;
     }
   }
 
