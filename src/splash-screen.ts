@@ -190,7 +190,7 @@ export class SplashScreen extends LitElement {
   @state()
   private get contrastingBackgroundColor() {
     if (!this._contrastingBackgroundColor) {
-      this._contrastingBackgroundColor = this.themeColor ? getContrastingColor(this.themeColor) : '#000';
+      this._contrastingBackgroundColor = this.backgroundColor ? getContrastingColor(this.backgroundColor) : '#000';
     }
     return this._contrastingBackgroundColor;
   }
