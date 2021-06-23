@@ -109,28 +109,26 @@ export class NameScreen extends LitElement {
 
   private fsController = new FullScreenController(this);
 
-  @property()
-  platform: Platform = 'windows';
+  @property() platform: Platform = 'windows';
 
   /**
    * Name attribute on the manifest.
    */
-  @property()
-  appName: string | undefined;
+  @property() appName?: string;
 
   /**
    * The URL to use for icon previews, or undefined if the manifest has no
    * icons.
    */
-  @property()
-  iconUrl: string | undefined;
+  @property() iconUrl?: string;
 
   render() {
     switch (this.platform) {
       case 'windows':
         return html`
           <preview-info>
-            The name of the web application is displayed on menus, system preferences, dialogs, etc.
+            The name of the web application is displayed on Window's start menu, application 
+            preferences, title bar, etc.
           </preview-info>
           <div 
           style=${styleMap({ 
@@ -149,8 +147,8 @@ export class NameScreen extends LitElement {
         `;
       case 'android':
         return html`
-           <preview-info>
-            The name of the web application is displayed on menus, system preferences, dialogs, etc.
+          <preview-info>
+            The name of the web application will be included in the app info screen on Android.
           </preview-info>
           <div 
           style=${styleMap({ 
@@ -168,7 +166,7 @@ export class NameScreen extends LitElement {
       case 'iOS':
         return html`
           <preview-info>
-            The name of the web application is displayed on menus, system preferences, dialogs, etc.
+            On iOS, the name of the web application will be used on settings.
           </preview-info>
           <div 
           style=${styleMap({ 

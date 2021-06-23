@@ -166,20 +166,17 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The website's URL.
    */
-  @state()
-  private _siteUrl: string | undefined;
+  @state() private _siteUrl?: string;
 
   /**
    * The URL used for icon previews.
    */
-  @state()
-  private _iconUrl: string | undefined;
+  @state() private _iconUrl?: string;
 
   /**
    * The kind of preview currently shown.
    */
-  @property({ type: Number })
-  stage: PreviewStage = PreviewStage.Install;
+  @property({ type: Number }) stage: PreviewStage = PreviewStage.Display;
 
   /**
    * The input web manifest.
@@ -199,14 +196,12 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The url where the manifest resides.
    */
-  @property()
-  manifestUrl = '';
+  @property() manifestUrl = '';
 
   /**
    * The currently selected platform.
    */
-  @property()
-  platform: Platform = 'iOS';
+  @property() platform: Platform = 'iOS';
 
   /**
    * @returns The site's URL, assuming it can be derived from the manifest's URL.

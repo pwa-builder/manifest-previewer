@@ -155,26 +155,22 @@ export class ShortcutsScreen extends LitElement {
 
   private fsController = new FullScreenController(this);
 
-  @property()
-  platform: Platform = 'windows';
+  @property() platform: Platform = 'windows';
 
   /**
    * The url where the manifest resides.
    */
-  @property()
-  manifestUrl = '';
+  @property() manifestUrl = '';
 
   /**
    * The shortcuts attribute on the manifest
    */
-  @property({ type: Array })
-  shortcuts: Shortcut[] | undefined;
+  @property({ type: Array }) shortcuts?: Shortcut[];
 
   /**
    * The application's icon.
    */
-  @property()
-  iconUrl: string | undefined;
+  @property() iconUrl?: string;
 
   /**
    * @param iconSet - The icons property of the shortcut
@@ -191,11 +187,11 @@ export class ShortcutsScreen extends LitElement {
     switch(this.platform) {
       case 'windows':
       case 'android':
+        const previewInfo = this.platform === 'windows' ? 
+          "This attribute (A.K.A. jump list) assembles a context menu that is shows when a user right-clicks on the app's icon on the taskbar." :
+          "This attribute (A.K.A. jump list) assembles a context menu that is shows when a user long-presses the app's icon on the home screen.";
         return html`
-          <preview-info>
-            This attribute defines an array of shortcuts/links to key tasks or pages 
-            within a web app, assembling a context menu when a user interacts with the app's icon.
-          </preview-info>
+          <preview-info>${previewInfo}</preview-info>
           <div 
           style=${styleMap({ 
             transform: `scale(${this.fsController.isInFullScreen ? 2.5 : 1})`,
@@ -227,7 +223,7 @@ export class ShortcutsScreen extends LitElement {
       case 'iOS':
         return html`
           <preview-info>
-            This attribute defines an array of shortcuts/links to key tasks or pages 
+            This attribute (A.K.A. jump list) defines a list of shortcuts/links to key tasks or pages 
             within a web app, assembling a context menu when a user interacts with the app's icon.
           </preview-info>
           <div class="ios-message">

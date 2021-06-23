@@ -1,5 +1,5 @@
 /**
- * Possible stages of the preview component
+ * Possible stages of the preview component.
  */
 export enum PreviewStage {
   Install,
@@ -12,7 +12,7 @@ export enum PreviewStage {
 }
 
 /**
- * Supported platforms
+ * Supported platforms.
  */
 export type Platform = 'windows' | 'android' | 'iOS';
 
@@ -37,7 +37,7 @@ export type Shortcut = {
 export type Display = 'fullscreen' | 'standalone' | 'minimal-ui' | 'browser';
 
 /**
- * Web app manifest
+ * Web app manifest.
  */
 export interface Manifest {
   name: string;

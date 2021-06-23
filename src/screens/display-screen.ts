@@ -20,6 +20,10 @@ export class DisplayScreen extends LitElement {
       width: fit-content;
     }
 
+    .container.android {
+      margin-top: 20px;
+    }
+
     .android .phone {
       position: absolute;
       top: 0;
@@ -196,50 +200,42 @@ export class DisplayScreen extends LitElement {
 
   private fsController = new FullScreenController(this);
 
-  @property()
-  platform: Platform = 'windows';
+  @property() platform: Platform = 'windows';
 
   /**
    * Value of the display property on the manifest
    */
-  @property()
-  display: Display | undefined;
+  @property() display?: Display;
 
   /**
    * Theme color property on the manifest.
    */
-  @property()
-  themeColor: string | undefined;
+  @property() themeColor?: string;
 
   /**
    * Background color property on the manifest.
    */
-  @property()
-  backgroundColor: string | undefined;
+  @property() backgroundColor?: string;
 
   /**
    * The splash screen's icon.
    */
-  @property()
-  iconUrl: string | undefined;
+  @property() iconUrl?: string;
 
   /**
    * Name attribute on the manifest.
    */
-  @property()
-  appName: string | undefined;
+  @property() appName?: string;
 
   /**
    * The app's URL.
    */
-  @property()
-  siteUrl = '';
+  @property() siteUrl = '';
 
   /**
    * The color to use on top of the theme color, such that the text is visible.
    */
-  @state()
-  private _contrastingThemeColor = '';
+  @state() private _contrastingThemeColor = '';
  
   @state()
   private get contrastingThemeColor() {
@@ -337,9 +333,8 @@ export class DisplayScreen extends LitElement {
       case 'android':
         return html`
           <preview-info>
-            The display mode changes how much of the browser's UI is shown to the user. It can 
-            range from browser (the full browser window is shown) to fullscreen (the app is 
-            full-screened).
+            The display mode changes how much of the browser's UI (like the status bar and
+            navigation buttons) is shown to the user. 
           </preview-info>
           <div
           style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.6 : 1})` })} 

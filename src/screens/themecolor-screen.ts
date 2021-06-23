@@ -117,8 +117,8 @@ export class ThemecolorScreen extends LitElement {
       position: absolute;
       top: 76px;
       height: 18px;
-      left: 19px;
-      width: 211.5px;
+      left: 19.5px;
+      width: 211px;
     }
 
     .ios .status-bar img {
@@ -155,32 +155,27 @@ export class ThemecolorScreen extends LitElement {
 
   private fsController = new FullScreenController(this);
 
-  @property()
-  platform: Platform = 'windows';
+  @property() platform: Platform = 'windows';
 
   /**
    * Theme color attribute on the manifest.
    */
-  @property()
-  themeColor: string | undefined;
+  @property() themeColor?: string;
 
   /**
    * Name attribute on the manifest.
    */
-  @property()
-  appName: string | undefined;
+  @property() appName?: string;
 
   /**
    * The icon to use for Android's task switcher.
    */
-  @property()
-  iconUrl: string | undefined;
+  @property() iconUrl?: string;
 
   /**
    * The color to use on top of the theme color, such that the text is visible.
    */
-  @state()
-  private _contrastingColor = '';
+  @state() private _contrastingColor = '';
 
   @state()
   private get contrastingColor() {
@@ -195,8 +190,8 @@ export class ThemecolorScreen extends LitElement {
       case 'windows':
         return html`
           <preview-info>
-            The theme color defines the default color theme for the application, and affects
-            how the site is displayed.
+            The theme color defines the default color theme for the application, and is used 
+            for the PWA's title bar.
           </preview-info>
           <div 
           style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 3 : 1})` })} 
@@ -247,8 +242,8 @@ export class ThemecolorScreen extends LitElement {
       case 'iOS':
         return html`
           <preview-info>
-            The theme color defines the default color theme for the application, and affects
-            how the site is displayed.
+            The theme color defines the default color theme for the PWA, and defines the 
+            background color of the status bar when using the application.
           </preview-info>
           <div 
           style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 2.2 : 1})` })} 

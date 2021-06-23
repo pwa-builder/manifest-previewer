@@ -155,38 +155,32 @@ export class SplashScreen extends LitElement {
 
   private fsController = new FullScreenController(this);
 
-  @property()
-  platform: Platform = 'windows';
+  @property() platform: Platform = 'windows';
 
   /**
    * Background color attribute on the manifest.
    */
-  @property()
-  backgroundColor: string | undefined;
+  @property() backgroundColor?: string;
 
   /**
    * Theme color attribute on the manifest.
    */
-  @property()
-  themeColor: string | undefined;
+  @property() themeColor?: string;
 
   /**
    * The splash screen's icon.
    */
-  @property()
-  iconUrl: string | undefined;
+  @property() iconUrl?: string;
 
   /**
    * Name attribute on the manifest.
    */
-  @property()
-  appName: string | undefined;
+  @property() appName?: string;
 
   /**
    * The color to use on top of the background color, such that the text is visible.
    */
-  @state()
-  private _contrastingBackgroundColor = '';
+  @state() private _contrastingBackgroundColor = '';
   
   @state()
   private get contrastingBackgroundColor() {
@@ -201,8 +195,8 @@ export class SplashScreen extends LitElement {
       case 'windows':
         return html`
           <preview-info>
-            In some browsers, a splash screen is shown when the PWA is launched and while 
-            its content is loading.
+            While the PWA is loading, Windows uses the background color, name and 
+            icon for displaying the splash screen.
           </preview-info>
           <div 
           style=${styleMap({ 
@@ -231,8 +225,8 @@ export class SplashScreen extends LitElement {
       case 'android':
         return html`
         <preview-info>
-          In some browsers, a splash screen is shown when the PWA is launched and while 
-          its content is loading.
+          When launching the PWA, Android uses the background color, theme color, name and 
+          icon for displaying the splash screen.
         </preview-info>
         <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.7 : 1})` })} class="container android">
           <img class="phone" alt="Application mobile preview" src="../assets/images/android/background.svg" />
@@ -254,8 +248,8 @@ export class SplashScreen extends LitElement {
       case 'iOS':
         return html`
           <preview-info>
-            In some browsers, a splash screen is shown when the PWA is launched and while 
-            its content is loading.
+            When launching the PWA, iOS uses the background color, name and icon for displaying
+            the splash screen while the content loads.
           </preview-info>
           <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.5 : 1})` })} class="container ios"> 
             <img class="phone" alt="Iphone" src="../assets/images/ios/iphone.svg" />

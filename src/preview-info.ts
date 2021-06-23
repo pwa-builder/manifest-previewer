@@ -1,6 +1,9 @@
 import { LitElement, css, html} from 'lit';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * Brief description of the content being previewed.
+ */
 @customElement('preview-info')
 export class PreviewInfo extends LitElement {
   static styles = css`

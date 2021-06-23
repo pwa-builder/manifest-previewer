@@ -217,41 +217,36 @@ export class InstallScreen extends LitElement {
 
   private fsController = new FullScreenController(this);
 
-  @property()
-  platform: Platform = 'windows';
+  @property() platform: Platform = 'windows';
 
   /**
    * The URL to use for icon previews, or undefined if the manifest has no
    * icons.
    */
-  @property()
-  iconUrl: string | undefined;
+  @property() iconUrl?: string;
 
   /**
    * The website's URL.
    */
-  @property() 
-  siteUrl = '';
+  @property() siteUrl = '';
 
   /**
    * Name attribute on the manifest.
    */
-  @property()
-  appName: string | undefined;
+  @property() appName?: string;
 
   /**
    * Short name attribute on the manifest.
    */
-  @property()
-  appShortName: string | undefined;
+  @property() appShortName?: string;
 
   render() {
     switch (this.platform) {
       case 'windows':
         return html`
           <preview-info>
-            The icon, app name, and website URL will be included when installing 
-            the PWA.
+            Windows includes the application's icon, name, and website URL in its
+            installation dialog.
           </preview-info>
           <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 3 : 1})` })} class="container windows">
             <div class="add-dialog">
@@ -276,8 +271,7 @@ export class InstallScreen extends LitElement {
       case 'android':
         return html`
          <preview-info>
-            The icon, app name, and website URL will be included when installing 
-            the PWA.
+            (NEW ANDROID DIALOG: PENDING)
           </preview-info>
           <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.7 : 1})` })} class="container android">
             <div class="url-bar">${this.siteUrl}</div>
@@ -306,8 +300,8 @@ export class InstallScreen extends LitElement {
       case 'iOS':
         return html`
           <preview-info>
-            The icon, app name, and website URL will be included when installing 
-            the PWA.
+            iOS uses the application's icon, name, and website URL in its
+            installation screen.
           </preview-info>
           <div 
           style=${styleMap({ 

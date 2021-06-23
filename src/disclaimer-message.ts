@@ -1,6 +1,9 @@
 import { LitElement, css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * Used when a platform doesn't support a certain feature.
+ */
 @customElement('disclaimer-message')
 export class DisclaimerMessage extends LitElement {
   static styles = css`

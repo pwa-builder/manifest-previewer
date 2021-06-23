@@ -1,5 +1,8 @@
 import { ReactiveController, ReactiveControllerHost } from 'lit';
 
+/**
+ * Used by the preview screens to style accordingly when in full screen.
+ */
 export class FullScreenController implements ReactiveController {
   private host: ReactiveControllerHost;
   isInFullScreen = false;

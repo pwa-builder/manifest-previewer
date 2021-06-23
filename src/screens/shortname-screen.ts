@@ -95,30 +95,26 @@ export class ShortnameScreen extends LitElement {
 
   private fsController = new FullScreenController(this);
 
-  @property()
-  platform: Platform = 'windows';
+  @property() platform: Platform = 'windows';
 
   /**
    * Short name attribute on the manifest.
    */
-  @property()
-  appShortName: string | undefined;
+  @property() appShortName?: string;
  
   /**
    * The URL to use for icon previews, or undefined if the manifest has no
    * icons.
    */
-  @property()
-  iconUrl: string | undefined;
+  @property() iconUrl?: string;
 
   render() {
     switch(this.platform) {
       case 'windows':
         return html`
           <preview-info>
-            The short name member is used when there is no enough space to display the 
-            entire name of the application (e.g., as a label for an icon on the phone home 
-            screen).
+            The short name member is used when there is not enough space to display the 
+            entire name of the application.
           </preview-info>
           <div class="windows-message">
             <disclaimer-message>
@@ -130,9 +126,8 @@ export class ShortnameScreen extends LitElement {
       case 'android':
         return html`
           <preview-info>
-            The short name member is used when there is no enough space to display the 
-            entire name of the application (e.g., as a label for an icon on the phone home 
-            screen).
+            On Android, the application's short name is used in the home screen as a label for 
+            the icon.
           </preview-info>
           <div 
           style=${styleMap({ 
@@ -153,9 +148,8 @@ export class ShortnameScreen extends LitElement {
       case 'iOS':
         return html`
           <preview-info>
-            The short name member is used when there is no enough space to display the 
-            entire name of the application (e.g., as a label for an icon on the phone home 
-            screen).
+            On iOS, the application's short name is used in the home screen as a label for 
+            the icon.
           </preview-info>
           <div
           style=${styleMap({ 
