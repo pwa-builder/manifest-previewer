@@ -4,7 +4,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 
 import '../preview-info.js';
 import { FullScreenController } from '../fullscreen-controller';
-import type { Platform } from '../models';
+import type { Platform, ImageResource } from '../models';
 
 @customElement('install-screen')
 export class InstallScreen extends LitElement {
@@ -16,14 +16,18 @@ export class InstallScreen extends LitElement {
     }
 
     .container.android {
-      margin-top: 12px;
+      margin-top: 20px;
+      width: 200px;
     }
 
     .android .preview-img {
       position: absolute;
-      width: 219px;
-      height: 480px;
+      width: 100%;
+      height: auto;
       top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
       margin: 0 auto;
       background: #FFF;
       box-shadow: 0px 3px 5.41317px rgba(0, 0, 0, 0.25);
@@ -33,70 +37,103 @@ export class InstallScreen extends LitElement {
     }
 
     .android .url-bar {
-      background-color: #D7D7D7;
+      background-color: rgb(215, 215, 215);
       opacity: 0.5;
-      width: fit-content;
       position: absolute;
       top: 48px;
-      left: 64px;
+      left: 58px;
       font-size: 6.5px;
-      width: 100px;
+      width: 90px;
       overflow-x: hidden;
       white-space: nowrap;
     }
 
-    .android .add-dialog {
-      width: 205px;
-      height: 108.29px;
-      background: #FFF;
-      box-shadow: 0px 3.13889px 3.13889px rgba(0, 0, 0, 0.25);
-      border-radius: 4.70833px;
-      box-sizing: border-box;
-      padding: 14px;
+    .android .dialog {
+      background-color: #FFF;
       position: absolute;
-      top: 180px;
-      left: 8px;
-    }
-
-    .android .add-dialog .dialog-title {
+      width: 100%;
+      top: 174px;
+      height: 250px;
+      border-radius: 7px 7px 0 0;
       font-family: Roboto;
-      font-weight: 400;
-      font-size: 14.125px;
-      color: rgba(0, 0, 0, 0.9);
-      margin: 0;
-    } 
-
-    .android .add-dialog .app-info {
-      margin: 14px 0 0;
-      display: flex;
-      line-height: 12px;
-      align-items: center;
+      padding: 9px;
+      box-sizing: border-box;
     }
 
-    .android .add-dialog .app-info .icon {
-      width: 24px;
-      height: 24px;
+    .android .swipe-bar {
+      background-color: rgb(215, 215, 215);
+      width: 15px;
+      height: 1px;
+      position: absolute;
+      top: 3px;
+      border-radius: 10px;
+      left: calc(50% - 7.5px);
+    }
+
+    .android .dialog-header {
+      display: flex;
+    }
+
+    .android .dialog-header img {
+      width: 18px;
+      height: 18px;
       margin-right: 8px;
     }
 
-    .android .add-dialog .app-info .app-name {
-      font-family: Roboto;
-      font-weight: 600;
-      font-size: 10.9861px;
+    .android .app-name {
+      font-size: 8px;
       margin: 0;
     }
 
-    .android .add-dialog .dialog-actions {
-      display: flex;
-      margin: 7.85px 0 0 108px;
+    .android .app-url {
+      font-size: 8px;
+      color: rgb(215, 215, 215);
+      white-space: nowrap;
+      margin: 0;
+      width: 90px;
+      overflow-x: hidden;
     }
 
-    .android .add-dialog .dialog-actions span {
-      font-family: Roboto;
-      font-weight: 500;
-      font-size: 9.41667px;
-      color: #1F7CC6;
-      margin-right: 20px;
+    .android .install-btn {
+      background-color: #4285F4;
+      color: #FFF;
+      display: flex; 
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 22px;
+      font-size: 8px;
+      border-radius: 2px;
+      margin-left: auto;
+    }
+
+    .android .divider {
+      background-color: rgb(215, 215, 215);
+      height: 1px;
+      width: 200px;
+      margin: 5px 0 10px -9px;
+    }
+
+    .android .description {
+      width: 100%;
+      margin: 0;
+      font-size: 8px;
+    }
+
+    .android .screenshots {
+      width: calc(100% - 19px);
+      display: flex;
+      height: 155px;
+      margin-top: 10px;
+      overflow-x: hidden;
+      position: absolute;
+      bottom: 8px;
+    }
+
+    .android .screenshots img {
+      width: auto;
+      height: 100%;
+      margin-right: 5%;
     }
 
     .windows .preview-img {
@@ -141,7 +178,7 @@ export class InstallScreen extends LitElement {
       font-size: 7px;
     } 
 
-    .dialog-text {
+    .windows .dialog-text {
       font-family: Roboto;
       font-weight: 400;
       font-size: 7.84722px;
@@ -231,6 +268,11 @@ export class InstallScreen extends LitElement {
   @property() siteUrl = '';
 
   /**
+   * The URL where the manifest resides.
+   */
+  @property() manifestUrl = '';
+
+  /**
    * Name attribute on the manifest.
    */
   @property() appName?: string;
@@ -239,6 +281,26 @@ export class InstallScreen extends LitElement {
    * Short name attribute on the manifest.
    */
   @property() appShortName?: string;
+
+  /**
+   * Description attribute on the manifest.
+   */
+  @property() description?: string;
+
+  /**
+   * Screenshots attribute on the manifest.
+   */
+  @property({ type: Array }) screenshots?: ImageResource[];
+
+  /**
+   * @param src - The src property of the screenshot
+   * @returns The icon URL for the respective screenshot
+   */
+  private getImageUrl(src: string) {
+    // Use first icon by default
+    const absoluteUrl = new URL(src, this.manifestUrl).href;
+    return `https://pwabuilder-safe-url.azurewebsites.net/api/getsafeurl?url=${absoluteUrl}`;
+  }
 
   render() {
     switch (this.platform) {
@@ -270,25 +332,28 @@ export class InstallScreen extends LitElement {
         `;
       case 'android':
         return html`
-         <preview-info>
-            (NEW ANDROID DIALOG: PENDING)
+          <preview-info>
+            When installing a PWA on Android, the description, name, icon and screenshots are used for
+            giving a preview of the application.
           </preview-info>
           <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.7 : 1})` })} class="container android">
             <div class="url-bar">${this.siteUrl}</div>
-            <div class="add-dialog">
-              <p class="dialog-title">Add to Home screen</p>
-              <div class="app-info">
+            <div class="dialog">
+              <div class="swipe-bar"></div>
+              <div class="dialog-header">
                 ${this.iconUrl ? 
-                  html`<img class="icon" alt="App's Android icon" src=${this.iconUrl} />` : 
-                  html`<div class="icon" style=${styleMap({ backgroundColor: '#C4C4C4' })}></div>`}
-                <div>
-                  <p class="app-name">${this.appShortName || this.appName || 'PWA App'}</p>
-                  <p class="dialog-text">${this.siteUrl}</p>
+                html`<img alt="App icon" src=${this.iconUrl} />` : null}
+                <div class="header-text">
+                  <p class="app-name">${this.appName}</p>
+                  <p class="app-url">${this.siteUrl}</p>
                 </div>
+                <div class="install-btn">Install</div>
               </div>
-              <div class="dialog-actions">
-                <span>Cancel</span>
-                <span>Add</span>
+              <div class="divider"></div>
+              <p class="description">${this.description}</p>
+              <div class="screenshots">
+                ${this.screenshots?.slice(0, 2).map((shot) => 
+                  html`<img alt="Preview" src=${this.getImageUrl(shot.src)} />`)}
               </div>
             </div>
             <img 

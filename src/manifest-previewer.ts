@@ -176,7 +176,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The kind of preview currently shown.
    */
-  @property({ type: Number }) stage: PreviewStage = PreviewStage.Display;
+  @property({ type: Number }) stage: PreviewStage = PreviewStage.Install;
 
   /**
    * The input web manifest.
@@ -201,7 +201,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The currently selected platform.
    */
-  @property() platform: Platform = 'iOS';
+  @property() platform: Platform = 'android';
 
   /**
    * @returns The site's URL, assuming it can be derived from the manifest's URL.
@@ -278,7 +278,10 @@ export class ManifestPreviewer extends LitElement {
           .iconUrl=${this.iconUrl}
           .siteUrl=${this.siteUrl}
           .appName=${this.manifest.name}
-          .appShortName=${this.manifest.short_name}>
+          .appShortName=${this.manifest.short_name}
+          .description=${this.manifest.description}
+          .screenshots=${this.manifest.screenshots}
+          .manifestUrl=${this.manifestUrl}>
           </install-screen>
         `;
       case PreviewStage.Splashscreen:

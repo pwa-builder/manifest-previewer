@@ -158,7 +158,7 @@ export class ShortcutsScreen extends LitElement {
   @property() platform: Platform = 'windows';
 
   /**
-   * The url where the manifest resides.
+   * The URL where the manifest resides.
    */
   @property() manifestUrl = '';
 
