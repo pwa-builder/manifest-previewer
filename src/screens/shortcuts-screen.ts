@@ -2,8 +2,10 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { FullScreenController } from './fullscreen-controller';
-import type { Shortcut, ImageResource, Platform } from './models';
+import '../preview-info.js';
+import '../disclaimer-message.js';
+import { FullScreenController } from '../fullscreen-controller';
+import type { Shortcut, ImageResource, Platform } from '../models';
 
 @customElement('shortcuts-screen')
 export class ShortcutsScreen extends LitElement {
@@ -190,6 +192,10 @@ export class ShortcutsScreen extends LitElement {
       case 'windows':
       case 'android':
         return html`
+          <preview-info>
+            This attribute defines an array of shortcuts/links to key tasks or pages 
+            within a web app, assembling a context menu when a user interacts with the app's icon.
+          </preview-info>
           <div 
           style=${styleMap({ 
             transform: `scale(${this.fsController.isInFullScreen ? 2.5 : 1})`,
@@ -220,6 +226,10 @@ export class ShortcutsScreen extends LitElement {
         `;
       case 'iOS':
         return html`
+          <preview-info>
+            This attribute defines an array of shortcuts/links to key tasks or pages 
+            within a web app, assembling a context menu when a user interacts with the app's icon.
+          </preview-info>
           <div class="ios-message">
             <disclaimer-message>
               iOS does not support the shortcuts feature.

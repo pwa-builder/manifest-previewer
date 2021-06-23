@@ -2,8 +2,9 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { FullScreenController } from './fullscreen-controller';
-import type { Platform } from './models';
+import '../preview-info.js';
+import { FullScreenController } from '../fullscreen-controller';
+import type { Platform } from '../models';
 
 @customElement('name-screen')
 export class NameScreen extends LitElement {
@@ -128,6 +129,9 @@ export class NameScreen extends LitElement {
     switch (this.platform) {
       case 'windows':
         return html`
+          <preview-info>
+            The name of the web application is displayed on menus, system preferences, dialogs, etc.
+          </preview-info>
           <div 
           style=${styleMap({ 
             transform: `scale(${this.fsController.isInFullScreen ? 2.2 : 1})`,
@@ -145,6 +149,9 @@ export class NameScreen extends LitElement {
         `;
       case 'android':
         return html`
+           <preview-info>
+            The name of the web application is displayed on menus, system preferences, dialogs, etc.
+          </preview-info>
           <div 
           style=${styleMap({ 
             transform: `scale(${this.fsController.isInFullScreen ? 2.2 : 1})`,
@@ -160,6 +167,9 @@ export class NameScreen extends LitElement {
         `;
       case 'iOS':
         return html`
+          <preview-info>
+            The name of the web application is displayed on menus, system preferences, dialogs, etc.
+          </preview-info>
           <div 
           style=${styleMap({ 
             transform: `scale(${this.fsController.isInFullScreen ? 2.2 : 1})`,

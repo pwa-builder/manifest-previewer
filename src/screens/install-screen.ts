@@ -2,8 +2,9 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { FullScreenController } from './fullscreen-controller';
-import type { Platform } from './models';
+import '../preview-info.js';
+import { FullScreenController } from '../fullscreen-controller';
+import type { Platform } from '../models';
 
 @customElement('install-screen')
 export class InstallScreen extends LitElement {
@@ -248,6 +249,10 @@ export class InstallScreen extends LitElement {
     switch (this.platform) {
       case 'windows':
         return html`
+          <preview-info>
+            The icon, app name, and website URL will be included when installing 
+            the PWA.
+          </preview-info>
           <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 3 : 1})` })} class="container windows">
             <div class="add-dialog">
               <div class="header">
@@ -270,6 +275,10 @@ export class InstallScreen extends LitElement {
         `;
       case 'android':
         return html`
+         <preview-info>
+            The icon, app name, and website URL will be included when installing 
+            the PWA.
+          </preview-info>
           <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.7 : 1})` })} class="container android">
             <div class="url-bar">${this.siteUrl}</div>
             <div class="add-dialog">
@@ -296,6 +305,10 @@ export class InstallScreen extends LitElement {
         `;
       case 'iOS':
         return html`
+          <preview-info>
+            The icon, app name, and website URL will be included when installing 
+            the PWA.
+          </preview-info>
           <div 
           style=${styleMap({ 
             transform: `scale(${this.fsController.isInFullScreen ? 1.7 : 1})`,

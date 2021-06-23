@@ -3,13 +3,13 @@ import { customElement, state, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import './install-screen.js';
-import './splash-screen.js';
-import './name-screen.js';
-import './shortname-screen.js';
-import './themecolor-screen.js';
-import './shortcuts-screen.js';
-import './display-screen.js';
+import './screens/install-screen.js';
+import './screens/splash-screen.js';
+import './screens/name-screen.js';
+import './screens/shortname-screen.js';
+import './screens/themecolor-screen.js';
+import './screens/shortcuts-screen.js';
+import './screens/display-screen.js';
 import { Manifest, PreviewStage, Platform } from './models';
 
 @customElement('manifest-previewer')
@@ -95,16 +95,6 @@ export class ManifestPreviewer extends LitElement {
       font-size: 14px;
     }
 
-    .preview-info {
-      margin: 0 auto;
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 16px;
-      text-align: center;
-      color: var(--secondary-font-color);
-      width: 280px;
-    }
-
     .preview-text {
       position: absolute;
       bottom: 25px;
@@ -117,12 +107,23 @@ export class ManifestPreviewer extends LitElement {
       width: 110px;
     }
 
-    img.nav-arrow {
+    img.nav-arrow-right {
       position: absolute;
       width: 19px;
       height: 38px;
       top: 377px;
       right: 16px;
+      cursor: pointer;
+    }
+    
+    img.nav-arrow-left {
+      position: absolute;
+      width: 19px;
+      height: 38px;
+      top: 377px;
+      left: 16px;
+      transform: rotate(180deg);
+      cursor: pointer;
     }
 
     /* The card is hidden for smaller screens */
@@ -152,8 +153,12 @@ export class ManifestPreviewer extends LitElement {
         width: 479.03px;
       }
 
-      img.nav-arrow {
-        right: 50px;
+      img.nav-arrow-right {
+        right: 30px;
+      }
+
+      img.nav-arrow-left {
+        left: 30px;
       }
     }
   `;
@@ -174,7 +179,7 @@ export class ManifestPreviewer extends LitElement {
    * The kind of preview currently shown.
    */
   @property({ type: Number })
-  stage: PreviewStage = PreviewStage.Splashscreen;
+  stage: PreviewStage = PreviewStage.Install;
 
   /**
    * The input web manifest.
@@ -253,6 +258,14 @@ export class ManifestPreviewer extends LitElement {
   }
 
   /**
+   * Navigates to the previous preview screen.
+   */
+  private handleNavigateLeft() {
+    const numStages = Object.keys(PreviewStage).length / 2;
+    this.stage = (this.stage + numStages - 1) % numStages;
+  }
+
+  /**
    * Shows the main preview content in full screen.
    */
   private handleToggleEnlarge() {
@@ -264,10 +277,6 @@ export class ManifestPreviewer extends LitElement {
       case PreviewStage.Install:
         return html`
           <p class="preview-title">Installation dialog</p>
-          <p class="preview-info">
-            The icon, app name, and website URL will be included when installing 
-            the PWA.
-          </p>
           <install-screen
           id="fullscreen-content"
           .platform=${this.platform}
@@ -280,10 +289,6 @@ export class ManifestPreviewer extends LitElement {
       case PreviewStage.Splashscreen:
         return html`
           <p class="preview-title">Splash screen</p>
-          <p class="preview-info">
-            In some browsers, a splash screen is shown when the PWA is launched and while 
-            its content is loading.
-          </p>
           <splash-screen
           id="fullscreen-content"
           .platform=${this.platform}
@@ -296,9 +301,6 @@ export class ManifestPreviewer extends LitElement {
       case PreviewStage.Name:
         return html`
           <p class="preview-title">The name attribute</p>
-          <p class="preview-info">
-            The name of the web application is displayed on menus, system preferences, dialogs, etc.
-          </p>
           <name-screen
           id="fullscreen-content"
           .platform=${this.platform}
@@ -309,11 +311,6 @@ export class ManifestPreviewer extends LitElement {
       case PreviewStage.Shortname:
         return html`
           <p class="preview-title">The short name attribute</p>
-          <p class="preview-info">
-            The short name member is used when there is no enough space to display the 
-            entire name of the application (e.g., as a label for an icon on the phone home 
-            screen).
-          </p>
           <shortname-screen
           id="fullscreen-content"
           .platform=${this.platform}
@@ -324,10 +321,6 @@ export class ManifestPreviewer extends LitElement {
       case PreviewStage.Themecolor:
         return html`
           <p class="preview-title">The theme color attribute</p>
-          <p class="preview-info">
-            The theme color defines the default color theme for the application, and affects
-            how the site is displayed.
-          </p>
           <themecolor-screen
           id="fullscreen-content"
           .platform=${this.platform}
@@ -339,10 +332,6 @@ export class ManifestPreviewer extends LitElement {
       case PreviewStage.Shortcuts:
         return html`
           <p class="preview-title">The shortcuts attribute</p>
-          <p class="preview-info">
-            This attribute defines an array of shortcuts/links to key tasks or pages 
-            within a web app, assembling a context menu when a user interacts with the app's icon.
-          </p>
           <shortcuts-screen
           id="fullscreen-content"
           .platform=${this.platform}
@@ -354,11 +343,6 @@ export class ManifestPreviewer extends LitElement {
       case PreviewStage.Display:
         return html`
           <p class="preview-title">The display attribute</p>
-          <p class="preview-info">
-            The display mode changes how much of the browser's UI is shown to the user. It can 
-            range from browser (the full browser window is shown) to fullscreen (the app is 
-            full-screened).
-          </p>
           <display-screen
           id="fullscreen-content"
           .platform=${this.platform}
@@ -413,8 +397,13 @@ export class ManifestPreviewer extends LitElement {
           <img 
           src="../assets/images/nav_arrow.svg" 
           alt="Navigate right" 
-          class="nav-arrow"
+          class="nav-arrow-right"
           @click=${this.handleNavigateRight} />
+          <img 
+          src="../assets/images/nav_arrow.svg" 
+          alt="Navigate left" 
+          class="nav-arrow-left"
+          @click=${this.handleNavigateLeft} />
           <p class="preview-text" style=${styleMap({ cursor: 'pointer' })} @click=${this.handleToggleEnlarge}>
             Click to enlarge Preview
           </p>

@@ -3,9 +3,11 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { FullScreenController } from './fullscreen-controller';
-import { getContrastingColor } from './utils';
-import { Platform, Display } from './models';
+import { FullScreenController } from '../fullscreen-controller';
+import { getContrastingColor } from '../utils';
+import { Platform, Display } from '../models';
+import '../disclaimer-message.js';
+import '../preview-info.js';
 
 @customElement('display-screen')
 export class DisplayScreen extends LitElement {
@@ -318,6 +320,11 @@ export class DisplayScreen extends LitElement {
     switch(this.platform) {
       case 'windows':
         return html`
+          <preview-info>
+            The display mode changes how much of the browser's UI is shown to the user. It can 
+            range from browser (the full browser window is shown) to fullscreen (the app is 
+            full-screened).
+          </preview-info>
           <div 
           style=${styleMap({ 
             transform: `scale(${this.fsController.isInFullScreen ? 2.5 : 1})`,
@@ -329,6 +336,11 @@ export class DisplayScreen extends LitElement {
         `;
       case 'android':
         return html`
+          <preview-info>
+            The display mode changes how much of the browser's UI is shown to the user. It can 
+            range from browser (the full browser window is shown) to fullscreen (the app is 
+            full-screened).
+          </preview-info>
           <div
           style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.6 : 1})` })} 
           class="container android">
@@ -359,6 +371,11 @@ export class DisplayScreen extends LitElement {
         `;
       case 'iOS':
         return html`
+          <preview-info>
+            The display mode changes how much of the browser's UI is shown to the user. It can 
+            range from browser (the full browser window is shown) to fullscreen (the app is 
+            full-screened).
+          </preview-info>
           <div class="ios-message">
               <disclaimer-message>
                 iOS does not support different display modes.

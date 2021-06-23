@@ -2,9 +2,10 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { FullScreenController } from './fullscreen-controller';
-import { getContrastingColor } from './utils';
-import type { Platform } from './models';
+import '../preview-info.js';
+import { FullScreenController } from '../fullscreen-controller';
+import { getContrastingColor } from '../utils';
+import type { Platform } from '../models';
 
 @customElement('splash-screen')
 export class SplashScreen extends LitElement {
@@ -199,6 +200,10 @@ export class SplashScreen extends LitElement {
     switch (this.platform) {
       case 'windows':
         return html`
+          <preview-info>
+            In some browsers, a splash screen is shown when the PWA is launched and while 
+            its content is loading.
+          </preview-info>
           <div 
           style=${styleMap({ 
             transform: `scale(${this.fsController.isInFullScreen ? 3 : 1})`,
@@ -225,6 +230,10 @@ export class SplashScreen extends LitElement {
         `;
       case 'android':
         return html`
+        <preview-info>
+          In some browsers, a splash screen is shown when the PWA is launched and while 
+          its content is loading.
+        </preview-info>
         <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.7 : 1})` })} class="container android">
           <img class="phone" alt="Application mobile preview" src="../assets/images/android/background.svg" />
           <div class="screen" style=${styleMap({ backgroundColor: this.backgroundColor || '#FFF' })}>
@@ -244,6 +253,10 @@ export class SplashScreen extends LitElement {
         `;
       case 'iOS':
         return html`
+          <preview-info>
+            In some browsers, a splash screen is shown when the PWA is launched and while 
+            its content is loading.
+          </preview-info>
           <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.5 : 1})` })} class="container ios"> 
             <img class="phone" alt="Iphone" src="../assets/images/ios/iphone.svg" />
             <div class="screen" style=${styleMap({ backgroundColor: this.backgroundColor || '#FFF' })}>

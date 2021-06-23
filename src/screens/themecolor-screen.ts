@@ -2,9 +2,10 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { FullScreenController } from './fullscreen-controller';
-import { getContrastingColor } from './utils';
-import type { Platform } from './models';
+import '../preview-info.js';
+import { FullScreenController } from '../fullscreen-controller';
+import { getContrastingColor } from '../utils';
+import type { Platform } from '../models';
 
 @customElement('themecolor-screen')
 export class ThemecolorScreen extends LitElement {
@@ -193,6 +194,10 @@ export class ThemecolorScreen extends LitElement {
     switch(this.platform) {
       case 'windows':
         return html`
+          <preview-info>
+            The theme color defines the default color theme for the application, and affects
+            how the site is displayed.
+          </preview-info>
           <div 
           style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 3 : 1})` })} 
           class="container windows">
@@ -217,6 +222,10 @@ export class ThemecolorScreen extends LitElement {
         `;
       case 'android':
         return html`
+          <preview-info>
+            The theme color defines the default color theme for the application, and affects
+            how the site is displayed.
+          </preview-info>
           <div 
           style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 3 : 1})` })} 
           class="container android">
@@ -237,6 +246,10 @@ export class ThemecolorScreen extends LitElement {
         `;
       case 'iOS':
         return html`
+          <preview-info>
+            The theme color defines the default color theme for the application, and affects
+            how the site is displayed.
+          </preview-info>
           <div 
           style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 2.2 : 1})` })} 
           class="container ios">

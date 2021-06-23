@@ -2,9 +2,10 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { FullScreenController } from './fullscreen-controller';
-import './disclaimer-message.js';
-import type { Platform } from './models';
+import '../preview-info.js';
+import '../disclaimer-message.js';
+import { FullScreenController } from '../fullscreen-controller';
+import type { Platform } from '../models';
 
 @customElement('shortname-screen')
 export class ShortnameScreen extends LitElement {
@@ -114,6 +115,11 @@ export class ShortnameScreen extends LitElement {
     switch(this.platform) {
       case 'windows':
         return html`
+          <preview-info>
+            The short name member is used when there is no enough space to display the 
+            entire name of the application (e.g., as a label for an icon on the phone home 
+            screen).
+          </preview-info>
           <div class="windows-message">
             <disclaimer-message>
               Windows always uses the application's name and ignores
@@ -123,6 +129,11 @@ export class ShortnameScreen extends LitElement {
         `;
       case 'android':
         return html`
+          <preview-info>
+            The short name member is used when there is no enough space to display the 
+            entire name of the application (e.g., as a label for an icon on the phone home 
+            screen).
+          </preview-info>
           <div 
           style=${styleMap({ 
             transform: `scale(${this.fsController.isInFullScreen ? 2.5 : 1})`,
@@ -141,6 +152,11 @@ export class ShortnameScreen extends LitElement {
         `;
       case 'iOS':
         return html`
+          <preview-info>
+            The short name member is used when there is no enough space to display the 
+            entire name of the application (e.g., as a label for an icon on the phone home 
+            screen).
+          </preview-info>
           <div
           style=${styleMap({ 
             transform: `scale(${this.fsController.isInFullScreen ? 2.5 : 1})`,
