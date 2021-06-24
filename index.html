@@ -32,31 +32,35 @@
     manifest='{
         "dir": "ltr",
         "lang": "EN",
-        "name": "Jeffs app",
-        "display": "fullscreen",
+        "name": "PWA App",
+        "display": "standalone",
         "start_url": "/",
         "short_name": "PWABuilder",
-        "theme_color": "yellow",
+        "theme_color": "#EBD0FE",
         "description": "All the tools you need to build and deploy your Progressive Web Apps.",
         "orientation": "any",
-        "background_color": "magenta",
+        "background_color": "white",
         "related_applications": [],
         "prefer_related_applications": false,
         "shortcuts": [
           {
-            "name": "Something cool",
+            "name": "Go to home screen",
             "url": "/",
             "icons": [
               {
-                "src": "/assets/icons/icon_120.png",
-                "sizes": "120x120",
+                "src": "https://img.icons8.com/fluent-systems-regular/48/000000/home.png",
+                "sizes": "48x48",
                 "type": "image/png"
               }
             ]
           },
           {
-            "name": "Something else",
-            "url": "/"
+            "name": "Go to notifications",
+            "icons": [
+            {
+              "src": "https://img.icons8.com/fluent-systems-regular/48/000000/appointment-reminders--v1.png"
+            }
+            ]
           }
         ],
         "icons": [

@@ -87,7 +87,7 @@ export class ShortcutsScreen extends LitElement {
       padding: 0;
       margin: 0;
       color: #000;
-      font-size: 14px;
+      font-size: 12px;
     }
 
     .android .shortcut-list li {
@@ -95,6 +95,7 @@ export class ShortcutsScreen extends LitElement {
       margin: 0 0 10px;
       display: flex;
       align-items: center;
+      height: 25px;
     }
 
     .android .shortcut-list .icon {

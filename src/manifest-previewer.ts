@@ -176,7 +176,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The kind of preview currently shown.
    */
-  @property({ type: Number }) stage: PreviewStage = PreviewStage.Install;
+  @property({ type: Number }) stage: PreviewStage = PreviewStage.Shortcuts;
 
   /**
    * The input web manifest.
