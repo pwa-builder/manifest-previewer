@@ -44,6 +44,7 @@ export class DisplayScreen extends LitElement {
       position: absolute;
       top: 16px;
       z-index: 1;
+      background-color: var(--pwa-theme-color);
     }
 
     .android .status-bar img {
@@ -60,6 +61,7 @@ export class DisplayScreen extends LitElement {
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      background-color: var(--pwa-background-color);
     }
 
     .android .app-background-partial {
@@ -71,6 +73,7 @@ export class DisplayScreen extends LitElement {
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      background-color: var(--pwa-background-color);
     }
 
     .android .app-icon {
@@ -110,6 +113,7 @@ export class DisplayScreen extends LitElement {
       align-items: center;
       flex-direction: column;
       box-shadow: 0px 3px 5.41317px rgba(0, 0, 0, 0.25);
+      background-color: var(--pwa-background-color);
     }
 
     .windows .app-background.browser {
@@ -155,6 +159,7 @@ export class DisplayScreen extends LitElement {
       z-index: 1;
       display: flex;
       justify-content: space-between;
+      background-color: var(--pwa-theme-color);
     }
 
     .windows .nav-actions {
@@ -235,21 +240,17 @@ export class DisplayScreen extends LitElement {
   /**
    * The color to use on top of the theme color, such that the text is visible.
    */
-  @state() private _contrastingThemeColor = '';
- 
-  @state()
-  private get contrastingThemeColor() {
-    if (!this._contrastingThemeColor) {
-      this._contrastingThemeColor = this.themeColor ? getContrastingColor(this.themeColor) : '#000';
-    }
-    return this._contrastingThemeColor;
+  @state() private contrastingThemeColor = '';
+
+  firstUpdated() {
+    this.contrastingThemeColor = this.themeColor ? getContrastingColor(this.themeColor) : '#000';
   }
 
   private screenContent() {
     const appSplash = html`
       <div
       class="app-background ${this.display}"
-      style=${styleMap({ backgroundColor: this.backgroundColor || '#CCF5FF' })}>
+      style=${styleMap({ '--pwa-background-color': this.backgroundColor })}>
         ${this.iconUrl ?
           html`<img class="app-icon" alt="App icon" src=${this.iconUrl} />` : null}
         <h4 
@@ -276,7 +277,7 @@ export class DisplayScreen extends LitElement {
         return html`
           <div 
           class="title-bar"
-          style=${styleMap({ backgroundColor: this.themeColor || '#E0E0E0' })}>
+          style=${styleMap({ '--pwa-background-color': this.themeColor })}>
             <div class="nav-actions">
               <img alt="Go back" src="../assets/images/windows/backarrow.svg" />
               <img alt="Refresh page" src="../assets/images/windows/refresharrow.svg" />
@@ -296,7 +297,7 @@ export class DisplayScreen extends LitElement {
         return html`
           <div 
           class="title-bar"
-          style=${styleMap({ backgroundColor: this.themeColor || '#E0E0E0' })}>
+          style=${styleMap({ '--pwa-background-color': this.themeColor })}>
             <span class="app-name">${this.appName}</span>
             <div class="nav-actions">
               <div class="collapse" style=${styleMap({ backgroundColor: this.contrastingThemeColor })}></div>
@@ -341,7 +342,7 @@ export class DisplayScreen extends LitElement {
           class="container android">
             ${this.display !== 'fullscreen' ? 
             html`
-              <div class="status-bar" style=${styleMap({ backgroundColor: this.themeColor || '#E0E0E0' })}>
+              <div class="status-bar" style=${styleMap({ '--pwa-background-color': this.themeColor })}>
                 <img alt="Status bar" src="../assets/images/android/statusbar-icons.png" />
               </div>
             ` : null}
@@ -352,7 +353,7 @@ export class DisplayScreen extends LitElement {
               'app-background-full': this.display === 'fullscreen' || this.display === 'standalone',
               'app-background-partial': this.display === 'minimal-ui' || this.display === 'browser'
             })} 
-            style=${styleMap({ backgroundColor: this.backgroundColor || '#FFF' })}>
+            style=${styleMap({ '--pwa-background-color': this.backgroundColor })}>
               ${this.iconUrl ?
                 html`<img class="app-icon" alt="App icon" src=${this.iconUrl} />` : null}
               <h4 

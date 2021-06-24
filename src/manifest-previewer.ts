@@ -166,17 +166,17 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The website's URL.
    */
-  @state() private _siteUrl?: string;
+  @state() private siteUrl = '';
 
   /**
    * The URL used for icon previews.
    */
-  @state() private _iconUrl?: string;
+  @state() private iconUrl = '';
 
   /**
    * The kind of preview currently shown.
    */
-  @property({ type: Number }) stage: PreviewStage = PreviewStage.Shortcuts;
+  @property({ type: Number }) stage: PreviewStage = PreviewStage.Splashscreen;
 
   /**
    * The input web manifest.
@@ -203,25 +203,10 @@ export class ManifestPreviewer extends LitElement {
    */
   @property() platform: Platform = 'android';
 
-  /**
-   * @returns The site's URL, assuming it can be derived from the manifest's URL.
-   */
-  @state()
-  private get siteUrl() {
-    if (typeof this._siteUrl === 'undefined') {
-      this._siteUrl = this.manifestUrl.substring(0, this.manifestUrl.lastIndexOf('manifest.json'));
-    }
-
-    return this._siteUrl;
-  }
-
-  /**
-   * @returns The URL for icon previews, or undefined if the manifest specifies no icons.
-   */
-  @state()
-  private get iconUrl() {
-    if (typeof this._iconUrl === 'undefined' && this.manifest.icons) {
-      // Try to get the icon for Android Chrome, or the first one by default
+  firstUpdated() {
+    // Set the icon URL.
+    if (this.manifest.icons) {
+      // Try to get the largest icon so that it looks good everywhere, or the first one by default
       let iconUrl = this.manifest.icons[0].src;
       for (const icon of this.manifest.icons) {
         if (icon.sizes?.includes('192x192')) {
@@ -230,10 +215,11 @@ export class ManifestPreviewer extends LitElement {
         }
       }
       const absoluteUrl = new URL(iconUrl, this.manifestUrl).href;
-      this._iconUrl = `https://pwabuilder-safe-url.azurewebsites.net/api/getsafeurl?url=${absoluteUrl}`;
+      this.iconUrl = `https://pwabuilder-safe-url.azurewebsites.net/api/getsafeurl?url=${absoluteUrl}`;
     }
 
-    return this._iconUrl;
+    // Set the site URL (assuming it can be derived from the manifest's URL)
+    this.siteUrl = this.manifestUrl.substring(0, this.manifestUrl.lastIndexOf('manifest.json'));
   }
 
   /**

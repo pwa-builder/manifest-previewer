@@ -26,6 +26,8 @@
   --ios-font-family: SF-pro;
   --font-color: #292C3A;
   --secondary-font-color: #808080;
+  --pwa-background-color: #FFF;
+  --pwa-theme-color: #EBD0FE;
 }
 
 html, body {

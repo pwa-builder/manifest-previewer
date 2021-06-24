@@ -30,6 +30,7 @@ export class ThemecolorScreen extends LitElement {
       display: flex;
       align-items: center;
       border: 0.5px solid grey;
+      background-color: var(--pwa-theme-color);
     }
 
     .windows .titlebar-actions {
@@ -73,6 +74,7 @@ export class ThemecolorScreen extends LitElement {
       top: 33px;
       height: 42px;
       left: 44px;
+      background-color: var(--pwa-theme-color);
     }
 
     .android .app-icon {
@@ -119,6 +121,7 @@ export class ThemecolorScreen extends LitElement {
       height: 18px;
       left: 19.5px;
       width: 211px;
+      background-color: var(--pwa-theme-color);
     }
 
     .ios .status-bar img {
@@ -175,14 +178,10 @@ export class ThemecolorScreen extends LitElement {
   /**
    * The color to use on top of the theme color, such that the text is visible.
    */
-  @state() private _contrastingColor = '';
+  @state() private contrastingColor = '';
 
-  @state()
-  private get contrastingColor() {
-    if (!this._contrastingColor) {
-      this._contrastingColor = this.themeColor ? getContrastingColor(this.themeColor) : '#FFF';
-    }
-    return this._contrastingColor;
+  firstUpdated() {
+    this.contrastingColor = this.themeColor ? getContrastingColor(this.themeColor) : '#FFF';
   }
 
   render() {
@@ -200,7 +199,7 @@ export class ThemecolorScreen extends LitElement {
             <div 
             class="titlebar" 
             style=${styleMap({ 
-              backgroundColor: this.themeColor || '#1F59A1'
+              '--pwa-theme-color': this.themeColor
             })}>
               <p class="app-name" style=${styleMap({ color: this.contrastingColor })}>
                 ${this.appName || 'PWA App'}
@@ -228,7 +227,7 @@ export class ThemecolorScreen extends LitElement {
             <div 
             class="app-box" 
             style=${styleMap({ 
-              backgroundColor: this.themeColor || '#1F59A1'
+              '--pwa-theme-color': this.themeColor
             })}>
               <img class="app-icon" alt="Application's icon" src=${this.iconUrl || '../assets/images/android/noicon.svg'} />
               <div class="menu-actions" style=${styleMap({ color: this.contrastingColor })}>
@@ -249,7 +248,7 @@ export class ThemecolorScreen extends LitElement {
           style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 2.2 : 1})` })} 
           class="container ios">
             <img class="phone" alt="Iphone" src="../assets/images/ios/iphone.svg" />
-            <div class="status-bar" style=${styleMap({ backgroundColor: this.themeColor || '#FFF' })}>
+            <div class="status-bar" style=${styleMap({ '--pwa-theme-color': this.themeColor })}>
               <img alt="Status bar" src="../assets/images/ios/statusbar.svg" />
             </div>
           </div>

@@ -37,11 +37,13 @@ export class SplashScreen extends LitElement {
       display: flex;
       flex-direction: column;
       align-items: center;
+      background-color: var(--pwa-background-color);
     }
 
     .phone-bar {
       padding: 7px 0;
       width: 100%;
+      background-color: var(--pwa-theme-color);
     }
 
     .icon {
@@ -78,6 +80,7 @@ export class SplashScreen extends LitElement {
       justify-content: center;
       align-items: center;
       font-family: var(--ios-font-family);
+      background-color: var(--pwa-background-color);
     }
 
     .ios .status-bar {
@@ -117,6 +120,7 @@ export class SplashScreen extends LitElement {
       height: 55px;
       top: 45px;
       left: calc(50% - 50px);
+      background-color: var(--pwa-background-color);
     }
 
     .windows .app-info {
@@ -180,14 +184,10 @@ export class SplashScreen extends LitElement {
   /**
    * The color to use on top of the background color, such that the text is visible.
    */
-  @state() private _contrastingBackgroundColor = '';
+  @state() private contrastingBackgroundColor = '';
   
-  @state()
-  private get contrastingBackgroundColor() {
-    if (!this._contrastingBackgroundColor) {
-      this._contrastingBackgroundColor = this.backgroundColor ? getContrastingColor(this.backgroundColor) : '#000';
-    }
-    return this._contrastingBackgroundColor;
+  firstUpdated() {
+    this.contrastingBackgroundColor = this.backgroundColor ? getContrastingColor(this.backgroundColor) : '#000';
   }
 
   render() {
@@ -205,7 +205,7 @@ export class SplashScreen extends LitElement {
           })} 
           class="container windows">
             <img class="desktop" alt="Window's desktop" src="../assets/images/windows/desktop.png" />
-            <div class="screen" style=${styleMap({ backgroundColor: this.backgroundColor || '#FFF' })}>
+            <div class="screen" style=${styleMap({ '--pwa-background-color': this.backgroundColor })}>
               <div class="window-actions">
                 <div class="collapse" style=${styleMap({ backgroundColor: this.contrastingBackgroundColor })}></div>
                 <svg class="close" width="4px" height="4px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
@@ -230,10 +230,10 @@ export class SplashScreen extends LitElement {
         </preview-info>
         <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.7 : 1})` })} class="container android">
           <img class="phone" alt="Application mobile preview" src="../assets/images/android/background.svg" />
-          <div class="screen" style=${styleMap({ backgroundColor: this.backgroundColor || '#FFF' })}>
+          <div class="screen" style=${styleMap({ '--pwa-background-color': this.backgroundColor })}>
             <div 
             class="phone-bar"
-            style=${styleMap({ backgroundColor: this.themeColor || '#000' })}></div>
+            style=${styleMap({ '--pwa-background-color': this.themeColor })}></div>
             <img 
             class="icon" 
             src=${this.iconUrl || '../assets/images/android/noicon.svg'} 
@@ -241,7 +241,7 @@ export class SplashScreen extends LitElement {
             <h5 class="appName" style=${styleMap({ color: this.contrastingBackgroundColor })}>
               ${this.appName || 'PWA App'}
             </h5>
-            <div class="phone-bar" style=${styleMap({ backgroundColor: this.themeColor || '#000' })}></div>
+            <div class="phone-bar" style=${styleMap({ '--pwa-background-color': this.themeColor })}></div>
           </div>
         </div>
         `;
@@ -253,7 +253,7 @@ export class SplashScreen extends LitElement {
           </preview-info>
           <div style=${styleMap({ transform: `scale(${this.fsController.isInFullScreen ? 1.5 : 1})` })} class="container ios"> 
             <img class="phone" alt="Iphone" src="../assets/images/ios/iphone.svg" />
-            <div class="screen" style=${styleMap({ backgroundColor: this.backgroundColor || '#FFF' })}>
+            <div class="screen" style=${styleMap({ '--pwa-background-color': this.backgroundColor })}>
               <img class="status-bar" alt="iOS status bar" src="../assets/images/ios/statusbar.svg" />
               ${this.iconUrl ? 
                 html`<img class="icon" src=${this.iconUrl} alt="App's splash screen" />` : null}
