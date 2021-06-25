@@ -31,6 +31,7 @@ export class ThemecolorScreen extends LitElement {
       align-items: center;
       border: 0.5px solid grey;
       background-color: var(--pwa-theme-color);
+      font-family: var(--windows-font-family); 
     }
 
     .windows .titlebar-actions {

@@ -11,9 +11,13 @@ import type { Shortcut, ImageResource, Platform } from '../models';
 export class ShortcutsScreen extends LitElement {
   static styles = css`
     .container {
-      width: 290px;
+      width: 260px;
       position: relative;
       margin: 40px auto 0;
+    }
+
+    .container.windows {
+      font-family: var(--windows-font-family);
     }
 
     .menu-img {
@@ -22,54 +26,58 @@ export class ShortcutsScreen extends LitElement {
 
     .windows .app-icon {
       position: absolute;
-      width: 17px;
-      height: 17px;
-      bottom: 11px;
-      right: 77px;
+      width: 14px;
+      height: 14px;
+      bottom: 7px;
+      right: 59.5px;
     }
 
     .windows .menu {
-      background-color: #3F3C40;
       position: absolute;
-      bottom: 55px;
-      right: 18px;
-      width: 136px;
-      height: 110px;
+      bottom: 41px;
+      right: 13px;
+      width: 105px;
+      height: 100px;
     }
 
     .windows .shortcut-list {
       list-style: none;
       padding: 0;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 7px;
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 6px;
+      font-weight: 600;
+      background-color: #D9E8F0;
+      height: 100%;
     }
 
     .windows .shortcut-list li {
       padding: 0 0 0 4px;
-      margin: 0 0 5px;
+      margin: 0 0 10px;
       display: flex;
       align-items: center;
     }
 
     .windows .shortcut-list .icon {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       margin-right: 5px;
       display: inline-block;
     }
 
     .android .app-icon {
       position: absolute;
-      width: 55px;
-      top: 48px;
-      left: 21px;
+      width: 50px;
+      height: 50px;
+      top: 41px;
+      left: 18px;
     }
 
     .android .chrome-icon {
       position: absolute;
-      width: 28px;
-      top: 82px;
-      left: 55px;
+      width: 27px;
+      height: 27px;
+      top: 69px;
+      left: 45px;
       z-index: 1;
     }
 
@@ -77,8 +85,8 @@ export class ShortcutsScreen extends LitElement {
       background-color: #FFF;
       position: absolute;
       right: 40px;
-      width: 223px;
-      height: 159px;
+      width: 195px;
+      height: 145px;
       bottom: 30px;
     }
 
@@ -108,49 +116,6 @@ export class ShortcutsScreen extends LitElement {
     .ios-message {
       margin: 100px auto 0px;
       width: 70%;
-    }
-
-    @media(max-width: 1366px) {
-      .container {
-        width: 250px;
-      }
-
-      .windows .app-icon {
-        width: 14px;
-        height: 14px;
-        right: 67px;
-      }
-
-      .windows .menu {
-        bottom: 43px;
-        right: 16px;
-        width: 117px;
-        height: 100px;
-      }
-
-      .android .app-icon {
-        width: 47px;
-        height: 47px;
-        top: 41px;
-        left: 19px;
-      }
-
-      .android .chrome-icon {
-        top: 65px;
-        left: 42px;
-      }
-
-      .android .menu {
-        right: 33px;
-        width: 188px;
-        height: 133px;
-        bottom: 30px;
-      }
-
-      .android .shortcut-list .icon {
-        width: 22px;
-        height: 22px;
-      }
     }
   `;
 

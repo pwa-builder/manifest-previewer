@@ -15,6 +15,14 @@
 }
 
 @font-face {
+  font-family: 'Segoe';
+  src: url('/assets/fonts/SegoeUI.ttf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'SF-Pro';
   src: url('/assets/fonts/SFProDisplay-Light.ttf');
   font-weight: 400;
@@ -23,6 +31,7 @@
 
 :root {
   --font-family: Hind;
+  --windows-font-family: Segoe;
   --ios-font-family: SF-pro;
   --font-color: #292C3A;
   --secondary-font-color: #808080;

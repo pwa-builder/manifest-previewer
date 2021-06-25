@@ -53,7 +53,7 @@ export class SplashScreen extends LitElement {
       margin-top: calc(50% + 45px);
     }
 
-    .appName {
+    .app-name {
       width: fit-content;
       margin: 0 auto 30px;
       font-size: 16px;
@@ -140,6 +140,7 @@ export class SplashScreen extends LitElement {
       margin: 0;
       font-size: 10px;
       font-weight: 600;
+      font-family: var(--windows-font-family);
     }
 
     .windows .window-actions {
@@ -238,7 +239,7 @@ export class SplashScreen extends LitElement {
             class="icon" 
             src=${this.iconUrl || '../assets/images/android/noicon.svg'} 
             alt="App's splash screen" />
-            <h5 class="appName" style=${styleMap({ color: this.contrastingBackgroundColor })}>
+            <h5 class="app-name" style=${styleMap({ color: this.contrastingBackgroundColor })}>
               ${this.appName || 'PWA App'}
             </h5>
             <div class="phone-bar" style=${styleMap({ '--pwa-background-color': this.themeColor })}></div>
@@ -257,7 +258,7 @@ export class SplashScreen extends LitElement {
               <img class="status-bar" alt="iOS status bar" src="../assets/images/ios/statusbar.svg" />
               ${this.iconUrl ? 
                 html`<img class="icon" src=${this.iconUrl} alt="App's splash screen" />` : null}
-              <h5 class="appName" style=${styleMap({ color: this.contrastingBackgroundColor })}>
+              <h5 class="app-name" style=${styleMap({ color: this.contrastingBackgroundColor })}>
                 ${this.appName || 'PWA App'}
               </h5>
             </div>

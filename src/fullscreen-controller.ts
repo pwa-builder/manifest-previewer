@@ -16,7 +16,7 @@ export class FullScreenController implements ReactiveController {
     this.isInFullScreen = Boolean(document.fullscreenElement);
     this.host.requestUpdate();
   }
-
+ 
   hostConnected() {
     document.addEventListener('fullscreenchange', this.handleFullScreenChange);
   }

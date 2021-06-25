@@ -9,11 +9,7 @@ import type { Platform } from '../models';
 @customElement('name-screen')
 export class NameScreen extends LitElement {
   static styles = css`
-    :host {
-      --windows-background: #3C3B3B;
-    }
-
-    .container {
+   .container {
       position: relative;
       margin: 70px auto 0;
       width: 260px;
@@ -25,39 +21,29 @@ export class NameScreen extends LitElement {
       width: 100%;
     }
 
-    .windows .hidden {
-      background-color: var(--windows-background);
+    .windows .app-container {
+      background-color: #E5EBEC;
       position: absolute;
-      width: calc(100% - 50px);
-      left: 50px;
-      height: 50px;
-      top: 121.5px;
-    }
-    .windows .app-initial {
-      background-color: var(--windows-background);
-      color: #FFF;
-      position: absolute;
-      width: 20px;
-      font-size: 12px;
-      top: 69px;
-      left: 61px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      top: 33px;
+      right: 95px;
+      min-width: 30px;
     }
 
     .windows .app-name {
-      background-color: var(--windows-background);
-      position: absolute;
-      color: rgba(255, 255, 255, 0.7);
-      top: 99px;
-      left: 82px;
-      font-size: 10px;
+      color: rgba(0, 0, 0, 0.8);
+      font-size: 4.5px;
+      font-weight: 600;
+      letter-spacing: -0.07px;
+      margin-top: 2.5px;
+      font-family: var(--windows-font-family); 
     }
 
     .windows .app-icon {
-      position: absolute;
-      width: 26px;
-      height: 26px;
-      top: 92px;
-      left: 51px;
+      width: 15px;
+      height: 15px;
     }
 
     .android .app-icon {
@@ -137,12 +123,12 @@ export class NameScreen extends LitElement {
           })} 
           class="windows container">
             <img alt="Windows start menu" src="../assets/images/windows/startmenu.png" class="menu-img" />
-            ${this.iconUrl ?
-              html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : 
-              null}
-            <div class="hidden"></div>
-            <div class="app-initial">${this.appName ? this.appName.slice(0, 1) : 'A'}</div>
-            <div class="app-name">${this.appName || 'PWA App'}</div>
+            <div class="app-container">
+              ${this.iconUrl ?
+                html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : 
+                null}
+              <div class="app-name">${this.appName || 'PWA App'}</div>
+            </div>
           </div>
         `;
       case 'android':

@@ -20,6 +20,10 @@ export class DisplayScreen extends LitElement {
       width: fit-content;
     }
 
+    .container.windows {
+      font-family: var(--windows-font-family);
+    }
+
     .container.android {
       margin-top: 20px;
     }

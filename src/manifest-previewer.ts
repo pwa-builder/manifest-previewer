@@ -176,7 +176,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The kind of preview currently shown.
    */
-  @property({ type: Number }) stage: PreviewStage = PreviewStage.Splashscreen;
+  @property({ type: Number }) stage: PreviewStage = PreviewStage.Name;
 
   /**
    * The input web manifest.

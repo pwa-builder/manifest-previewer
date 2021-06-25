@@ -1,6 +1,8 @@
 import { LitElement, css, html} from 'lit';
 import { customElement } from 'lit/decorators.js';
 
+import { FullScreenController } from './fullscreen-controller';
+
 /**
  * Brief description of the content being previewed.
  */
@@ -17,8 +19,10 @@ export class PreviewInfo extends LitElement {
       width: 230px;
     }
   `;
+  private fsController = new FullScreenController(this);
 
   render() {
-    return html`<p class="info-text"><slot></slot></p>`;
+    // When in full screen, hide the message
+    return this.fsController.isInFullScreen ? null : html`<p class="info-text"><slot></slot></p>`;
   }
 }

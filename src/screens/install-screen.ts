@@ -15,6 +15,10 @@ export class InstallScreen extends LitElement {
       margin: 80px auto 0;
     }
 
+    .container.windows {
+      font-family: var(--windows-font-family);
+    }
+
     .container.android {
       margin-top: 20px;
       width: 200px;
