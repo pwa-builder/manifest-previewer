@@ -7,7 +7,7 @@ import { customElement } from 'lit/decorators.js';
 @customElement('disclaimer-message')
 export class DisclaimerMessage extends LitElement {
   static styles = css`
-    :host {
+    .message {
       font-style: italic;
       font-size: 14px;
       opacity: 0.8;
@@ -19,6 +19,6 @@ export class DisclaimerMessage extends LitElement {
   `;
 
   render() {
-    return html`<p><slot></slot></p>`;
+    return html`<p class="message"><slot></slot></p>`;
   }
 }

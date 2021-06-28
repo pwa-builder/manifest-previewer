@@ -26,6 +26,9 @@ export type Platform = 'windows' | 'android' | 'iOS';
   label?: string;
 }
 
+/**
+ * Shortcut object in a manifest.json file
+ */
 export type Shortcut = {
   name: string;
   url: string;
@@ -34,6 +37,9 @@ export type Shortcut = {
   icons?: ImageResource[];
 }
 
+/**
+ * Possible values of the display attribute.
+ */
 export type Display = 'fullscreen' | 'standalone' | 'minimal-ui' | 'browser';
 
 /**
