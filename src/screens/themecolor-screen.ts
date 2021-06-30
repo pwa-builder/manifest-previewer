@@ -122,7 +122,7 @@ export class ThemecolorScreen extends ScreenTemplate {
           top: 76px;
           height: 18px;
           left: 19.5px;
-          width: 211px;
+          width: 212px;
           background-color: var(--pwa-theme-color);
         }
     
