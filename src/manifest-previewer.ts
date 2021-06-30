@@ -444,9 +444,10 @@ export class ManifestPreviewer extends LitElement {
     return html`
       <div class="container">
         <fast-card class="card">
-          <h4 class="title">Preview</h4>
-          <div class="buttons-div">
+          <h4 part="card-title" class="title">Preview</h4>
+          <div part="platform-buttons" class="buttons-div">
             <fast-button 
+            part="platform-button"
             class=${classMap({ 
               'platform-button': true, 
               selected: this.platform === 'windows' 
@@ -456,6 +457,7 @@ export class ManifestPreviewer extends LitElement {
               Windows
             </fast-button>
             <fast-button 
+            part="platform-button"
             class=${classMap({ 
               'platform-button': true, 
               selected: this.platform === 'android' 
@@ -465,6 +467,7 @@ export class ManifestPreviewer extends LitElement {
               Android
             </fast-button>
             <fast-button
+            part="platform-button"
             class=${classMap({
               'platform-button': true,
               selected: this.platform === 'iOS'
@@ -474,19 +477,22 @@ export class ManifestPreviewer extends LitElement {
               iOS
             </fast-button>
           </div>
-          <div class="name">${this.manifest.name}</div>
+          <div part="app-name" class="name">${this.manifest.name}</div>
           <div id="content">${this.screenContent()}</div>
           <img 
+          part="nav-arrow"
           src="../assets/images/nav_arrow.svg" 
           alt="Navigate right" 
           class="nav-arrow-right"
           @click=${this.handleNavigateRight} />
           <img 
+          part="nav-arrow"
           src="../assets/images/nav_arrow.svg" 
           alt="Navigate left" 
           class="nav-arrow-left"
           @click=${this.handleNavigateLeft} />
           <p 
+          part="preview-text"
           class="preview-text" 
           style=${styleMap({ cursor: 'pointer' })} 
           @click=${this.handleToggleEnlarge}>

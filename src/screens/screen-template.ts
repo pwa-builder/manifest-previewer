@@ -25,11 +25,11 @@ export abstract class ScreenTemplate extends LitElement {
     }
 
     .fullscreen {
-      transform: scale(1.9);
-      margin-top: 15vh;
+      transform: scale(2.1);
+      margin-top: 10vh;
     }
   `;
-
+ 
   @property() platform: Platform = 'windows';
 
   @property({ type: Boolean }) isInFullScreen = false;
