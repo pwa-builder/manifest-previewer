@@ -17,7 +17,7 @@
   "name": "manifest-previewer",
   "version": "0.0.0",
   "description": "Webcomponent manifest-previewer following open-wc recommendations",
-  "author": "manifest-previewer",
+  "author": "Maria Solano",
   "license": "MIT",
   "dependencies": {
     "lit": "^2.0.0-rc.2"

@@ -12,3 +12,12 @@ Attribute | Description | Screen
 `short_name` | String that represents the name of the PWA displayed to the user if there is not enough space to display the `name` (e.g., as a label for the app's icon on the phone home screen).| ![Short name](/assets/readme-images/shortname.png)
 `theme_color` | Defines the default color theme for the application, and affects how the platform displays the site. | ![Theme color](/assets/readme-images/themecolor.png)
 `shortcuts` | Array of shortcuts or links to key tasks or pages within a web app, assembling a context menu to be displayed by the OS when a user engages with the app's icon. | ![Shortcuts](/assets/readme-images/shortcuts.png)
+
+## Built with
+- [Lit](https://lit.dev/)
+- [Typescript](https://www.typescriptlang.org/)
+- The project generator from [Open Web Components](https://open-wc.org/docs/development/generator/)
+
+## Development
+Run `npm install` and then `npm start`. This will start the web dev server in your default browser. Your changes will be automatically reflected on the running application.
+
