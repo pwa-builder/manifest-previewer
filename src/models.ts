@@ -8,7 +8,8 @@ export enum PreviewStage {
   Shortname,
   Themecolor,
   Shortcuts,
-  Display
+  Display,
+  Categories
 }
 
 /**

@@ -23,6 +23,7 @@ export class NameScreen extends ScreenTemplate {
           position: absolute;
           top: 0;
           width: 100%;
+          box-shadow: var(--card-box-shadow);
         }
     
         .windows .app-container {
@@ -43,6 +44,9 @@ export class NameScreen extends ScreenTemplate {
           letter-spacing: -0.07px;
           margin-top: 2.5px;
           font-family: var(--windows-font-family); 
+          max-width: 40px;
+          white-space: nowrap;
+          overflow-x: hidden;
         }
     
         .windows .app-icon {

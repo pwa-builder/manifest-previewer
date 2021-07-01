@@ -2,7 +2,7 @@ import { css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { ScreenTemplate } from './screen-template.js';
-import '../disclaimer-message.js';
+import './name-screen.js';
 
 @customElement('shortname-screen')
 export class ShortnameScreen extends ScreenTemplate {
@@ -61,6 +61,7 @@ export class ShortnameScreen extends ScreenTemplate {
           width: 100%;
           position: absolute;
           top: 0;
+          box-shadow: var(--card-box-shadow);
         }
 
         .ios .app-name {
@@ -99,7 +100,7 @@ export class ShortnameScreen extends ScreenTemplate {
   /**
    * Short name attribute on the manifest.
    */
-  @property() appShortName?: string;
+  @property() shortName?: string;
  
   /**
    * The URL to use for icon previews, or undefined if the manifest has no
@@ -109,12 +110,12 @@ export class ShortnameScreen extends ScreenTemplate {
 
   renderWindows() {
     return html`
-      <div class="windows-message">
-        <disclaimer-message>
-          Windows always uses the application's name and ignores
-          its short name.
-        </disclaimer-message>
-      </div>
+      <name-screen
+      .isInFullScreen=${this.isInFullScreen}
+      .platform=${this.platform}
+      .appName=${this.shortName}
+      .iconUrl=${this.iconUrl}>
+      </name-screen>
     `;
   }
 
@@ -125,7 +126,7 @@ export class ShortnameScreen extends ScreenTemplate {
         <div class="icon-container">
           ${this.iconUrl ?
             html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : null}
-          <div class="app-name">${this.appShortName || 'PWA App'}</div>
+          <div class="app-name">${this.shortName || 'PWA App'}</div>
         </div>
         <img class="homescreen" alt="Android's home screen" src="../assets/images/android/homescreen.png" />
       </div>
@@ -136,7 +137,7 @@ export class ShortnameScreen extends ScreenTemplate {
     return html`
       <div class="ios container">
         <img class="background" alt="iOS home screen" src="../assets/images/ios/homemenu.png" />
-        <div class="app-name">${this.appShortName || 'PWA App'}</div>
+        <div class="app-name">${this.shortName || 'PWA App'}</div>
         ${this.iconUrl ? 
           html`<div class="app-icon"><img alt="Application's icon" src=${this.iconUrl} /></div>` : 
           null}

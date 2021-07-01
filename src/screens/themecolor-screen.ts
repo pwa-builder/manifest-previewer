@@ -21,6 +21,7 @@ export class ThemecolorScreen extends ScreenTemplate {
           position: absolute;
           top: 0;
           width: 100%;
+          box-shadow: var(--card-box-shadow);
         }
     
         .windows .titlebar {
@@ -66,6 +67,7 @@ export class ThemecolorScreen extends ScreenTemplate {
           width: 100%;
           position: absolute; 
           top: 0;
+          box-shadow: var(--card-box-shadow);
         }
     
         .android .app-box {

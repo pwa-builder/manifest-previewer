@@ -35,7 +35,7 @@ export class DisplayScreen extends ScreenTemplate {
           top: 0;
           width: 200px;
           height: 450px;
-          box-shadow: 0px 3px 5.41317px rgba(0, 0, 0, 0.25);
+          box-shadow: var(--card-box-shadow);
           border-radius: 8px;
           object-fit: cover;
           z-index: -1;
@@ -118,7 +118,7 @@ export class DisplayScreen extends ScreenTemplate {
           justify-content: center;
           align-items: center;
           flex-direction: column;
-          box-shadow: 0px 3px 5.41317px rgba(0, 0, 0, 0.25);
+          box-shadow: var(--card-box-shadow);
           background-color: var(--pwa-background-color);
         }
 

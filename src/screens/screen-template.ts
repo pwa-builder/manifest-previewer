@@ -24,9 +24,10 @@ export abstract class ScreenTemplate extends LitElement {
       display: block;
     }
 
-    .fullscreen {
+    .fullscreen-content {
       transform: scale(2.1);
       margin-top: 10vh;
+      max-height: 10vh;
     }
   `;
  
@@ -54,7 +55,7 @@ export abstract class ScreenTemplate extends LitElement {
           <slot class="preview-title" name="title"></slot>
           <slot class="preview-info" name="info-${this.platform}"></slot>
         `}
-      <div class=${this.isInFullScreen ? 'fullscreen' : ''}>
+      <div class=${this.isInFullScreen ? 'fullscreen-content' : ''}>
         ${this.mainContent()}
       </div>
     `;

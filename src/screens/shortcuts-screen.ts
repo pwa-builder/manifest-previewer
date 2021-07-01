@@ -23,6 +23,7 @@ export class ShortcutsScreen extends ScreenTemplate {
 
         .menu-img {
           width: 100%;
+          box-shadow: var(--card-box-shadow);
         }
 
         .windows .app-icon {

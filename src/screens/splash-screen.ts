@@ -23,7 +23,7 @@ export class SplashScreen extends ScreenTemplate {
           height: 460px;
           top: 0;
           background: #FFF;
-          box-shadow: 0px 3px 5.41317px rgba(0, 0, 0, 0.25);
+          box-shadow: var(--card-box-shadow);
           border-radius: 8.11976px;
           object-fit: cover;
           object-position: top;
@@ -69,6 +69,9 @@ export class SplashScreen extends ScreenTemplate {
           width: 100%;
           position: absolute;
           top: 0;
+          box-shadow: var(--card-box-shadow);
+          border-radius: 16px;
+          object-fit: none;
         }
 
         .ios .screen {
@@ -107,11 +110,9 @@ export class SplashScreen extends ScreenTemplate {
 
         .windows img.desktop {
           position: absolute;
-          top: 0;
-          right: 0;
-          left: 0;
-          bottom: 0;
+          inset: 0;
           width: 100%;
+          box-shadow: var(--card-box-shadow);
         }
 
         .windows .screen {

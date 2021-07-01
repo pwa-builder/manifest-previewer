@@ -10,6 +10,7 @@ import './screens/shortname-screen.js';
 import './screens/themecolor-screen.js';
 import './screens/shortcuts-screen.js';
 import './screens/display-screen.js';
+import './screens/categories-screen.js';
 import { Manifest, PreviewStage, Platform } from './models';
 
 @customElement('manifest-previewer')
@@ -174,7 +175,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The kind of preview currently shown.
    */
-  @property({ type: Number }) stage: PreviewStage = PreviewStage.Name;
+  @property({ type: Number }) stage: PreviewStage = PreviewStage.Categories;
 
   /**
    * The input web manifest.
@@ -212,7 +213,7 @@ export class ManifestPreviewer extends LitElement {
       // Try to get the largest icon so that it looks good everywhere, or the first one by default
       let iconUrl = this.manifest.icons[0].src;
       for (const icon of this.manifest.icons) {
-        if (icon.sizes?.includes('192x192')) {
+        if (icon.sizes?.includes('512x512')) {
           iconUrl = icon.src;
           break;
         }
@@ -247,6 +248,17 @@ export class ManifestPreviewer extends LitElement {
   private handleNavigateLeft() {
     const numStages = Object.keys(PreviewStage).length / 2;
     this.stage = (this.stage + numStages - 1) % numStages;
+  }
+
+  // Let the rest of the application know when the screen changes.
+  updated(changedProps: Map<string, any>) {
+    if (changedProps.has('stage')) {
+      this.dispatchEvent(new CustomEvent('previewscreenchange', {
+        bubbles: true,
+        composed: true,
+        detail: { screen: this.stage }
+      }));
+    }
   }
 
   connectedCallback() {
@@ -345,12 +357,12 @@ export class ManifestPreviewer extends LitElement {
           <shortname-screen
           .isInFullScreen=${this.isInFullScreen}
           .platform=${this.platform}
-          .appShortName=${this.manifest.short_name}
+          .shortName=${this.manifest.short_name}
           .iconUrl=${this.iconUrl}>
             <p slot="title">The short name attribute</p>
             <p slot="info-windows">
-              The short name member is used when there is not enough space to display the 
-              entire name of the application.
+              Windows uses the short name as a fallback when the manifest does not specify a 
+              value for the name attribute.
             </p>
             <p slot="info-android">
               On Android, the application's short name is used in the home screen as a label for 
@@ -436,6 +448,30 @@ export class ManifestPreviewer extends LitElement {
             </p>
           </display-screen>
         `;
+      case PreviewStage.Categories:
+        return html`
+          <categories-screen
+          .isInFullScreen=${this.isInFullScreen}
+          .platform=${this.platform}
+          .categories=${this.manifest.categories}
+          .appName=${this.manifest.name}
+          .iconUrl=${this.iconUrl}
+          .description=${this.manifest.description}
+          .screenshots=${this.manifest.screenshots}
+          .manifestUrl=${this.manifestUrl}>
+            <p slot="title">The categories attribute</p>
+            <p slot="info-windows">
+              The Microsoft store uses the indicated categories as tags in the app's listing.
+            </p>
+            <p slot="info-android">
+              Google Play includes the categories specified in the manifest in the 
+              application's listing page.
+            </p>
+            <p slot="info-iOS">
+              HELP!! Categories in iOS are weird.
+            </p>
+          </categories-screen>
+        `;
       default: return null;
     }
   }
@@ -481,13 +517,13 @@ export class ManifestPreviewer extends LitElement {
           <div id="content">${this.screenContent()}</div>
           <img 
           part="nav-arrow"
-          src="../assets/images/nav_arrow.svg" 
+          src="../assets/images/nav-arrow.svg" 
           alt="Navigate right" 
           class="nav-arrow-right"
           @click=${this.handleNavigateRight} />
           <img 
           part="nav-arrow"
-          src="../assets/images/nav_arrow.svg" 
+          src="../assets/images/nav-arrow.svg" 
           alt="Navigate left" 
           class="nav-arrow-left"
           @click=${this.handleNavigateLeft} />

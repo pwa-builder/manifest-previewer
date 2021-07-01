@@ -35,7 +35,7 @@ export class InstallScreen extends ScreenTemplate {
           left: 0;
           margin: 0 auto;
           background: #FFF;
-          box-shadow: 0px 3px 5.41317px rgba(0, 0, 0, 0.25);
+          box-shadow: var(--card-box-shadow);
           border-radius: 8.11976px;
           object-fit: cover;
           z-index: -1;
@@ -190,8 +190,35 @@ export class InstallScreen extends ScreenTemplate {
           margin: 0;
         }
 
+        .windows .action-buttons {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 10px;
+        }
+
+        .windows .action-buttons div {
+          font-size: 8px;
+          font-weight: 600;
+          height: 18px;
+          width: 48%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .windows .action-buttons .install {
+          color: #FFF;
+          background-color: #0579CE;
+        }
+
+        .windows .action-buttons .cancel {
+          background-color: #EFEFEF;
+        }
+
         .ios .phone-img {
           width: 100%;
+          box-shadow: var(--card-box-shadow);
         }
 
         .ios .add-btn {
@@ -320,6 +347,10 @@ export class InstallScreen extends ScreenTemplate {
             This site can be installed as an application. It will open in its own window and 
             safely integrate with Window Features.
           </p>
+          <div class="action-buttons">
+            <div class="install">Install</div>
+            <div class="cancel">Not Now</div>
+          </div>
         </div>
         <img  
         class="preview-img"
@@ -347,7 +378,7 @@ export class InstallScreen extends ScreenTemplate {
           <div class="divider"></div>
           <p class="description">${this.description}</p>
           <div class="screenshots">
-            ${this.screenshots?.slice(0, 2).map((shot) => 
+            ${this.screenshots?.slice(0, 2).map(shot => 
               html`<img alt="Preview" src=${this.getImageUrl(shot.src)} />`)}
           </div>
         </div>
