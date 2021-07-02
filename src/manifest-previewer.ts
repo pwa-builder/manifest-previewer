@@ -11,6 +11,7 @@ import './screens/themecolor-screen.js';
 import './screens/shortcuts-screen.js';
 import './screens/display-screen.js';
 import './screens/categories-screen.js';
+import './screens/sharetarget-screen.js';
 import { Manifest, PreviewStage, Platform } from './models';
 
 @customElement('manifest-previewer')
@@ -175,7 +176,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The kind of preview currently shown.
    */
-  @property({ type: Number }) stage: PreviewStage = PreviewStage.Categories;
+  @property({ type: Number }) stage: PreviewStage = PreviewStage.ShareTarget;
 
   /**
    * The input web manifest.
@@ -200,7 +201,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The currently selected platform.
    */
-  @property() platform: Platform = 'android';
+  @property() platform: Platform = 'iOS';
 
   /**
    * The content to display when in full screen.
@@ -308,7 +309,7 @@ export class ManifestPreviewer extends LitElement {
             </p>
           </install-screen>
         `;
-      case PreviewStage.Splashscreen:
+      case PreviewStage.SplashScreen:
         return html`
           <splash-screen
           .isInFullScreen=${this.isInFullScreen}
@@ -352,7 +353,7 @@ export class ManifestPreviewer extends LitElement {
             </p>
           </name-screen>
         `;
-      case PreviewStage.Shortname:
+      case PreviewStage.ShortName:
         return html`
           <shortname-screen
           .isInFullScreen=${this.isInFullScreen}
@@ -374,7 +375,7 @@ export class ManifestPreviewer extends LitElement {
             </p>
           </shortname-screen>
         `;
-      case PreviewStage.Themecolor:
+      case PreviewStage.ThemeColor:
         return html`
           <themecolor-screen
           .isInFullScreen=${this.isInFullScreen}
@@ -471,6 +472,30 @@ export class ManifestPreviewer extends LitElement {
               HELP!! Categories in iOS are weird.
             </p>
           </categories-screen>
+        `;
+      case PreviewStage.ShareTarget:
+        return html`
+          <share-target
+          .isInFullScreen=${this.isInFullScreen}
+          .platform=${this.platform}
+          .iconUrl=${this.iconUrl}
+          .appName=${this.manifest.name}
+          .shortName=${this.manifest.short_name}
+          .siteUrl=${this.siteUrl}>
+            <p slot="title">The share target attribute</p>
+            <p slot="info-windows">
+              This attribute allows your application to easily share and receive
+              media content on Windows.
+            </p>
+            <p slot="info-android">
+              By using the share target attribute, you can quickly share and receive 
+              links and files like a native Android application. 
+            </p>
+            <p slot="info-iOS">
+              By using the share target attribute, you can quickly share and receive 
+              links and files like a native iOS application. 
+            </p>
+          </share-target>
         `;
       default: return null;
     }

@@ -3,13 +3,14 @@
  */
 export enum PreviewStage {
   Install,
-  Splashscreen,
+  SplashScreen,
   Name,
-  Shortname,
-  Themecolor,
+  ShortName,
+  ThemeColor,
   Shortcuts,
   Display,
-  Categories
+  Categories,
+  ShareTarget
 }
 
 /**
