@@ -52,7 +52,7 @@ export class SplashScreen extends ScreenTemplate {
           margin: auto;
           width: 90px;
           height: 90px;
-          margin-top: calc(50% + 45px);
+          margin-top: calc(40% + 45px);
         }
 
         .app-name {
@@ -225,10 +225,13 @@ export class SplashScreen extends ScreenTemplate {
         <div 
         class="phone-bar"
         style=${styleMap({ '--pwa-background-color': this.themeColor })}></div>
-        <img 
-        class="icon" 
-        src=${this.iconUrl || '../assets/images/android/noicon.svg'} 
-        alt="App's splash screen" />
+        ${this.iconUrl ?
+          html`
+          <img 
+          class="icon" 
+          src=${this.iconUrl} 
+          alt="App's splash screen" />
+          ` : html`<div class="icon"></div>`}
         <h5 class="app-name" style=${styleMap({ color: this.contrastingBackgroundColor })}>
           ${this.appName || 'PWA App'}
         </h5>

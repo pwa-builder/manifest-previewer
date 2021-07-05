@@ -34,12 +34,13 @@ export class CategoriesScreen extends ScreenTemplate {
         .windows .app-header {
           background-color: #FFF;
           position: absolute;
-          top: 10px;
+          top: 12px;
           width: 100px;
           left: calc(50% - 45px);
           display: flex;
           flex-direction: column;
           align-items: center;
+          height: 132px;
         }
 
         .windows .app-header img {
@@ -63,7 +64,8 @@ export class CategoriesScreen extends ScreenTemplate {
           top: 290px;
           padding: 0 30px;
           box-sizing: border-box;
-          height: 46px;
+          height: 35px;
+          width: 100%;
           overflow: hidden;
         }
 
@@ -99,6 +101,7 @@ export class CategoriesScreen extends ScreenTemplate {
 
         .android .app-icon {
           width: 41px;
+          height: 41px;
           position: absolute;
           top: 34px;
           left: 12px;
@@ -138,7 +141,8 @@ export class CategoriesScreen extends ScreenTemplate {
           font-size: 9px;
           top: 300px;
           padding-left: 10px;
-          max-height: 40px;
+          height: 27px;
+          width: 80%;
           overflow: hidden;
         }
       `
@@ -194,7 +198,9 @@ export class CategoriesScreen extends ScreenTemplate {
           <h4>${this.appName || 'PWA App'}</h4>
         </div>
         <p class="rating">5.0</p>
-        <div class="description">${this.description}</div>
+        <div class="description">
+          ${this.description || 'A description of your PWA.'}
+        </div>
         <div class="categories">
           ${this.categories?.map(categ => html`<div>${categ}</div>`)}
         </div>
@@ -206,13 +212,17 @@ export class CategoriesScreen extends ScreenTemplate {
     return html`
       <div class="container android">
         <img class="store-img" alt="Microsoft store" src="../../assets/images/android/app-listing.png" />
-        ${this.iconUrl ? html`<img class="app-icon" alt="App icon" src=${this.iconUrl} />` : null}
+        ${this.iconUrl ? 
+          html`<img class="app-icon" alt="App icon" src=${this.iconUrl} />` : 
+          html`<div class="app-icon"></div>`}
         <div class="app-name">${this.appName || 'PWA App'}</div>
         <div class="screenshots">
           ${this.screenshots?.map(shot => 
             html`<img alt="App screenshot" src=${this.getImageUrl(shot.src)} />`)}
         </div>
-        <div class="description">${this.description}</div>
+        <div class="description">
+          ${this.description || 'A description of your PWA.'}
+        </div>
         <div class="categories">
           ${this.categories?.map(categ => html`<div>${categ}</div>`)}
         </div>

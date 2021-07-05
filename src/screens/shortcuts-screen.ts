@@ -72,6 +72,8 @@ export class ShortcutsScreen extends ScreenTemplate {
           height: 50px;
           top: 41px;
           left: 18px;
+          background-color: #FFF;
+          border-radius: 50%;
         }
 
         .android .chrome-icon {
@@ -159,7 +161,8 @@ export class ShortcutsScreen extends ScreenTemplate {
         ${this.platform === 'android' ?
           html`<img alt="Chrome" class="chrome-icon" src="../assets/images/chrome-icon.png" />` : null}
         ${this.iconUrl ? 
-          html`<img class="app-icon" alt="Application's icon" src=${this.iconUrl} />`: null}
+          html`<img class="app-icon" alt="Application's icon" src=${this.iconUrl} />`: 
+          html`<div class="app-icon"></div>`}
         <div class="menu">
           <ul class="shortcut-list">
             ${this.shortcuts?.slice(0, 5).map((shortie) => 

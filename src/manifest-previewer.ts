@@ -176,7 +176,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The kind of preview currently shown.
    */
-  @property({ type: Number }) stage: PreviewStage = PreviewStage.ShareTarget;
+  @property({ type: Number }) stage: PreviewStage = PreviewStage.Categories;
 
   /**
    * The input web manifest.
@@ -426,7 +426,7 @@ export class ManifestPreviewer extends LitElement {
           <display-screen
           .isInFullScreen=${this.isInFullScreen}
           .platform=${this.platform}
-          .display=${this.manifest.display} 
+          .display=${this.manifest.display || 'browser'} 
           .themeColor=${this.manifest.theme_color}
           .backgroundColor=${this.manifest.background_color}
           .iconUrl=${this.iconUrl}

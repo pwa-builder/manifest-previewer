@@ -40,6 +40,7 @@ export class ShareTarget extends ScreenTemplate {
           align-items: center;
           width: fit-content;
           margin-left: 28px;
+          justify-content: flex-end;
         }
 
         .avatar > div {
@@ -65,6 +66,7 @@ export class ShareTarget extends ScreenTemplate {
           max-width: 63px;
           white-space: nowrap;
           overflow: hidden;
+          min-height: 45px;
         }
 
         .windows .app img {
@@ -89,9 +91,10 @@ export class ShareTarget extends ScreenTemplate {
 
         .android .app {
           position: absolute;
-          bottom: 18px;
+          bottom: 20px;
+          padding-bottom: 10px;
           left: 36px;
-          height: 69px;
+          height: 64px;
           font-weight: 600;
           width: 65px;
           overflow: hidden;
@@ -100,8 +103,8 @@ export class ShareTarget extends ScreenTemplate {
         }
 
         .android .app img {
-          width: 40px;
-          height: 40px;
+          width: 35px;
+          height: 35px;
           margin-bottom: 2px;
         }
 
@@ -127,6 +130,7 @@ export class ShareTarget extends ScreenTemplate {
           font-family: var(--ios-font-family);
           width: 50px;
           overflow: hidden;
+          min-height: 61px;
         }
 
         .ios .app img {

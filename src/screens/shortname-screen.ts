@@ -138,9 +138,11 @@ export class ShortnameScreen extends ScreenTemplate {
       <div class="ios container">
         <img class="background" alt="iOS home screen" src="../assets/images/ios/homemenu.png" />
         <div class="app-name">${this.shortName || 'PWA App'}</div>
-        ${this.iconUrl ? 
-          html`<div class="app-icon"><img alt="Application's icon" src=${this.iconUrl} /></div>` : 
-          null}
+        <div class="app-icon">
+          ${this.iconUrl ? 
+            html`<img alt="Application's icon" src=${this.iconUrl} />` : 
+            null}
+        </div>
       </div>
     `;
   }

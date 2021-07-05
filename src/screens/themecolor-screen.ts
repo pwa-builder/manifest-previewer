@@ -214,12 +214,10 @@ export class ThemecolorScreen extends ScreenTemplate {
     return html`
       <div class="container android">
         <img alt="Android's app switcher" src="../assets/images/android/appswitcher.jpg" class="switcher-img" />
-        <div 
-        class="app-box" 
-        style=${styleMap({ 
-          '--pwa-theme-color': this.themeColor
-        })}>
-          <img class="app-icon" alt="Application's icon" src=${this.iconUrl || '../assets/images/android/noicon.svg'} />
+        <div class="app-box" style=${styleMap({ '--pwa-theme-color': this.themeColor })}>
+          ${this.iconUrl ? 
+          html`<img class="app-icon" alt="Application's icon" src=${this.iconUrl} />` :
+          html`<div class="app-icon"></div>`}
           <div class="menu-actions" style=${styleMap({ color: this.contrastingColor })}>
             <span>HOME</span>
             <span>PROFILE</span>

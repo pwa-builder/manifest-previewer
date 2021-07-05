@@ -35,6 +35,8 @@ export class NameScreen extends ScreenTemplate {
           top: 33px;
           right: 95px;
           min-width: 30px;
+          height: 23.5px;
+          justify-content: flex-end;
         }
     
         .windows .app-name {
@@ -60,6 +62,7 @@ export class NameScreen extends ScreenTemplate {
           width: 42px;
           height: 42px;
           left: calc(50% - 21px);
+          background-color: #FFF;
         }
     
         .android .app-name {
@@ -133,7 +136,8 @@ export class NameScreen extends ScreenTemplate {
       <div class="android container">
         <img alt="Android app info" src="../assets/images/android/appinfo.png" class="menu-img" />
         ${this.iconUrl ?
-          html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : null}
+          html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : 
+          html`<div class="app-icon"></div>`}
         <div class="app-name">${this.appName || 'PWA App'}</div>
       </div>
     `;
@@ -143,9 +147,10 @@ export class NameScreen extends ScreenTemplate {
     return html`
       <div class="container ios">
         <img class="menu-img" alt="iOS settings" src="../assets/images/ios/appsettings.jpg" />
-        ${this.iconUrl ?
-          html`<div class="app-icon"><img alt="Application's icon" src=${this.iconUrl} /></div>` : 
-          null}
+        <div class="app-icon">
+          ${this.iconUrl ?
+            html`<img alt="Application's icon" src=${this.iconUrl} />` : null}
+        </div>
         <div class="app-name">${this.appName || 'PWA App'}</div>
       </div>
     `;

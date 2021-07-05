@@ -241,15 +241,17 @@ export class InstallScreen extends ScreenTemplate {
           position: absolute;
           top: 58px;
           left: 7px;
-          background-color: rgb(255, 255, 255);
+          background-color: #FFF;
           display: flex;
           justify-content: center;
           align-items: center;
+          width: 37px;
+          height: 37px;
         }
     
         .ios .icon img {
-          width: 37px;
-          height: 37px;
+          width: 100%;
+          height: 100%;
         }
 
         .ios .hidden {
@@ -376,7 +378,9 @@ export class InstallScreen extends ScreenTemplate {
             <div class="install-btn">Install</div>
           </div>
           <div class="divider"></div>
-          <p class="description">${this.description}</p>
+          <p class="description">
+            ${this.description || 'A description of your app.'}
+          </p>
           <div class="screenshots">
             ${this.screenshots?.slice(0, 2).map(shot => 
               html`<img alt="Preview" src=${this.getImageUrl(shot.src)} />`)}
@@ -396,8 +400,10 @@ export class InstallScreen extends ScreenTemplate {
         <div class="add-btn">Add</div>
         <img class="phone-img" alt="iOS PWA installation" src="../assets/images/ios/add-to-home.png" />
         <div class="hidden"></div>
-        ${this.iconUrl ? 
-          html`<div class="icon"><img alt="App icon" src=${this.iconUrl} /></div>` : null}
+        <div class="icon">
+          ${this.iconUrl ? 
+            html`<img alt="App icon" src=${this.iconUrl} />` : null}
+        </div>
         <div class="app-name">${this.appName}</div>
         <div class="app-link">${this.siteUrl}</div>
       </div>
