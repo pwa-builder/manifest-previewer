@@ -1,6 +1,7 @@
 import { css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
+import '../disclaimer-message.js';
 import { ScreenTemplate } from './screen-template';
 import { ImageResource } from '../models';
 
@@ -145,6 +146,11 @@ export class CategoriesScreen extends ScreenTemplate {
           width: 80%;
           overflow: hidden;
         }
+
+        .ios-message {
+          margin: 130px auto 0px;
+          width: 60%;
+        }
       `
     ];
   }
@@ -231,6 +237,13 @@ export class CategoriesScreen extends ScreenTemplate {
   }
 
   renderiOS() {
-    return html``;
+    return html`
+      <div class="ios-message">
+        <disclaimer-message>
+          These categories are not necessarily related to those specified on 
+          the manifest. 
+        </disclaimer-message>
+      </div>
+    `;
   }
 }

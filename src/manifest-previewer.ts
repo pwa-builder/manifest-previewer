@@ -469,7 +469,8 @@ export class ManifestPreviewer extends LitElement {
               application's listing page.
             </p>
             <p slot="info-iOS">
-              HELP!! Categories in iOS are weird.
+              On iOS, your application's categories are set from a predetermined set of options
+              and enhance the discoverability of your app. 
             </p>
           </categories-screen>
         `;
