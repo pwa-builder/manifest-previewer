@@ -12,7 +12,7 @@ const config = {
   plugins: [
     copy({
       targets: [
-        { src: 'assets/**/*', dest: 'dist/assets' },
+        { src: 'assets/', dest: 'dist/' },
         { src: 'global.css', dest: 'dist/' },
         { src: 'fast-components.min.js', dest: 'dist/' }
       ]
