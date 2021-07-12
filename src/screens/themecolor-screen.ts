@@ -4,6 +4,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 
 import { ScreenTemplate } from './screen-template';
 import { getContrastingColor } from '../utils';
+import './display-screen.js';
 
 @customElement('themecolor-screen')
 export class ThemecolorScreen extends ScreenTemplate {
@@ -16,53 +17,7 @@ export class ThemecolorScreen extends ScreenTemplate {
           width: 250px;
           margin: 120px auto 0;
         }
-    
-        .windows .titlebar-img {
-          position: absolute;
-          top: 0;
-          width: 100%;
-          box-shadow: var(--card-box-shadow);
-        }
-    
-        .windows .titlebar {
-          position: absolute;
-          height: 13px;
-          width: calc(100% - 1px);
-          top: 49px;
-          display: flex;
-          align-items: center;
-          border: 0.5px solid grey;
-          background-color: var(--pwa-theme-color);
-          font-family: var(--windows-font-family); 
-        }
-    
-        .windows .titlebar-actions {
-          margin-right: 3px; 
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 50px;
-        }
-    
-        .windows .titlebar-actions .collapse {
-          width: 8px;
-          height: 1px;
-        }
-    
-        .windows .titlebar-actions .enlarge {
-          width: 7px;
-          height: 7px;
-          border-width: 1px;
-          border-style: solid;
-        }
-    
-        .windows .app-name {
-          font-size: 9px;
-          width: fit-content;
-          margin: 0 auto;
-          display: inline-block;
-        }
-    
+        
         .android .switcher-img {
           width: 100%;
           position: absolute; 
@@ -135,6 +90,56 @@ export class ThemecolorScreen extends ScreenTemplate {
           object-fit: cover;
           object-position: top;
         }
+
+        .container.windows {
+          font-family: var(--windows-font-family);
+          height: 160px;
+          border: 1px solid #000;
+          margin-top: 50px;
+        }
+
+        .windows .title-bar {
+          width: 100%;
+          z-index: 1;
+          display: flex;
+          justify-content: space-between;
+          background-color: var(--pwa-theme-color);
+        }
+
+        .windows .nav-actions {
+          display: flex;
+          align-items: center;
+        }
+
+        .windows .nav-actions img {
+          width: 10px;
+          height: 8px;
+          margin: 4px 2px 0;
+          opacity: 0.8;
+        }
+
+        .windows .nav-actions svg {
+          margin: 4px 5px 0;
+        }
+
+        .windows .nav-actions .collapse {
+          margin: 4px 5px 0;
+          width: 6px;
+          height: 1px;
+        }
+
+        .windows .nav-actions .enlarge {
+          margin: 4px 5px 0;
+          width: 6px;
+          height: 6px;
+          border-width: 1px;
+          border-style: solid;
+        }
+
+        .windows .title-bar .app-name {
+          margin: 4px;
+          font-size: 6px;
+        }
     
         @media(max-width: 1366px) {
           .windows .titlebar {
@@ -188,20 +193,19 @@ export class ThemecolorScreen extends ScreenTemplate {
 
   renderWindows() {
     return html`
-      <div class="container windows">
-        <img alt="Windows' title bar" src="../assets/images/windows/titlebar.png" class="titlebar-img" />
+      <div class="windows container">
         <div 
-        class="titlebar" 
-        style=${styleMap({ 
-          '--pwa-theme-color': this.themeColor
-        })}>
-          <p class="app-name" style=${styleMap({ color: this.contrastingColor })}>
-            ${this.appName || 'PWA App'}
-          </p>
-          <div class="titlebar-actions">
+        class="title-bar"
+        style=${styleMap({ '--pwa-background-color': this.themeColor })}>
+          <div class="nav-actions">
+            <img alt="Go back" src="../assets/images/windows/backarrow.svg" />
+            <img alt="Refresh page" src="../assets/images/windows/refresharrow.svg" />
+          </div>
+          <span class="app-name">${this.appName}</span>
+          <div class="nav-actions">
             <div class="collapse" style=${styleMap({ backgroundColor: this.contrastingColor })}></div>
             <div class="enlarge" style=${styleMap({ borderColor: this.contrastingColor })}></div>
-            <svg class="close" width="8px" height="8px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+            <svg class="close" width="6px" height="6px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
               <g><path style="fill:${this.contrastingColor}" d="M990,61.2L933.3,5.1L500,443.3L66.7,5.1L10,61.2L443.9,500L10,938.8l56.7,56.1L500,556.7l433.3,438.2l56.7-56.1L556.1,500L990,61.2z"/></g>
             </svg>
           </div>

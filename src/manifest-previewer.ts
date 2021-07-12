@@ -176,7 +176,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The kind of preview currently shown.
    */
-  @property({ type: Number }) stage: PreviewStage = PreviewStage.Categories;
+  @property({ type: Number }) stage: PreviewStage = PreviewStage.ThemeColor;
 
   /**
    * The input web manifest.
@@ -201,7 +201,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The currently selected platform.
    */
-  @property() platform: Platform = 'iOS';
+  @property() platform: Platform = 'windows';
 
   /**
    * The content to display when in full screen.
