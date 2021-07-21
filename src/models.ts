@@ -1,17 +1,28 @@
 /**
  * Possible stages of the preview component.
  */
-export enum PreviewStage {
-  Install,
-  SplashScreen,
-  Name,
-  ShortName,
-  ThemeColor,
-  Shortcuts,
-  Display,
-  Categories,
-  ShareTarget
-}
+export const PREVIEW_STAGES = [
+  'install',
+  'splashScreen',
+  'name',
+  'shortName',
+  'themeColor',
+  'shortcuts',
+  'display',
+  'categories',
+  'shareTarget'
+] as const;
+export type PreviewStage = typeof PREVIEW_STAGES[number];
+
+/**
+ * The description messages on each preview screen.
+ */
+export type ScreenDescriptions = Partial<Partial<Record<PreviewStage, Record<Platform, string>>>>;
+
+/**
+ * Titles of each preview screen.
+ */
+export type ScreenTitles = Partial<Record<PreviewStage, string>>;
 
 /**
  * Supported platforms.
