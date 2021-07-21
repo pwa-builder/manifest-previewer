@@ -42,15 +42,112 @@ The `manifest-previewer` web component needs the following attributes to be defi
 In addition, the properties below can be added for further programmatic control:
 - `siteUrl`: The PWA's URL.
   - Default: The result of `this.manifestUrl.substring(0, this.manifestUrl.lastIndexOf('manifest.json'))`
+- `disableFullscreen`: Boolean value that controls whether the "Click to enlarge Preview" button is displayed and the fullscreen mode is enabled.
+  - Default: false
+- `cardTitle`: The main title of the component.
+  - Default: "Preview"
 - `platform`: The platform to preview (this component currently supports `'windows'`, `'android'` and `'iOS'`). Note that clicking the platform buttons also changes the value of this property.
   - Default: `windows`
 - `stage`: The preview screen. It must be one of `'install'`, `'splashScreen'`, `'name'`, `'shortName'`
 `'themeColor'`, `'shortcuts'`, `'display'`, `'categories'`, or `'shareTarget'`.
 The navigation arrows change this value as well. 
   - Default: `name`
+- `titles`: Object with key-value pairs of stage names and custom screen titles. For example, if a custom description for the `name` screen is desired, then `titles` should be:
+```
+{
+  name: 'My custom title!'
+}
+```
+ - Default:
+ ```
+{
+  install: 'Installation dialog',
+  splashScreen: 'Splash screen',
+  name: 'The name attribute',
+  shortName: 'The short name attribute',
+  themeColor: 'The theme color attribute',
+  shortcuts: 'The shortcuts attribute',
+  display: 'The display attribute',
+  categories: 'The categories attribute',
+  shareTarget: 'The share target attribute'
+}
+ ```
+- `descriptions`: Object where the keys are stage names and the values are objects with key-value pairs of platform and a string to be displayed on the respective screen. For example, if a custom description for the `name` screen when `windows` is the selected platform is desired, then `descriptions` should be:
+```
+{
+  name: {
+    windows: 'My custom description.'
+  }
+}
+```
+If a certain description is not specified, the default one is used.
+  - Defaults:
+  ```
+  {
+    install: {
+      windows: "Windows includes the application's icon, name, and website URL in its installation dialog.",
+      android: 'When installing a PWA on Android, the description, name, icon and screenshots are used for giving a preview of the application.',
+      iOS: "iOS uses the application's icon, name, and website URL in its installation screen."
+    },
+    splashScreen: {
+      windows: 'Splash screens are used to provide a smooth transition between the loading state and the initial launch of the application.',
+      android: 'When launching the PWA, Android uses the background color, theme color, name and icon for displaying the splash screen.',
+      iOS: 'When launching the PWA, iOS uses the background color, name and icon for displaying the splash screen while the content loads.'
+    },
+    name: {
+      windows: "The name of the web application is displayed on Window's start menu, application preferences, title bar, etc.",
+      android: 'The name of the web application will be included in the app info screen on Android.',
+      iOS: 'On iOS, the name of the web application will be used on settings.'
+    },
+    shortName: {
+      windows: 'Windows uses the short name as a fallback when the manifest does not specify a value for the name attribute.',
+      android: "On Android, the application's short name is used in the home screen as a label for the icon.",
+      iOS: "On iOS, the application's short name is used in the home screen as a label for the icon."
+    },
+    themeColor: {
+      windows: "The theme color defines the default color theme for the application, and is used for the PWA's title bar.",
+      android: 'The theme color defines the default color theme for the application, and affects how the site is displayed.',
+      iOS: 'The theme color defines the default color theme for the PWA, and defines the background color of the status bar when using the application.'
+    },
+    shortcuts: {
+      windows: "This attribute (A.K.A. jump list) assembles a context menu that is shows when a user right-clicks on the app's icon on the taskbar.",
+      android: "This attribute (A.K.A. jump list) assembles a context menu that is shows when a user long-presses the app's icon on the home screen.",
+      iOS: "This attribute (A.K.A. jump list) defines a list of shortcuts/links to key tasks or pages within a web app, assembling a context menu when a user interacts with the app's icon."
+    },
+    display: {
+      windows: "The display mode changes how much of the browser's UI is shown to the user. It can range from browser (the full browser window is shown) to fullscreen (the app is full-screened).",
+      android: "The display mode changes how much of the browser's UI (like the status bar and navigation buttons) is shown to the user.",
+      iOS: "The display mode changes how much of the browser's UI is shown to the user. It can range from browser (the full browser window is shown) to fullscreen (the app is full-screened)."
+    },
+    categories: {
+      windows: "The Microsoft store uses the indicated categories as tags in the app's listing.",
+      android: "Google Play includes the categories specified in the manifest in the application's listing page.",
+      iOS: "On iOS, your application's categories are set from a predetermined set of options and enhance the discoverability of your app."
+    },
+    shareTarget: {
+      windows: 'This attribute allows your application to easily share and receive media content on Windows.',
+      android: 'By using the share target attribute, you can quickly share and receive links and files like a native Android application.',
+      iOS: 'By using the share target attribute, you can quickly share and receive links and files like a native iOS application. '
+    }
+  }
+  ```
 
 ## Development
 Run `npm install` and then `npm start`. This will start the web dev server in your default browser. Your changes will be automatically reflected on the running application.
 
-## Customization
+## Custom styles
 This application exposes the platform buttons, title, and navigation arrows for CSS customization (via the [`::part()`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) pseudo-element). 
+
+The following are the parts available for styling:
+Part name | Description
+----------|------------
+`card` | The container card object.
+`card-title` | The component's main title.
+`platform-buttons` | The `div` that contains the platform buttons.
+`platform-button` | Platform button.
+`app-name` | The PWA's name title.
+`screen-title` | The title of the current preview stage.
+`screen-description` | The description of the current preview stage.
+`nav-arrow-right` | The right navigation arrow.
+`nav-arrow-left` | The left navigation arrow.
+`fullscreen-toggle` | The text that when clicked triggers the fullscreen mode.

@@ -230,6 +230,16 @@ export class ManifestPreviewer extends LitElement {
   @property({ type: Object }) titles = {} as ScreenTitles;
 
   /**
+   * If true, the fullscreen mode is disabled.
+   */
+  @property({ type: Boolean }) disableFullscreen = false;
+
+  /**
+   * The component's main title.
+   */
+  @property() cardTitle = 'Preview';
+
+  /**
    * The URL used for icon previews.
    */
   @state() private iconUrl = '';
@@ -437,7 +447,7 @@ export class ManifestPreviewer extends LitElement {
           <themecolor-screen
           .isInFullScreen=${this.isInFullScreen}
           .platform=${this.platform}
-          .themeColor=${this.manifest.theme_color}
+          .themeColor=${this.manifest.theme_color || ''}
           .appName=${this.manifest.name}
           .iconUrl=${this.iconUrl}>
           </themecolor-screen>
@@ -458,8 +468,8 @@ export class ManifestPreviewer extends LitElement {
           .isInFullScreen=${this.isInFullScreen}
           .platform=${this.platform}
           .display=${this.manifest.display || 'standalone'} 
-          .themeColor=${this.manifest.theme_color}
-          .backgroundColor=${this.manifest.background_color}
+          .themeColor=${this.manifest.theme_color || ''}
+          .backgroundColor=${this.manifest.background_color || ''}
           .iconUrl=${this.iconUrl}
           .appName=${this.manifest.name}
           .siteUrl=${this.siteUrl}>
@@ -496,8 +506,8 @@ export class ManifestPreviewer extends LitElement {
   render() {
     return html`
       <div class="container">
-        <fast-card class="card">
-          <h4 part="card-title" class="title">Preview</h4>
+        <fast-card part="card" class="card">
+          <h4 part="card-title" class="title">${this.cardTitle}</h4>
           <div part="platform-buttons" class="buttons-div">
             <fast-button 
             part="platform-button"
@@ -548,13 +558,15 @@ export class ManifestPreviewer extends LitElement {
           alt="Navigate left" 
           class="nav-arrow-left"
           @click=${this.handleNavigateLeft} />
+          ${this.disableFullscreen ? null : 
+          html`
           <p 
-          part="preview-text"
+          part="fullscreen-toggle"
           class="preview-text" 
           style=${styleMap({ cursor: 'pointer' })} 
           @click=${this.handleToggleEnlarge}>
             Click to enlarge Preview
-          </p>
+          </p>`}
         </fast-card>
       </div>
     `;
