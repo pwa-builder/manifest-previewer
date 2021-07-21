@@ -169,8 +169,18 @@ export class ThemecolorScreen extends ScreenTemplate {
 
   /**
    * Theme color attribute on the manifest.
+   * To avoid showing the placeholder images, avoid 'transparent' color
    */
-  @property() themeColor?: string;
+  private _themeColor = '';
+
+  set themeColor(val: string) {
+    const oldVal = this._themeColor;
+    this._themeColor = val === 'none' || val === 'transparent' ? 'darkGray' : val;
+    this.requestUpdate('themeColor', oldVal);
+  } 
+ 
+  @property()
+  get themeColor() { return this._themeColor; }
 
   /**
    * Name attribute on the manifest.
@@ -196,7 +206,7 @@ export class ThemecolorScreen extends ScreenTemplate {
       <div class="windows container">
         <div 
         class="title-bar"
-        style=${styleMap({ '--pwa-background-color': this.themeColor })}>
+        style=${styleMap({ '--pwa-theme-color': this.themeColor })}>
           <div class="nav-actions">
             <img alt="Go back" src="../assets/images/windows/backarrow.svg" />
             <img alt="Refresh page" src="../assets/images/windows/refresharrow.svg" />

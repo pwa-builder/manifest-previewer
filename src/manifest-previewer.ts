@@ -531,8 +531,8 @@ export class ManifestPreviewer extends LitElement {
             </fast-button>
           </div>
           <div part="app-name" class="name">${this.manifest.name}</div>
-          <p class="screen-title">${this.titles[this.stage]}</p>
-          <p class="screen-info">
+          <p part="screen-title" class="screen-title">${this.titles[this.stage]}</p>
+          <p part="screen-description" class="screen-info">
             ${this.descriptions[this.stage] ? this.descriptions[this.stage]![this.platform] : ''}
           </p>
           <div id="content">${this.screenContent()}</div>
