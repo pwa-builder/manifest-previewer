@@ -14,7 +14,9 @@ const config = {
       targets: [
         { src: 'assets/', dest: 'build/' },
         { src: 'global.css', dest: 'build/' },
-        { src: 'fast-components.min.js', dest: 'build/' }
+        { src: 'fast-components.min.js', dest: 'build/' },
+        { src: 'dist/src/*.d.ts', dest: 'build/' },
+        { src: 'dist/src/*.d.ts.map', dest: 'build/' }
       ]
     }),
     resolve(),
