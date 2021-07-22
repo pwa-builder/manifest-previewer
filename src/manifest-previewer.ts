@@ -569,7 +569,7 @@ export class ManifestPreviewer extends LitElement {
           <p 
           part="enlarge-toggle"
           class="preview-text" 
-          style=${styleMap({ cursor: 'pointer' })} 
+          style=${styleMap({ cursor: 'pointer' })}
           @click=${this.onEnlarge}>
             ${this.enlargeText}
           </p>` : null}
@@ -579,8 +579,8 @@ export class ManifestPreviewer extends LitElement {
   }
 }
 
-declare global {
+/*declare global {
   interface HTMLElementTagNameMap {
     "manifest-previewer": ManifestPreviewer
   }
-}
+}*/

@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "build": "rimraf build dist && tsc && rollup -c rollup.config.js",
-    "start:build": "npm run build && web-dev-server --root-dir build --app-index index.html --open --compatibility none",
+    "build": "npm run dev:build && rimraf dist && tsc && rollup -c rollup.config.js",
+    "dev:build": "rimraf build && tsc && rollup -c rollup.config.dev.js",
+    "start:build": "npm run dev:build && web-dev-server --root-dir build --app-index index.html --open --compatibility none",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\""
   },
   "devDependencies": {
@@ -22,15 +23,12 @@
   "author": "Maria Solano",
   "license": "MIT",
   "type": "module",
-  "main": "build/manifest-previewer.js",
-  "module": "build/manifest-previewer.js",
+  "main": "dist/manifest-previewer.js",
+  "module": "dist/manifest-previewer.js",
   "dependencies": {
     "lit": "^2.0.0-rc.2"
   },
   "types": "build/manifest-previewer.d.ts",
-  "files": [
-    "build"
-  ],
   "keywords": [
     "PWA",
     "web component",
