@@ -8,6 +8,7 @@ const config = {
   output: {
     dir: 'build',
     format: 'es',
+    sourcemap: false
   },
   plugins: [
     copy({

@@ -17,7 +17,7 @@
     "typescript": "^4.3.2"
   },
   "name": "manifest-previewer",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Web component that previews a PWA based on its manifest.json file",
   "author": "Maria Solano",
   "license": "MIT",
@@ -27,6 +27,9 @@
   "dependencies": {
     "lit": "^2.0.0-rc.2"
   },
-  "types": "dist/manifest-previewer.d.ts",
-  "files": ["build"]
+  "types": "build/manifest-previewer.d.ts",
+  "files": [
+    "build"
+  ],
+  "keywords": ["PWA", "web component", "manifest", "progressive web app", "lit"]
 }
