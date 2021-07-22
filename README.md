@@ -42,8 +42,10 @@ The `manifest-previewer` web component needs the following attributes to be defi
 In addition, the properties below can be added for further programmatic control:
 - `siteUrl`: The PWA's URL.
   - Default: The result of `this.manifestUrl.substring(0, this.manifestUrl.lastIndexOf('manifest.json'))`
-- `disableFullscreen`: Boolean value that controls whether the "Click to enlarge Preview" button is displayed and the fullscreen mode is enabled.
-  - Default: false
+- `enlargeText`: Text of the button that triggers the enlarge-preview mode. An empty string will hide the text, and hence disable the enlarge feature.
+  - Default: "Click to enlarge Preview"
+- `onEnlarge`: Callback function fired when requesting to enlarge the preview.
+  - Default: Fullscreen request (refer to [https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API)) from the main preview content.
 - `cardTitle`: The main title of the component.
   - Default: "Preview"
 - `platform`: The platform to preview (this component currently supports `'windows'`, `'android'` and `'iOS'`). Note that clicking the platform buttons also changes the value of this property.
@@ -150,4 +152,4 @@ Part name | Description
 `screen-description` | The description of the current preview stage.
 `nav-arrow-right` | The right navigation arrow.
 `nav-arrow-left` | The left navigation arrow.
-`fullscreen-toggle` | The text that when clicked triggers the fullscreen mode.
+`enlarge-toggle` | The text that when clicked requests to enlarge the preview.

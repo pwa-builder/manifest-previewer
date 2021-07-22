@@ -6,15 +6,15 @@ import html from "@open-wc/rollup-plugin-html";
 const config = {
   input: './index.html',
   output: {
-    dir: 'dist',
+    dir: 'build',
     format: 'es',
   },
   plugins: [
     copy({
       targets: [
-        { src: 'assets/', dest: 'dist/' },
-        { src: 'global.css', dest: 'dist/' },
-        { src: 'fast-components.min.js', dest: 'dist/' }
+        { src: 'assets/', dest: 'build/' },
+        { src: 'global.css', dest: 'build/' },
+        { src: 'fast-components.min.js', dest: 'build/' }
       ]
     }),
     resolve(),

@@ -184,6 +184,11 @@ export class ManifestPreviewer extends LitElement {
     }
   `;
 
+  // Putting this here so that we can use it as default enlarge callback
+  private handleToggleEnlarge() {
+    this.content.requestFullscreen();
+  }
+
   /**
    * The website's URL.
    */
@@ -230,9 +235,14 @@ export class ManifestPreviewer extends LitElement {
   @property({ type: Object }) titles = {} as ScreenTitles;
 
   /**
-   * If true, the fullscreen mode is disabled.
+   * Text of the enlarge screen feature.
    */
-  @property({ type: Boolean }) disableFullscreen = false;
+  @property() enlargeText = 'Click to enlarge Preview';
+
+  /**
+   * Callback fired when requesting to enlarge the preview.
+   */
+  @property() onEnlarge = this.handleToggleEnlarge;
 
   /**
    * The component's main title.
@@ -391,10 +401,6 @@ export class ManifestPreviewer extends LitElement {
 
   private handleFullScreenChange = () => {
     this.isInFullScreen = Boolean(document.fullscreenElement);
-  }
-
-  private handleToggleEnlarge() {
-    this.content.requestFullscreen();
   }
 
   private screenContent() {
@@ -558,15 +564,15 @@ export class ManifestPreviewer extends LitElement {
           alt="Navigate left" 
           class="nav-arrow-left"
           @click=${this.handleNavigateLeft} />
-          ${this.disableFullscreen ? null : 
+          ${this.enlargeText ?
           html`
           <p 
-          part="fullscreen-toggle"
+          part="enlarge-toggle"
           class="preview-text" 
           style=${styleMap({ cursor: 'pointer' })} 
-          @click=${this.handleToggleEnlarge}>
-            Click to enlarge Preview
-          </p>`}
+          @click=${this.onEnlarge}>
+            ${this.enlargeText}
+          </p>` : null}
         </fast-card>
       </div>
     `;
@@ -575,6 +581,6 @@ export class ManifestPreviewer extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'manifest-previewer': ManifestPreviewer;
+    "manifest-previewer": ManifestPreviewer
   }
 }

@@ -17,11 +17,16 @@
     "typescript": "^4.3.2"
   },
   "name": "manifest-previewer",
-  "version": "0.0.0",
-  "description": "Webcomponent manifest-previewer following open-wc recommendations",
+  "version": "1.0.0",
+  "description": "Web component that previews a PWA based on its manifest.json file",
   "author": "Maria Solano",
   "license": "MIT",
+  "type": "module",
+  "main": "manifest-previewer.js",
+  "module": "manifest-previewer.js",
   "dependencies": {
     "lit": "^2.0.0-rc.2"
-  }
+  },
+  "types": "dist/manifest-previewer.d.ts",
+  "files": ["dist"]
 }
