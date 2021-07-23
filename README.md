@@ -19,7 +19,6 @@ Attribute | Description | Screen
 - [Lit](https://lit.dev/)
 - [Typescript](https://www.typescriptlang.org/)
 - The project generator from [Open Web Components](https://open-wc.org/docs/development/generator/)
-- [FAST components](https://www.fast.design/docs/introduction)
 
 ## Prerequisites
 To run this project, you will need to have [`node.JS`](https://nodejs.org/en/) and [`npm`](https://docs.npmjs.com/getting-started) installed on your computer. Knowledge of Typescript, web components and CSS is also encouraged. 
@@ -153,3 +152,15 @@ Part name | Description
 `nav-arrow-right` | The right navigation arrow.
 `nav-arrow-left` | The left navigation arrow.
 `enlarge-toggle` | The text that when clicked requests to enlarge the preview.
+
+In addition, the following [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) can be provided:
+Variable name | Description | Default
+--------------|-------------|--------
+`--font-family` | The global font family. | Arial
+`--windows-font-family` | Font family to use in the Windows previews. | Arial
+`--ios-font-family` | Font family to use in the iOS previews. | Arial
+`--font-color` | The global font color. | `#292C3A`
+`--secondary-font-color` | Color used for the screen descriptions, the "enlarge content" text and disclaimer messages. | `#808080`
+`--pwa-background-color` | Fallback background color to use in case it is not defined in the manifest. | `#FFF`
+`--pwa-theme-color` | Fallback theme color to use in case it is not defined in the manifest. | `#EBD0FE`
+

@@ -9,19 +9,61 @@
 
   <title>PWABuilder - Preview component</title>
 
-  <!-- Microsoft Fast Components -->
-  <script type="module" src="/fast-components.min.js"></script>
-
-  <!-- Global styles -->
-  <link href="/global.css" rel="stylesheet" />
-
   <script type="module" src="./manifest-previewer.js"></script>
+
+  <style type="text/css" media="screen, print">
+    @font-face {
+      font-family: 'Hind';
+      src: url('/assets/fonts/Hind-Regular.ttf');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Hind';
+      src: url('/assets/fonts/Hind-Bold.ttf');
+      font-weight: 700;
+      font-style: bold;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Segoe';
+      src: url('/assets/fonts/SegoeUI.ttf');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'SF-Pro';
+      src: url('/assets/fonts/SFProDisplay-Light.ttf');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Roboto';
+      src: url('/assets/fonts/Roboto-Regular.ttf');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    manifest-previewer {
+      --font-family: Hind;
+      --windows-font-family: Segoe;
+      --ios-font-family: SF-Pro;
+    }
+
+    manifest-previewer::part(card) {
+      margin: 0 auto;
+    }
+  </style>
 </head>
 
 <body>
-  <fast-design-system-provider use-defaults>
-    <manifest-previewer></manifest-previewer>
-  </fast-design-system-provider>
+  <manifest-previewer></manifest-previewer>
 </body>
 
 </html>

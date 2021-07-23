@@ -18,7 +18,7 @@ export class InstallScreen extends ScreenTemplate {
 
         .container.windows {
           margin: 80px auto 0;
-          font-family: var(--windows-font-family);
+          font-family: var(--windows-font-family, Arial);
         }
 
         .container.android {
@@ -26,13 +26,8 @@ export class InstallScreen extends ScreenTemplate {
         }
 
         .android .preview-img {
-          position: absolute;
           width: 100%;
           height: auto;
-          top: 0;
-          bottom: 0;
-          right: 0;
-          left: 0;
           margin: 0 auto;
           background: #FFF;
           box-shadow: var(--card-box-shadow);
@@ -222,7 +217,7 @@ export class InstallScreen extends ScreenTemplate {
         }
 
         .ios .add-btn {
-          font-family: var(--ios-font-family);
+          font-family: var(--ios-font-family, Arial);
           position: absolute;
           font-weight: 600;
           top: 0;
@@ -268,7 +263,7 @@ export class InstallScreen extends ScreenTemplate {
           top: 58px;
           left: 52px;
           font-size: 11px;
-          font-family: var(--ios-font-family);
+          font-family: var(--ios-font-family, Arial);
           font-weight: 600;
         }
 
@@ -281,7 +276,7 @@ export class InstallScreen extends ScreenTemplate {
           left: 52px;
           font-size: 9px;
           width: 159px;
-          font-family: var(--ios-font-family);
+          font-family: var(--ios-font-family, Arial);
           white-space: nowrap;
         }
       `

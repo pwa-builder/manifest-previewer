@@ -18,7 +18,7 @@ export class ShortcutsScreen extends ScreenTemplate {
         }
 
         .container.windows {
-          font-family: var(--windows-font-family);
+          font-family: var(--windows-font-family, Arial);
         }
 
         .menu-img {

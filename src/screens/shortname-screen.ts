@@ -72,7 +72,7 @@ export class ShortnameScreen extends ScreenTemplate {
           text-align: center;
           background-color: rgb(113, 137, 150);
           color: rgb(255, 255, 255);
-          font-family: var(--ios-font-family);
+          font-family: var(--ios-font-family, Arial);
           font-size: 9px;
         }
 

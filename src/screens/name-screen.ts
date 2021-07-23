@@ -24,6 +24,7 @@ export class NameScreen extends ScreenTemplate {
           top: 0;
           width: 100%;
           box-shadow: var(--card-box-shadow);
+          border-radius: 5px;
         }
     
         .windows .app-container {
@@ -45,7 +46,7 @@ export class NameScreen extends ScreenTemplate {
           font-weight: 600;
           letter-spacing: -0.07px;
           margin-top: 2.5px;
-          font-family: var(--windows-font-family); 
+          font-family: var(--windows-font-family, Arial); 
           max-width: 40px;
           white-space: nowrap;
           overflow-x: hidden;
@@ -93,7 +94,7 @@ export class NameScreen extends ScreenTemplate {
         }
     
         .ios .app-name {
-          font-family: var(--ios-font-family);
+          font-family: var(--ios-font-family, Arial);
           background-color: #F4F4F4;
           position: absolute;
           top: 146px;

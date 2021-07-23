@@ -12,7 +12,7 @@ export class ShareTarget extends ScreenTemplate {
         .container {
           position: relative;
           width: fit-content;
-          margin: 0px auto;
+          margin: 30px auto 0;
           width: 260px;
         }
 
@@ -29,7 +29,7 @@ export class ShareTarget extends ScreenTemplate {
           width: 100%;
           left: 0;
           height: 70px;
-          font-family: var(--windows-font-family);
+          font-family: var(--windows-font-family, Arial);
         }
 
         .avatar, .app {
@@ -127,7 +127,7 @@ export class ShareTarget extends ScreenTemplate {
           position: absolute;
           top: 12px;
           right: 81px;
-          font-family: var(--ios-font-family);
+          font-family: var(--ios-font-family, Arial);
           width: 50px;
           overflow: hidden;
           min-height: 61px;

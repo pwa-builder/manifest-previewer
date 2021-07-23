@@ -26,9 +26,7 @@ export default {
     }),
     copy({
       targets: [
-        { src: "assets/images", dest: "dist/assets/images" },
-        { src: "global.css", dest: "dist/styles/" },
-        { src: "fast-components.min.js", dest: "dist/" },
+        { src: "assets/images", dest: "dist/assets/images" }
       ],
     }),
   ],

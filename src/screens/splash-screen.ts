@@ -19,16 +19,13 @@ export class SplashScreen extends ScreenTemplate {
         }
 
         .android .phone {
-          position: absolute;
           width: 100%;
           height: 460px;
-          top: 0;
           background: #FFF;
           box-shadow: var(--card-box-shadow);
           border-radius: 8.11976px;
           object-fit: cover;
           object-position: top;
-          z-index: -1;
         }
 
         .android .screen {
@@ -36,17 +33,16 @@ export class SplashScreen extends ScreenTemplate {
           width: 100%;
           height: 400px;
           top: 19px;
-          border-radius: 8.12px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          background-color: var(--pwa-background-color);
+          background-color: var(--pwa-background-color, #FFF);
         }
 
         .phone-bar {
           padding: 7px 0;
           width: 100%;
-          background-color: var(--pwa-theme-color);
+          background-color: var(--pwa-theme-color, #EBD0FE);
         }
 
         .icon {
@@ -60,10 +56,6 @@ export class SplashScreen extends ScreenTemplate {
           width: fit-content;
           margin: 0 auto 30px;
           font-size: 16px;
-        }
-
-        .container.ios {
-          margin-top: 30px;
         }
 
         .ios .phone {
@@ -85,8 +77,8 @@ export class SplashScreen extends ScreenTemplate {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          font-family: var(--ios-font-family);
-          background-color: var(--pwa-background-color);
+          font-family: var(--ios-font-family, Arial);
+          background-color: var(--pwa-background-color, #FFF);
         }
 
         .ios .status-bar {

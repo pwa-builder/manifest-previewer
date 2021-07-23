@@ -18,12 +18,12 @@ export class DisplayScreen extends ScreenTemplate {
           position: relative;
           display: flex;
           justify-content: center;
-          margin: 0 auto;
+          margin: 20px auto 0;
           width: fit-content;
         }
 
         .container.windows {
-          font-family: var(--windows-font-family);
+          font-family: var(--windows-font-family, Arial);
         }
 
         .container.android {
@@ -38,7 +38,7 @@ export class DisplayScreen extends ScreenTemplate {
           box-shadow: var(--card-box-shadow);
           border-radius: 8px;
           object-fit: cover;
-          z-index: -1;
+          z-index: 0;
         }
 
         .android .status-bar {
@@ -49,8 +49,8 @@ export class DisplayScreen extends ScreenTemplate {
           height: 18px;
           position: absolute;
           top: 16px;
-          z-index: 1;
-          background-color: var(--pwa-theme-color);
+          z-index: 2;
+          background-color: var(--pwa-theme-color, #EBD0FE);
         }
 
         .android .status-bar img {
@@ -67,7 +67,8 @@ export class DisplayScreen extends ScreenTemplate {
           justify-content: center;
           align-items: center;
           flex-direction: column;
-          background-color: var(--pwa-background-color);
+          background-color: var(--pwa-background-color, #FFF);
+          z-index: 1;
         }
 
         .android .app-background-partial {
@@ -79,7 +80,8 @@ export class DisplayScreen extends ScreenTemplate {
           justify-content: center;
           align-items: center;
           flex-direction: column;
-          background-color: var(--pwa-background-color);
+          background-color: var(--pwa-background-color, #FFF);
+          z-index: 1;
         }
 
         .android .app-icon {
@@ -119,7 +121,7 @@ export class DisplayScreen extends ScreenTemplate {
           align-items: center;
           flex-direction: column;
           box-shadow: var(--card-box-shadow);
-          background-color: var(--pwa-background-color);
+          background-color: var(--pwa-background-color, #FFF);
         }
 
         .windows .app-background.browser {
@@ -165,7 +167,7 @@ export class DisplayScreen extends ScreenTemplate {
           z-index: 1;
           display: flex;
           justify-content: space-between;
-          background-color: var(--pwa-theme-color);
+          background-color: var(--pwa-theme-color, #EBD0FE);
         }
 
         .windows .nav-actions {

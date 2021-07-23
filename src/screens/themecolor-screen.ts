@@ -33,7 +33,7 @@ export class ThemecolorScreen extends ScreenTemplate {
           top: 33px;
           height: 42px;
           left: 44px;
-          background-color: var(--pwa-theme-color);
+          background-color: var(--pwa-theme-color, #EBD0FE);
         }
     
         .android .app-icon {
@@ -80,7 +80,7 @@ export class ThemecolorScreen extends ScreenTemplate {
           height: 18px;
           left: 19.5px;
           width: 212px;
-          background-color: var(--pwa-theme-color);
+          background-color: var(--pwa-theme-color, #EBD0FE);
         }
     
         .ios .status-bar img {
@@ -92,7 +92,7 @@ export class ThemecolorScreen extends ScreenTemplate {
         }
 
         .container.windows {
-          font-family: var(--windows-font-family);
+          font-family: var(--windows-font-family, Arial);
           height: 160px;
           border: 1px solid #000;
           margin-top: 50px;
@@ -103,7 +103,7 @@ export class ThemecolorScreen extends ScreenTemplate {
           z-index: 1;
           display: flex;
           justify-content: space-between;
-          background-color: var(--pwa-theme-color);
+          background-color: var(--pwa-theme-color, #EBD0FE);
         }
 
         .windows .nav-actions {

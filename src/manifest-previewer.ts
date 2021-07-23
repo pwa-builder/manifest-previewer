@@ -24,12 +24,10 @@ import {
 @customElement('manifest-previewer')
 export class ManifestPreviewer extends LitElement {
   static styles = css`
-    .container {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    :host {
+      font-family: var(--font-family, Arial);
+      color: var(--font-color, #292C3A);
+      --card-box-shadow: 0px 3px 5.41317px rgba(0, 0, 0, 0.25);
     }
 
     .card {
@@ -37,20 +35,17 @@ export class ManifestPreviewer extends LitElement {
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       border-radius: 6px;
       height: 792px;
-      display: none;
+      position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
     .title {
-      position: absolute;
-      left: calc(50% - 33px);
-      top: 23px;
-      margin: 0;
-      width: 66px;
+      margin: 23px auto 40px;
       font-weight: 700;
       font-size: 18px;
-      line-height: 24px;
-      color: var(--font-color);
-      text-decoration: underline solid var(--secondary-font-color);
+      width: fit-content;
+      text-decoration: underline solid var(--secondary-font-color, #808080);
       text-underline-position: under;
       text-decoration-thickness: 2px;
     }
@@ -58,11 +53,11 @@ export class ManifestPreviewer extends LitElement {
     .buttons-div {
       display: flex;
       justify-content: space-between;
-      margin: 71px auto 0;
+      margin: 0 auto;
       width: 272px;
     }
 
-    fast-button.platform-button {
+    .platform-button {
       height: 35px;
       border-radius: 33px;
       font-size: 12.5751px;
@@ -70,11 +65,8 @@ export class ManifestPreviewer extends LitElement {
       width: 80px;
       background: #FFF;
       box-shadow: 0px 3px 3.02588px rgba(0, 0, 0, 0.25);
-      color: var(--font-color);
-    }
-    
-    fast-button::part(control) {
-      font-weight: 700;
+      font-weight: 600;
+      border: none;
     }
 
     .platform-button.selected {
@@ -86,10 +78,8 @@ export class ManifestPreviewer extends LitElement {
     .name {
       background: rgba(194, 194, 194, 0.4);
       border-radius: 4px;
-      height: 24px;
       font-weight: 700;
-      font-size: 16px;
-      line-height: 25px;
+      font-size: 14px;
       text-align: center;
       color: #000;
       margin: 20px auto 0;
@@ -99,13 +89,13 @@ export class ManifestPreviewer extends LitElement {
 
     .preview-text {
       position: absolute;
-      bottom: 25px;
+      bottom: 10px;
       left: calc(50% - 55px);
       font-weight: 400;
       font-size: 10px;
       line-height: 16px;
       text-align: center;
-      color: var(--secondary-font-color);
+      color: var(--secondary-font-color, #808080);
       width: 110px;
     }
 
@@ -140,18 +130,10 @@ export class ManifestPreviewer extends LitElement {
       margin: 0 auto;
       font-weight: 400;
       font-size: 12px;
-      line-height: 16px;
+      line-height: 1.5;
       text-align: center;
-      color: var(--secondary-font-color);
+      color: var(--secondary-font-color, #808080);
       width: 230px;
-      display: block;
-    }
-
-    /* The card is hidden for smaller screens */
-    @media(min-width: 800px) {
-      .card {
-        display: block;
-      }
     }
 
     /* 800 designs */
@@ -511,69 +493,67 @@ export class ManifestPreviewer extends LitElement {
 
   render() {
     return html`
-      <div class="container">
-        <fast-card part="card" class="card">
-          <h4 part="card-title" class="title">${this.cardTitle}</h4>
-          <div part="platform-buttons" class="buttons-div">
-            <fast-button 
-            part="platform-button"
-            class=${classMap({ 
-              'platform-button': true, 
-              selected: this.platform === 'windows' 
-            })} 
-            name="windows"
-            @click=${this.handlePlatformChange}>
-              Windows
-            </fast-button>
-            <fast-button 
-            part="platform-button"
-            class=${classMap({ 
-              'platform-button': true, 
-              selected: this.platform === 'android' 
-            })} 
-            name="android"
-            @click=${this.handlePlatformChange}>
-              Android
-            </fast-button>
-            <fast-button
-            part="platform-button"
-            class=${classMap({
-              'platform-button': true,
-              selected: this.platform === 'iOS'
-            })}
-            name="iOS"
-            @click=${this.handlePlatformChange}>
-              iOS
-            </fast-button>
-          </div>
-          <div part="app-name" class="name">${this.manifest.name}</div>
-          <p part="screen-title" class="screen-title">${this.titles[this.stage]}</p>
-          <p part="screen-description" class="screen-info">
-            ${this.descriptions[this.stage] ? this.descriptions[this.stage]![this.platform] : ''}
-          </p>
-          <div id="content">${this.screenContent()}</div>
-          <img 
-          part="nav-arrow"
-          src="../assets/images/nav-arrow.svg" 
-          alt="Navigate right" 
-          class="nav-arrow-right"
-          @click=${this.handleNavigateRight} />
-          <img 
-          part="nav-arrow"
-          src="../assets/images/nav-arrow.svg" 
-          alt="Navigate left" 
-          class="nav-arrow-left"
-          @click=${this.handleNavigateLeft} />
-          ${this.enlargeText ?
-          html`
-          <p 
-          part="enlarge-toggle"
-          class="preview-text" 
-          style=${styleMap({ cursor: 'pointer' })}
-          @click=${this.onEnlarge}>
-            ${this.enlargeText}
-          </p>` : null}
-        </fast-card>
+      <div part="card" class="card">
+        <h4 part="card-title" class="title">${this.cardTitle}</h4>
+        <div part="platform-buttons" class="buttons-div">
+          <button 
+          part="platform-button"
+          class=${classMap({ 
+            'platform-button': true, 
+            selected: this.platform === 'windows' 
+          })} 
+          name="windows"
+          @click=${this.handlePlatformChange}>
+            Windows
+          </button>
+          <button 
+          part="platform-button"
+          class=${classMap({ 
+            'platform-button': true, 
+            selected: this.platform === 'android' 
+          })} 
+          name="android"
+          @click=${this.handlePlatformChange}>
+            Android
+          </button>
+          <button
+          part="platform-button"
+          class=${classMap({
+            'platform-button': true,
+            selected: this.platform === 'iOS'
+          })}
+          name="iOS"
+          @click=${this.handlePlatformChange}>
+            iOS
+          </button>
+        </div>
+        <div part="app-name" class="name">${this.manifest.name || 'PWA App'}</div>
+        <p part="screen-title" class="screen-title">${this.titles[this.stage]}</p>
+        <p part="screen-description" class="screen-info">
+          ${this.descriptions[this.stage] ? this.descriptions[this.stage]![this.platform] : ''}
+        </p>
+        <div id="content">${this.screenContent()}</div>
+        <img 
+        part="nav-arrow"
+        src="../assets/images/nav-arrow.svg" 
+        alt="Navigate right" 
+        class="nav-arrow-right"
+        @click=${this.handleNavigateRight} />
+        <img 
+        part="nav-arrow"
+        src="../assets/images/nav-arrow.svg" 
+        alt="Navigate left" 
+        class="nav-arrow-left"
+        @click=${this.handleNavigateLeft} />
+        ${this.enlargeText ?
+        html`
+        <p 
+        part="enlarge-toggle"
+        class="preview-text" 
+        style=${styleMap({ cursor: 'pointer' })}
+        @click=${this.onEnlarge}>
+          ${this.enlargeText}
+        </p>` : null}
       </div>
     `;
   }
