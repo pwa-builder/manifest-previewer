@@ -13,7 +13,7 @@ const config = {
   plugins: [
     copy({
       targets: [
-        { src: 'assets/fonts/', dest: 'build/assets/' },
+        { src: 'index.html', dest: 'build/' },
         { src: 'assets/images/', dest: 'build/assets/' },
         { src: 'global.css', dest: 'build/' },
         { src: 'fast-components.min.js', dest: 'build/' },
