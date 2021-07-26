@@ -18,6 +18,8 @@ export default {
       "process.env.NODE_ENV": JSON.stringify(
         process.env.NODE_ENV || "production"
       ),
+      '../assets': 'https://github.com/MariaSolOsso/PWABuilder-previewer/raw/main/assets',
+      delimiters: ['', '']
     }),
     litcss(),
     terser(),
@@ -26,8 +28,9 @@ export default {
     }),
     copy({
       targets: [
-        { src: "assets/images", dest: "dist/assets/images" }
-      ],
-    }),
-  ],
+        { src: 'build/*.d.ts', dest: 'dist/' },
+        { src: 'build/*.d.ts.map', dest: 'dist/' }
+      ]
+    })
+  ]
 };

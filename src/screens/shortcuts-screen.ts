@@ -36,7 +36,7 @@ export class ShortcutsScreen extends ScreenTemplate {
 
         .windows .menu {
           position: absolute;
-          bottom: 41px;
+          bottom: 40px;
           right: 13px;
           width: 105px;
           height: 100px;

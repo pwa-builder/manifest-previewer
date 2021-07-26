@@ -134,7 +134,7 @@ If a certain description is not specified, the default one is used.
   ```
 
 ## Development
-Run `npm install` and then `npm start`. This will start the web dev server in your default browser. Your changes will be automatically reflected on the running application.
+For contributing to this project, download the source code from [the repository](https://github.com/MariaSolOsso/PWABuilder-previewer), run `npm install` and then `npm start:build`. This will start the web dev server in your default browser. Your changes will be automatically reflected on the running application.
 
 ## Custom styles
 This application exposes the platform buttons, title, and navigation arrows for CSS customization (via the [`::part()`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) pseudo-element). 

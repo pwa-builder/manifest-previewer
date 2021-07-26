@@ -217,7 +217,7 @@ export class CategoriesScreen extends ScreenTemplate {
   renderAndroid() {
     return html`
       <div class="container android">
-        <img class="store-img" alt="Microsoft store" src="../../assets/images/android/app-listing.png" />
+        <img class="store-img" alt="Microsoft store" src="../assets/images/android/app-listing.png" />
         ${this.iconUrl ? 
           html`<img class="app-icon" alt="App icon" src=${this.iconUrl} />` : 
           html`<div class="app-icon"></div>`}

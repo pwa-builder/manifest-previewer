@@ -2,7 +2,7 @@
   "scripts": {
     "build": "rimraf dist && tsc && rollup -c rollup.config.js",
     "dev:build": "concurrently \"tsc --watch --preserveWatchOutput\" \"rollup -c rollup.config.dev.js\"",
-    "start:build": "rimraf build && tsc && concurrently \"npm run dev:build\" \"web-dev-server --root-dir build --app-index build/index.html --open --compatibility none\"",
+    "start:build": "rimraf build && rimraf dist && tsc && concurrently \"npm run dev:build\" \"web-dev-server --root-dir build --app-index build/index.html --open --compatibility none\"",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
     "test": "tsc"
   },
@@ -21,7 +21,7 @@
     "typescript": "^4.3.2"
   },
   "name": "@pwabuilder/manifest-previewer",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "Web component that previews a PWA based on its manifest.json file",
   "author": "Maria Solano",
   "license": "MIT",
@@ -42,5 +42,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/MariaSolOsso/PWABuilder-previewer.git"
-  }
+  },
+  "files": ["dist"]
 }
