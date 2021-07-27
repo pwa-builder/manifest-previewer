@@ -150,7 +150,7 @@ export class SplashScreen extends ScreenTemplate {
       <div class="screen" style=${styleMap({ '--pwa-background-color': this.backgroundColor })}>
         <div 
         class="phone-bar"
-        style=${styleMap({ '--pwa-background-color': this.themeColor })}></div>
+        style=${styleMap({ '--pwa-theme-color': this.themeColor })}></div>
         ${this.iconUrl ?
           html`
           <img 
@@ -161,7 +161,7 @@ export class SplashScreen extends ScreenTemplate {
         <h5 class="app-name" style=${styleMap({ color: this.contrastingBackgroundColor })}>
           ${this.appName || 'PWA App'}
         </h5>
-        <div class="phone-bar" style=${styleMap({ '--pwa-background-color': this.themeColor })}></div>
+        <div class="phone-bar" style=${styleMap({ '--pwa-theme-color': this.themeColor })}></div>
       </div>
     </div>
     `;

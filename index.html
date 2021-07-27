@@ -63,7 +63,45 @@
 </head>
 
 <body>
-  <manifest-previewer></manifest-previewer>
+  <manifest-previewer
+  manifesturl="https://www.pwabuilder.com/"
+  manifest='{
+  "name": "PWABuilder",
+  "display": "standalone",
+  "short_name": "PWABuilder",
+  "theme_color": "#FFFFFF",
+  "description": "All the tools you need to build and deploy your Progressive Web Apps.",
+  "background_color": "#FFFFFF",
+  "icons": [
+    {
+      "src": "/assets/icons/icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/screen1.png",
+      "sizes": "2880x1800",
+      "type": "image/png",
+      "description": "PWABuilder Home Screen"
+    },
+    {
+      "src": "/assets/screenshots/screen2.png",
+      "sizes": "2880/1800",
+      "type": "image/png",
+      "description": "PWABuilder Report Card"
+    },
+    {
+      "src": "/assets/screenshots/screen3.png",
+      "sizes": "2880x1800",
+      "type": "image/png",
+      "description": "Manifest information on the Report Card"
+    }
+  ]
+  }'
+  siteurl="https://www.pwabuilder.com/">
+  </manifest-previewer>
 </body>
 
 </html>
