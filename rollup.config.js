@@ -18,7 +18,7 @@ export default {
       "process.env.NODE_ENV": JSON.stringify(
         process.env.NODE_ENV || "production"
       ),
-      '../assets': 'https://github.com/MariaSolOsso/PWABuilder-previewer/raw/main/assets',
+      '../assets': 'https://github.com/pwa-builder/manifest-previewer/raw/main/assets',
       delimiters: ['', '']
     }),
     litcss(),
