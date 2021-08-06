@@ -145,7 +145,11 @@ export class SplashScreen extends ScreenTemplate {
 
   renderAndroid() {
     return html`
-    <div class="container android">
+    <div 
+    role="img" 
+    tabindex="0" 
+    aria-label="Splash screen in Android" 
+    class="container android">
       <img class="phone" alt="Application mobile preview" src="../assets/images/android/background.svg" />
       <div class="screen" style=${styleMap({ '--pwa-background-color': this.backgroundColor })}>
         <div 
@@ -169,7 +173,11 @@ export class SplashScreen extends ScreenTemplate {
 
   renderiOS() {
     return html`
-      <div class="container ios"> 
+      <div
+      role="img" 
+      tabindex="0" 
+      aria-label="Splash screen in iOS"  
+      class="container ios"> 
         <img class="phone" alt="Iphone" src="../assets/images/ios/iphone.svg" />
         <div class="screen" style=${styleMap({ '--pwa-background-color': this.backgroundColor })}>
           <img class="status-bar" alt="iOS status bar" src="../assets/images/ios/statusbar.svg" />

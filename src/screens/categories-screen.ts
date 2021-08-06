@@ -197,7 +197,7 @@ export class CategoriesScreen extends ScreenTemplate {
 
   renderWindows() {
     return html`
-      <div class="container windows">
+      <div role="img" tabindex="0" aria-label="PWA categories in Windows" class="container windows">
         <img class="store-img" alt="Microsoft Store" src="../assets/images/windows/store-listing.png" />
         <div class="app-header">
           ${this.iconUrl ? html`<img alt="App icon" src=${this.iconUrl} />` : null}
@@ -216,7 +216,7 @@ export class CategoriesScreen extends ScreenTemplate {
 
   renderAndroid() {
     return html`
-      <div class="container android">
+      <div role="img" tabindex="0" aria-label="PWA categories in Android" class="container android">
         <img class="store-img" alt="Microsoft store" src="../assets/images/android/app-listing.png" />
         ${this.iconUrl ? 
           html`<img class="app-icon" alt="App icon" src=${this.iconUrl} />` : 

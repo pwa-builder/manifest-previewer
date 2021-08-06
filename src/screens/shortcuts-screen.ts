@@ -153,7 +153,11 @@ export class ShortcutsScreen extends ScreenTemplate {
 
   sharedRender() {
     return html`
-      <div class="container ${this.platform}">
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label=${`Shortcuts in ${this.platform}`} 
+      class="container ${this.platform}">
         <img 
         class="menu-img" 
         alt="Application shortcuts" 

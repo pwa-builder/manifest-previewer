@@ -331,7 +331,11 @@ export class InstallScreen extends ScreenTemplate {
 
   renderWindows() {
     return html`
-      <div class="container windows">
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label="PWA installation in Windows" 
+      class="container windows">
         <div class="add-dialog">
           <div class="header">
             ${this.iconUrl ? 
@@ -359,7 +363,11 @@ export class InstallScreen extends ScreenTemplate {
 
   renderAndroid() {
     return html`
-      <div class="container android">
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label="PWA installation in Android" 
+      class="container android">
         <div class="url-bar">${this.siteUrl}</div>
         <div class="dialog">
           <div class="swipe-bar"></div>
@@ -391,7 +399,11 @@ export class InstallScreen extends ScreenTemplate {
 
   renderiOS() {
     return html`
-      <div class="container ios">
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label="PWA installation in iOS" 
+      class="container ios">
         <div class="add-btn">Add</div>
         <img class="phone-img" alt="iOS PWA installation" src="../assets/images/ios/add-to-home.png" />
         <div class="hidden"></div>

@@ -1,6 +1,5 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, state, property, query } from 'lit/decorators.js';
-import { styleMap } from 'lit/directives/style-map.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import './screens/install-screen.js';
@@ -67,6 +66,11 @@ export class ManifestPreviewer extends LitElement {
       box-shadow: 0px 3px 3.02588px rgba(0, 0, 0, 0.25);
       font-weight: 600;
       border: none;
+      cursor: pointer;
+    }
+
+    button:focus-visible, .nav-arrow-left:focus-visible, .nav-arrow-right:focus-visible {
+      outline: 2px solid #000;
     }
 
     .platform-button.selected {
@@ -99,7 +103,20 @@ export class ManifestPreviewer extends LitElement {
       width: 110px;
     }
 
-    img.nav-arrow-right {
+    .preview-button {
+      position: absolute;
+      bottom: 15px;
+      left: calc(50% - 75px);
+      font-weight: 400;
+      font-size: 10px;
+      text-align: center;
+      color: var(--secondary-font-color, #808080);
+      width: 150px;
+      background: none;
+      border: none;
+    }
+
+    .nav-arrow-right {
       position: absolute;
       width: 19px;
       height: 38px;
@@ -107,8 +124,8 @@ export class ManifestPreviewer extends LitElement {
       right: 16px;
       cursor: pointer;
     }
-    
-    img.nav-arrow-left {
+
+    .nav-arrow-left {
       position: absolute;
       width: 19px;
       height: 38px;
@@ -494,10 +511,11 @@ export class ManifestPreviewer extends LitElement {
   render() {
     return html`
       <div part="card" class="card">
-        <h4 part="card-title" class="title">${this.cardTitle}</h4>
+        <h1 part="card-title" class="title">${this.cardTitle}</h1>
         <div part="platform-buttons" class="buttons-div">
           <button 
           part="platform-button"
+          aria-pressed=${this.platform === 'windows'}
           class=${classMap({ 
             'platform-button': true, 
             selected: this.platform === 'windows' 
@@ -508,6 +526,7 @@ export class ManifestPreviewer extends LitElement {
           </button>
           <button 
           part="platform-button"
+          aria-pressed=${this.platform === 'android'}
           class=${classMap({ 
             'platform-button': true, 
             selected: this.platform === 'android' 
@@ -518,6 +537,7 @@ export class ManifestPreviewer extends LitElement {
           </button>
           <button
           part="platform-button"
+          aria-pressed=${this.platform === 'iOS'}
           class=${classMap({
             'platform-button': true,
             selected: this.platform === 'iOS'
@@ -535,25 +555,28 @@ export class ManifestPreviewer extends LitElement {
         <div id="content">${this.screenContent()}</div>
         <img 
         part="nav-arrow"
+        class="nav-arrow-right"
+        role="navigation"
+        tabindex="0"
         src="../assets/images/nav-arrow.svg" 
         alt="Navigate right" 
-        class="nav-arrow-right"
         @click=${this.handleNavigateRight} />
         <img 
-        part="nav-arrow"
+        part="nav-arrow" 
+        class="nav-arrow-left"
+        role="navigation"
+        tabindex="0"
         src="../assets/images/nav-arrow.svg" 
         alt="Navigate left" 
-        class="nav-arrow-left"
         @click=${this.handleNavigateLeft} />
         ${this.enlargeText ?
         html`
-        <p 
+        <button
         part="enlarge-toggle"
-        class="preview-text" 
-        style=${styleMap({ cursor: 'pointer' })}
+        class="preview-button" 
         @click=${this.onEnlarge}>
           ${this.enlargeText}
-        </p>` : null}
+        </button>` : null}
       </div>
     `;
   }

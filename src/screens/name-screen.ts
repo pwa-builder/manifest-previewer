@@ -120,7 +120,11 @@ export class NameScreen extends ScreenTemplate {
 
   renderWindows() {
     return html`
-      <div class="windows container">
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label="The name attribute in Windows"  
+      class="windows container">
         <img alt="Windows start menu" src="../assets/images/windows/startmenu.png" class="menu-img" />
         <div class="app-container">
           ${this.iconUrl ?
@@ -134,7 +138,11 @@ export class NameScreen extends ScreenTemplate {
 
   renderAndroid() {
     return html`
-      <div class="android container">
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label="The name attribute in Android" 
+      class="android container">
         <img alt="Android app info" src="../assets/images/android/appinfo.png" class="menu-img" />
         ${this.iconUrl ?
           html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : 
@@ -146,7 +154,11 @@ export class NameScreen extends ScreenTemplate {
 
   renderiOS() {
     return html`
-      <div class="container ios">
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label="The name attribute in iOS" 
+      class="container ios">
         <img class="menu-img" alt="iOS settings" src="../assets/images/ios/appsettings.jpg" />
         <div class="app-icon">
           ${this.iconUrl ?

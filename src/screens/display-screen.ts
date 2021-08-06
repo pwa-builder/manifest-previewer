@@ -290,14 +290,22 @@ export class DisplayScreen extends ScreenTemplate {
     switch (this.display) {
       case 'fullscreen':
         return html`
-          <div class="container windows">
+          <div 
+          role="img" 
+          tabindex="0" 
+          aria-label="Display modes in Windows" 
+          class="container windows">
             <img class="browser-img" alt="Window's browser" src="../assets/images/windows/browserwindow.png" />
             ${appSplash}
           </div>
         `;
       case 'browser':
         return html`
-          <div class="container windows">
+          <div 
+          role="img" 
+          tabindex="0" 
+          aria-label="Display modes in Windows"
+          class="container windows">
             <img class="browser-img" alt="Window's browser" src="../assets/images/windows/browserwindow.png" />
             <span class="app-url">${this.siteUrl}</span>
             ${appSplash}
@@ -305,7 +313,11 @@ export class DisplayScreen extends ScreenTemplate {
         `;
       case 'minimal-ui': 
         return html`
-          <div class="windows container">
+          <div 
+          role="img" 
+          tabindex="0" 
+          aria-label="Display modes in Windows"
+          class="windows container">
             <div 
             class="title-bar"
             style=${styleMap({ '--pwa-theme-color': this.themeColor })}>
@@ -313,11 +325,11 @@ export class DisplayScreen extends ScreenTemplate {
                 <img alt="Go back" src="../assets/images/windows/backarrow.svg" />
                 <img alt="Refresh page" src="../assets/images/windows/refresharrow.svg" />
               </div>
-              <span class="app-name">${this.appName}</span>
+              <span tabindex="-1" class="app-name">${this.appName}</span>
               <div class="nav-actions">
                 <div class="collapse" style=${styleMap({ backgroundColor: this.contrastingThemeColor })}></div>
                 <div class="enlarge" style=${styleMap({ borderColor: this.contrastingThemeColor })}></div>
-                <svg class="close" width="6px" height="6px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+                <svg tabindex="-1" class="close" width="6px" height="6px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
                   <g><path style="fill:${this.contrastingThemeColor}" d="M990,61.2L933.3,5.1L500,443.3L66.7,5.1L10,61.2L443.9,500L10,938.8l56.7,56.1L500,556.7l433.3,438.2l56.7-56.1L556.1,500L990,61.2z"/></g>
                 </svg>
               </div>
@@ -327,15 +339,19 @@ export class DisplayScreen extends ScreenTemplate {
         `;
       case 'standalone':
         return html`
-          <div class="windows container">
+          <div 
+          role="img" 
+          tabindex="0" 
+          aria-label="Display modes in Windows"
+          class="windows container">
             <div 
             class="title-bar"
             style=${styleMap({ '--pwa-theme-color': this.themeColor })}>
-              <span class="app-name">${this.appName}</span>
+              <span tabindex="-1" class="app-name">${this.appName}</span>
               <div class="nav-actions">
                 <div class="collapse" style=${styleMap({ backgroundColor: this.contrastingThemeColor })}></div>
                 <div class="enlarge" style=${styleMap({ borderColor: this.contrastingThemeColor })}></div>
-                <svg class="close" width="6px" height="6px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+                <svg tabindex="-1" class="close" width="6px" height="6px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
                   <g><path style="fill:${this.contrastingThemeColor}" d="M990,61.2L933.3,5.1L500,443.3L66.7,5.1L10,61.2L443.9,500L10,938.8l56.7,56.1L500,556.7l433.3,438.2l56.7-56.1L556.1,500L990,61.2z"/></g>
                 </svg>
               </div>
@@ -349,7 +365,7 @@ export class DisplayScreen extends ScreenTemplate {
 
   renderAndroid() {
     return html`
-      <div class="container android">
+      <div role="img" tabindex="0" aria-label="Display modes in Android" class="container android">
         ${this.display !== 'fullscreen' ? 
         html`
           <div class="status-bar" style=${styleMap({ '--pwa-theme-color': this.themeColor })}>

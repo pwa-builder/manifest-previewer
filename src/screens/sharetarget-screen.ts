@@ -166,7 +166,11 @@ export class ShareTarget extends ScreenTemplate {
   // we put it in a single method.
   private sharedRender() {
     return html`
-      <div class="container ${this.platform}">
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label=${`Share target in ${this.platform}`} 
+      class="container ${this.platform}">
         <img class="dialog" alt="Web share trigger" src="../assets/images/${this.platform}/share-dialog.png" />
         ${this.platform === 'android' ? 
           html`<div class="media-url">via Media Content https://media-content.com</div>` : null}
@@ -190,7 +194,11 @@ export class ShareTarget extends ScreenTemplate {
 
   renderiOS() {
     return html`
-      <div class="container ios">
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label="Share target in iOS" 
+      class="container ios">
         <img class="dialog" alt="" src="../assets/images/ios/share-dialog.jpg" />
         <div class="app">
           ${this.iconUrl ? html`<img alt="PWA icon" src=${this.iconUrl} />` : null}

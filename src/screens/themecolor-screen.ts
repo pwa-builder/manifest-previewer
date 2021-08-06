@@ -203,7 +203,7 @@ export class ThemecolorScreen extends ScreenTemplate {
 
   renderWindows() {
     return html`
-      <div class="windows container">
+      <div role="img" tabindex="0" aria-label="Theme color use in Windows" class="windows container">
         <div 
         class="title-bar"
         style=${styleMap({ '--pwa-theme-color': this.themeColor })}>
@@ -212,10 +212,21 @@ export class ThemecolorScreen extends ScreenTemplate {
             <img alt="Refresh page" src="../assets/images/windows/refresharrow.svg" />
           </div>
           <span class="app-name">${this.appName}</span>
-          <div class="nav-actions">
-            <div class="collapse" style=${styleMap({ backgroundColor: this.contrastingColor })}></div>
-            <div class="enlarge" style=${styleMap({ borderColor: this.contrastingColor })}></div>
-            <svg class="close" width="6px" height="6px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+          <div role="img" aria-label="Navigation actions" class="nav-actions">
+            <div 
+            class="collapse" 
+            style=${styleMap({ backgroundColor: this.contrastingColor })}>
+            </div>
+            <div 
+            class="enlarge" 
+            style=${styleMap({ borderColor: this.contrastingColor })}>
+            </div>
+            <svg 
+            class="close" 
+            width="6px" 
+            height="6px" 
+            version="1.1" 
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
               <g><path style="fill:${this.contrastingColor}" d="M990,61.2L933.3,5.1L500,443.3L66.7,5.1L10,61.2L443.9,500L10,938.8l56.7,56.1L500,556.7l433.3,438.2l56.7-56.1L556.1,500L990,61.2z"/></g>
             </svg>
           </div>
@@ -226,7 +237,7 @@ export class ThemecolorScreen extends ScreenTemplate {
 
   renderAndroid() {
     return html`
-      <div class="container android">
+      <div role="img" tabindex="0" aria-label="Theme color use in Android" class="container android">
         <img alt="Android's app switcher" src="../assets/images/android/appswitcher.jpg" class="switcher-img" />
         <div class="app-box" style=${styleMap({ '--pwa-theme-color': this.themeColor })}>
           ${this.iconUrl ? 
@@ -244,7 +255,7 @@ export class ThemecolorScreen extends ScreenTemplate {
 
   renderiOS() {
     return html`
-      <div class="container ios">
+      <div role="img" tabindex="0" aria-label="Theme color use in iOS" class="container ios">
         <img class="phone" alt="Iphone" src="../assets/images/ios/iphone.svg" />
         <div class="status-bar" style=${styleMap({ '--pwa-theme-color': this.themeColor })}>
           <img alt="Status bar" src="../assets/images/ios/statusbar.svg" />

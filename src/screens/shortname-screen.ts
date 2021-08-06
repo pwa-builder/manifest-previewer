@@ -121,7 +121,11 @@ export class ShortnameScreen extends ScreenTemplate {
 
   renderAndroid() {
     return html`
-      <div class="android container">
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label="The short name attribute in Android" 
+      class="android container">
         <div class="background"></div>
         <div class="icon-container">
           ${this.iconUrl ?
@@ -135,7 +139,11 @@ export class ShortnameScreen extends ScreenTemplate {
 
   renderiOS() {
     return html`
-      <div class="ios container">
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label="The short name attribute in iOS" 
+      class="ios container">
         <img class="background" alt="iOS home screen" src="../assets/images/ios/homemenu.png" />
         <div class="app-name">${this.shortName || 'PWA App'}</div>
         <div class="app-icon">
