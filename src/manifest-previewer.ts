@@ -71,6 +71,7 @@ export class ManifestPreviewer extends LitElement {
 
     button:focus-visible, .nav-arrow-left:focus-visible, .nav-arrow-right:focus-visible {
       outline: 2px solid #000;
+      outline-offset: 3px;
     }
 
     .platform-button.selected {
@@ -114,6 +115,7 @@ export class ManifestPreviewer extends LitElement {
       width: 150px;
       background: none;
       border: none;
+      cursor: pointer;
     }
 
     .nav-arrow-right {
@@ -362,7 +364,12 @@ export class ManifestPreviewer extends LitElement {
   /**
    * Navigates to the next preview screen.
    */
-  private handleNavigateRight() {
+  private handleNavigateRight(event: Event) {
+    // If using the keyboard, make sure event was triggered by space or enter
+    if (event instanceof KeyboardEvent && event.key !== ' ' && event.key !== 'Enter') {
+      return;
+    }
+
     const currentIdx = PREVIEW_STAGES.indexOf(this.stage);
     const nextIdx = (currentIdx + 1) % PREVIEW_STAGES.length;
     this.stage = PREVIEW_STAGES[nextIdx];
@@ -371,7 +378,12 @@ export class ManifestPreviewer extends LitElement {
   /**
    * Navigates to the previous preview screen.
    */
-  private handleNavigateLeft() {
+  private handleNavigateLeft(event: Event) {
+    // If using the keyboard, make sure event was triggered by space or enter
+    if (event instanceof KeyboardEvent && event.key !== ' ' && event.key !== 'Enter') {
+      return;
+    }
+
     const currentIdx = PREVIEW_STAGES.indexOf(this.stage);
     const nextIdx = (currentIdx + PREVIEW_STAGES.length - 1) % PREVIEW_STAGES.length;
     this.stage = PREVIEW_STAGES[nextIdx];
@@ -548,7 +560,7 @@ export class ManifestPreviewer extends LitElement {
           </button>
         </div>
         <div part="app-name" class="name">${this.manifest.name || 'PWA App'}</div>
-        <p part="screen-title" class="screen-title">${this.titles[this.stage]}</p>
+        <p aria-live="polite" part="screen-title" class="screen-title">${this.titles[this.stage]}</p>
         <p part="screen-description" class="screen-info">
           ${this.descriptions[this.stage] ? this.descriptions[this.stage]![this.platform] : ''}
         </p>
@@ -556,19 +568,21 @@ export class ManifestPreviewer extends LitElement {
         <img 
         part="nav-arrow"
         class="nav-arrow-right"
-        role="navigation"
+        role="button"
         tabindex="0"
         src="../assets/images/nav-arrow.svg" 
         alt="Navigate right" 
-        @click=${this.handleNavigateRight} />
+        @click=${this.handleNavigateRight}
+        @keydown=${this.handleNavigateRight} />
         <img 
         part="nav-arrow" 
         class="nav-arrow-left"
-        role="navigation"
+        role="button"
         tabindex="0"
         src="../assets/images/nav-arrow.svg" 
         alt="Navigate left" 
-        @click=${this.handleNavigateLeft} />
+        @click=${this.handleNavigateLeft}
+        @keydown=${this.handleNavigateLeft} />
         ${this.enlargeText ?
         html`
         <button
