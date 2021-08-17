@@ -27,34 +27,24 @@ export class CategoriesScreen extends ScreenTemplate {
 
         .store-img {
           width: 100%;
-          position: absolute;
-          inset: 0;
           box-shadow: var(--card-box-shadow);
         }
 
         .windows .app-header {
           background-color: #FFF;
           position: absolute;
-          top: 12px;
-          width: 100px;
-          left: calc(50% - 45px);
+          top: 5px;
+          width: 160px;
+          left: calc(50% - 75px);
           display: flex;
           flex-direction: column;
           align-items: center;
-          height: 132px;
+          height: 144px;
+          padding-top: 20px;
         }
 
         .windows .app-header img {
           width: 80px;
-        }
-
-        .windows .rating {
-          position: absolute;
-          margin: 0px;
-          top: 256px;
-          left: 51px;
-          font-size: 10px;
-          background-color: #FFF;
         }
 
         .windows .description {
@@ -62,10 +52,10 @@ export class CategoriesScreen extends ScreenTemplate {
           position: absolute;
           font-size: 9px;
           text-align: center;
-          top: 290px;
+          bottom: 70px;
           padding: 0 30px;
           box-sizing: border-box;
-          height: 35px;
+          height: 50px;
           width: 100%;
           overflow: hidden;
         }
@@ -80,8 +70,7 @@ export class CategoriesScreen extends ScreenTemplate {
         }
 
         .windows .categories {
-          top: 324px;
-          height: 59px;
+          bottom: 45px;
         }
 
         .android .categories {
@@ -203,7 +192,6 @@ export class CategoriesScreen extends ScreenTemplate {
           ${this.iconUrl ? html`<img alt="App icon" src=${this.iconUrl} />` : null}
           <h4>${this.appName || 'PWA App'}</h4>
         </div>
-        <p class="rating">5.0</p>
         <div class="description">
           ${this.description || 'A description of your PWA.'}
         </div>

@@ -30,16 +30,16 @@ export class ShortcutsScreen extends ScreenTemplate {
           position: absolute;
           width: 14px;
           height: 14px;
-          bottom: 7px;
-          right: 59.5px;
+          bottom: 8px;
+          right: 91px;
         }
 
         .windows .menu {
           position: absolute;
-          bottom: 40px;
-          right: 13px;
-          width: 105px;
-          height: 100px;
+          bottom: 57px;
+          right: 26px;
+          width: 138px;
+          height: 72px;
         }
 
         .windows .shortcut-list {
@@ -48,7 +48,7 @@ export class ShortcutsScreen extends ScreenTemplate {
           color: rgba(0, 0, 0, 0.6);
           font-size: 6px;
           font-weight: 600;
-          background-color: #D9E8F0;
+          background-color: #D2DBEF;
           height: 100%;
         }
 

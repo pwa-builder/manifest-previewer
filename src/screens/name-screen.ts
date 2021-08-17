@@ -28,21 +28,21 @@ export class NameScreen extends ScreenTemplate {
         }
     
         .windows .app-container {
-          background-color: #E5EBEC;
+          background-color: #E3E4FC;
           position: absolute;
           display: flex;
           flex-direction: column;
           align-items: center;
-          top: 33px;
-          right: 95px;
+          top: 58px;
+          right: 96px;
           min-width: 30px;
-          height: 23.5px;
+          height: 25px;
           justify-content: flex-end;
         }
     
         .windows .app-name {
           color: rgba(0, 0, 0, 0.8);
-          font-size: 4.5px;
+          font-size: 5px;
           font-weight: 600;
           letter-spacing: -0.07px;
           margin-top: 2.5px;

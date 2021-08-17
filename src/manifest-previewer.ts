@@ -198,7 +198,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The current preview screen.
    */
-  @property() stage: PreviewStage = 'name';
+  @property() stage: PreviewStage = 'categories';
 
   /**
    * The input web manifest.
