@@ -33,8 +33,8 @@ export class NameScreen extends ScreenTemplate {
           display: flex;
           flex-direction: column;
           align-items: center;
-          top: 58px;
-          right: 96px;
+          top: 51px;
+          right: 93px;
           min-width: 30px;
           height: 25px;
           justify-content: flex-end;

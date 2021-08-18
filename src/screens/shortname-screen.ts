@@ -38,7 +38,7 @@ export class ShortnameScreen extends ScreenTemplate {
           justify-content: center;
           position: absolute;
           background-color: #FFF;
-          bottom: 141px;
+          bottom: 140px;
           right: 23px;
           padding: 3px 4px;
           border-radius: 13px;

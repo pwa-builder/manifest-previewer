@@ -52,7 +52,7 @@ export class CategoriesScreen extends ScreenTemplate {
           position: absolute;
           font-size: 9px;
           text-align: center;
-          bottom: 70px;
+          bottom: 56px;
           padding: 0 30px;
           box-sizing: border-box;
           height: 50px;
@@ -65,12 +65,13 @@ export class CategoriesScreen extends ScreenTemplate {
           flex-wrap: wrap;
           position: absolute;
           background-color: #FFF;
-          left: 8px;
-          right: 8px;
+          left: 6px;
+          right: 6px;
+          height: 45px;
         }
 
         .windows .categories {
-          bottom: 45px;
+          bottom: 12px;
         }
 
         .android .categories {
