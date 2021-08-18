@@ -17,30 +17,20 @@ export class ThemecolorScreen extends ScreenTemplate {
           width: 250px;
           margin: 120px auto 0;
         }
-        
-        .android .switcher-img {
-          width: 100%;
-          position: absolute; 
-          top: 0;
-          box-shadow: var(--card-box-shadow);
-        }
     
         .android .app-box {
           border-radius: 3px 3px 0 0;
           display: flex;
-          width: 163px;
-          position: absolute;
-          top: 33px;
-          height: 42px;
-          left: 44px;
+          width: 100%;
+          height: 50px;
           background-color: var(--pwa-theme-color, #EBD0FE);
         }
     
         .android .app-icon {
           border-radius: 50%;
-          width: 30px;
-          height: 30px;
-          margin: -15px auto 0;
+          width: 40px;
+          height: 40px;
+          margin: -20px auto 0;
           background-color: #FFF;
         }
     
@@ -50,8 +40,8 @@ export class ThemecolorScreen extends ScreenTemplate {
           justify-content: space-evenly;
           position: absolute;
           bottom: 4px;
-          font-family: Roboto;
-          font-size: 10px;
+          font-family: var(--android-font-family, 'Arial');
+          font-size: 12px;
           letter-spacing: 0.3px;
           opacity: 0.7;
         }
@@ -147,20 +137,17 @@ export class ThemecolorScreen extends ScreenTemplate {
           }
     
           .android .app-box {
-            width: 164px;
-            top: 33px;
-            height: 42px;
-            left: 43px;
+            height: 45px;
           }
     
           .android .app-icon {
-            width: 26px;
-            height: 26px;
-            margin: -12px auto 0;
+            width: 30px;
+            height: 30px;
+            margin: -15px auto 0;
           }
     
           .android .menu-actions {
-            font-size: 8px;
+            font-size: 10px;
           }
         }
       `
@@ -238,7 +225,6 @@ export class ThemecolorScreen extends ScreenTemplate {
   renderAndroid() {
     return html`
       <div role="img" tabindex="0" aria-label="Theme color use in Android" class="container android">
-        <img alt="Android's app switcher" src="../assets/images/android/appswitcher.jpg" class="switcher-img" />
         <div class="app-box" style=${styleMap({ '--pwa-theme-color': this.themeColor })}>
           ${this.iconUrl ? 
           html`<img class="app-icon" alt="Application's icon" src=${this.iconUrl} />` :

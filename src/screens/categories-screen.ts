@@ -23,6 +23,8 @@ export class CategoriesScreen extends ScreenTemplate {
 
         .container.android {
           width: 225px;
+          box-shadow: var(--card-box-shadow);
+          height: 375px;
         }
 
         .store-img {
@@ -75,8 +77,8 @@ export class CategoriesScreen extends ScreenTemplate {
         }
 
         .android .categories {
-          top: 337px;
-          height: 37px;
+          top: 315px;
+          height: 55px;
         }
 
         .windows .categories div, .android .categories div {
@@ -94,7 +96,7 @@ export class CategoriesScreen extends ScreenTemplate {
           width: 41px;
           height: 41px;
           position: absolute;
-          top: 34px;
+          top: 25px;
           left: 12px;
           background-color: #FFF;
         }
@@ -111,11 +113,24 @@ export class CategoriesScreen extends ScreenTemplate {
           height: 30px;
         }
 
+        .android .install-button {
+          background-color: #0E825E;
+          color: #FFF;
+          width: 95%;
+          position: absolute;
+          top: 80px;
+          text-align: center;
+          left: 2.5%;
+          font-size: 10px;
+          padding: 2px 0px;
+          border-radius: 3px;
+        }
+
         .android .screenshots {
           position: absolute;
           display: flex;
           height: 100px;
-          top: 167px;
+          top: 117px;
           width: 100%;
           overflow-x: hidden;
           background-color: #FFF;
@@ -130,11 +145,17 @@ export class CategoriesScreen extends ScreenTemplate {
           position: absolute;
           background-color: #FFF;
           font-size: 9px;
-          top: 300px;
+          top: 235px;
           padding-left: 10px;
-          height: 27px;
+          max-height: 80px;
           width: 80%;
           overflow: hidden;
+        }
+
+        .android .description p {
+          font-weight: 600;
+          margin: 0;
+          font-size: 13px;
         }
 
         .ios-message {
@@ -206,7 +227,7 @@ export class CategoriesScreen extends ScreenTemplate {
   renderAndroid() {
     return html`
       <div role="img" tabindex="0" aria-label="PWA categories in Android" class="container android">
-        <img class="store-img" alt="Microsoft store" src="../assets/images/android/app-listing.png" />
+        <div class="install-button">Install</div>
         ${this.iconUrl ? 
           html`<img class="app-icon" alt="App icon" src=${this.iconUrl} />` : 
           html`<div class="app-icon"></div>`}
@@ -216,6 +237,7 @@ export class CategoriesScreen extends ScreenTemplate {
             html`<img alt="App screenshot" src=${this.getImageUrl(shot.src)} />`)}
         </div>
         <div class="description">
+          <p>About this app</p>
           ${this.description || 'A description of your PWA.'}
         </div>
         <div class="categories">

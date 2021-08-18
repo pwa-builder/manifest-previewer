@@ -15,8 +15,36 @@ export class NameScreen extends ScreenTemplate {
           width: 260px;
         }
 
+        .container.android {
+          height: 225px;
+          box-shadow: var(--card-box-shadow);
+          border-radius: 5px;
+          font-family: var(--android-font-family);
+        }
+
         .container.ios {
           margin-top: 50px;
+        }
+
+        .android .info-title{
+          font-size: 16px;
+          position: absolute;
+          top: 10px;
+          left: 10px;
+        } 
+
+        .android .actions {
+          width: 100%;
+          border-top: 0.5px solid lightgray;
+          border-bottom: 0.5px solid lightgray;
+          position: absolute;
+          top: 140px;
+          display: flex;
+          height: 50px;
+          justify-content: space-evenly;
+          align-items: center;
+          color: #4285F4;
+          font-size: 12px;
         }
     
         .menu-img {
@@ -143,11 +171,16 @@ export class NameScreen extends ScreenTemplate {
       tabindex="0" 
       aria-label="The name attribute in Android" 
       class="android container">
-        <img alt="Android app info" src="../assets/images/android/appinfo.png" class="menu-img" />
+        <div class="info-title">App info</div>
         ${this.iconUrl ?
           html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : 
           html`<div class="app-icon"></div>`}
         <div class="app-name">${this.appName || 'PWA App'}</div>
+        <div class="actions">
+          <span>Open</span>
+          <span>Disable</span>
+          <span>Force stop</span>
+        </div>
       </div>
     `;
   }

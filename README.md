@@ -158,6 +158,7 @@ Variable name | Description | Default
 --------------|-------------|--------
 `--font-family` | The global font family. | Arial
 `--windows-font-family` | Font family to use in the Windows previews. | Arial
+`--android-font-family` | Font family to use in the Android previews. | Arial
 `--ios-font-family` | Font family to use in the iOS previews. | Arial
 `--font-color` | The global font color. | `#292C3A`
 `--secondary-font-color` | Color used for the screen descriptions, the "enlarge content" text and disclaimer messages. | `#808080`

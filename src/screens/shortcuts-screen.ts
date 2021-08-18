@@ -21,6 +21,12 @@ export class ShortcutsScreen extends ScreenTemplate {
           font-family: var(--windows-font-family, Arial);
         }
 
+        .container.android {
+          height: 285px;
+          border-radius: 10px;
+          background: linear-gradient(#C08FA7, #E7A0BF);
+        }
+
         .menu-img {
           width: 100%;
           box-shadow: var(--card-box-shadow);
@@ -88,10 +94,12 @@ export class ShortcutsScreen extends ScreenTemplate {
         .android .menu {
           background-color: #FFF;
           position: absolute;
-          right: 40px;
-          width: 195px;
-          height: 145px;
+          right: 30px;
+          width: 185px;
+          height: 135px;
           bottom: 30px;
+          padding: 10px;
+          border-radius: 10px;
         }
 
         .android .shortcut-list {
@@ -151,19 +159,17 @@ export class ShortcutsScreen extends ScreenTemplate {
     return `https://pwabuilder-safe-url.azurewebsites.net/api/getsafeurl?url=${absoluteUrl}`;
   }
 
-  sharedRender() {
+  renderWindows() {
     return html`
       <div 
       role="img" 
       tabindex="0" 
-      aria-label=${`Shortcuts in ${this.platform}`} 
-      class="container ${this.platform}">
+      aria-label="Shortcuts in Windows"
+      class="container windows">
         <img 
         class="menu-img" 
         alt="Application shortcuts" 
-        src="../assets/images/${this.platform}/shortcutsmenu.png" />
-        ${this.platform === 'android' ?
-          html`<img alt="Chrome" class="chrome-icon" src="../assets/images/chrome-icon.png" />` : null}
+        src="../assets/images/windows/shortcutsmenu.png" />
         ${this.iconUrl ? 
           html`<img class="app-icon" alt="Application's icon" src=${this.iconUrl} />`: 
           html`<div class="app-icon"></div>`}
@@ -184,9 +190,32 @@ export class ShortcutsScreen extends ScreenTemplate {
     `;
   }
 
-  renderWindows() { return this.sharedRender(); }
-
-  renderAndroid() { return this.sharedRender(); }
+  renderAndroid() {
+    return html`
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label="Shortcuts in Android"
+      class="container android">
+        ${this.iconUrl ? 
+          html`<img class="app-icon" alt="Application's icon" src=${this.iconUrl} />`: 
+          html`<div class="app-icon"></div>`}
+        <div class="menu">
+          <ul class="shortcut-list">
+            ${this.shortcuts?.slice(0, 5).map((shortie) => 
+              html`
+                <li>
+                  ${shortie.icons ?
+                  html`<img class="icon" alt=${shortie.name} src=${this.getShortcutIcon(shortie.icons)} />` :
+                  html`<div class="icon"></div>`}
+                  <span>${shortie.name}</span>
+                </li>
+              `)}
+          </ul>
+        </div>
+      </div>
+    `;
+  }
 
   renderiOS() {
     return html`

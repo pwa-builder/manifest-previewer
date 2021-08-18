@@ -198,7 +198,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The current preview screen.
    */
-  @property() stage: PreviewStage = 'categories';
+  @property() stage: PreviewStage = 'themeColor';
 
   /**
    * The input web manifest.
@@ -223,7 +223,7 @@ export class ManifestPreviewer extends LitElement {
   /**
    * The currently selected platform.
    */
-  @property() platform: Platform = 'windows';
+  @property() platform: Platform = 'android';
 
   /**
    * The screen description texts.

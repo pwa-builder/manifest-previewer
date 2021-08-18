@@ -16,6 +16,13 @@ export class ShareTarget extends ScreenTemplate {
           width: 260px;
         }
 
+        .container.android {
+          box-shadow: var(--card-box-shadow);
+          border-radius: 6px;
+          height: 315px;
+          font-family: var(--android-font-family, 'Arial');
+        }
+
         .dialog {
           width: 100%;
           box-shadow: var(--card-box-shadow);
@@ -75,6 +82,46 @@ export class ShareTarget extends ScreenTemplate {
           margin-bottom: 4px;
         }
 
+        .android .share-title {
+          font-weight: 600;
+          text-align: center;
+          position: absolute;
+          top: 15px;
+          left: calc(50% - 20px);
+        }
+
+        .android .action-buttons {
+          display: flex;
+          justify-content: space-between;
+          position: absolute;
+          top: 95px;
+          left: calc(50% - 60px);
+          width: 120px;
+        }
+
+        .android .action-buttons div {
+          border: solid 0.5px lightgray;
+          color: gray;
+          font-size: 11px;
+          padding: 2px 10px;
+          border-radius: 12px;
+        }
+
+        .android .divisor {
+          padding: 0.5px 0;
+          width: 100%;
+          background-color: lightgray;
+          position: absolute;
+        }
+
+        .android .divisor.first {
+          top: 130px;
+        }
+
+        .android .divisor.second {
+          top: 220px;
+        }
+
         .android .contacts {
           background-color: #FFF;
           position: absolute;
@@ -93,13 +140,12 @@ export class ShareTarget extends ScreenTemplate {
           position: absolute;
           bottom: 20px;
           padding-bottom: 10px;
-          left: 36px;
           height: 64px;
           font-weight: 600;
-          width: 65px;
           overflow: hidden;
           background-color: #FFF;
           color: rgba(0, 0, 0, 0.6);
+          margin-left: 12px;
         }
 
         .android .app img {
@@ -142,14 +188,14 @@ export class ShareTarget extends ScreenTemplate {
     ];
   }
  
-   /**
-    * The splash screen's icon.
-    */
+  /**
+   * The splash screen's icon.
+   */
   @property() iconUrl?: string;
  
-   /**
-    * Name attribute on the manifest.
-    */
+  /**
+   * Name attribute on the manifest.
+   */
   @property() appName?: string;
 
   /**
@@ -162,18 +208,14 @@ export class ShareTarget extends ScreenTemplate {
    */
   @property() siteUrl = '';
 
-  // Because Android and Windows have basically the same code, 
-  // we put it in a single method.
-  private sharedRender() {
+  renderWindows() { 
     return html`
       <div 
       role="img" 
       tabindex="0" 
-      aria-label=${`Share target in ${this.platform}`} 
-      class="container ${this.platform}">
-        <img class="dialog" alt="Web share trigger" src="../assets/images/${this.platform}/share-dialog.png" />
-        ${this.platform === 'android' ? 
-          html`<div class="media-url">via Media Content https://media-content.com</div>` : null}
+      aria-label="Share target in Windows" 
+      class="container windows">
+        <img class="dialog" alt="Web share trigger" src="../assets/images/windows/share-dialog.png" />
         <div class="contacts">
           <div class="avatar">
             <div>JD</div>
@@ -187,10 +229,35 @@ export class ShareTarget extends ScreenTemplate {
       </div>
     `;
   }
-   
-  renderWindows() { return this.sharedRender(); }
 
-  renderAndroid() { return this.sharedRender(); }
+  renderAndroid() {
+    return html`
+      <div 
+      role="img" 
+      tabindex="0" 
+      aria-label="Share target in Android"
+      class="container android">
+        <div class="share-title">Share</div>
+        <div class="media-url">via Media Content https://media-content.com</div>
+        <div class="action-buttons">
+          <div>Copy</div>
+          <div>Nearby</div>
+        </div>
+        <div class="divisor first"></div>
+        <div class="contacts">
+          <div class="avatar">
+            <div>JD</div>
+            John Doe
+          </div>
+        </div>
+        <div class="divisor second"></div>
+        <div class="app">
+          ${this.iconUrl ? html`<img alt="PWA icon" src=${this.iconUrl} />` : null}
+          ${this.shortName || this.appName || 'PWA App'}
+        </div>
+      </div>
+    `;
+  }
 
   renderiOS() {
     return html`

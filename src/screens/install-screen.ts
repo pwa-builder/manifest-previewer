@@ -55,7 +55,7 @@ export class InstallScreen extends ScreenTemplate {
           top: 174px;
           height: 250px;
           border-radius: 7px 7px 0 0;
-          font-family: Roboto;
+          font-family: var(--android-font-family, 'Arial');
           padding: 9px;
           box-sizing: border-box;
         }
@@ -179,7 +179,6 @@ export class InstallScreen extends ScreenTemplate {
         } 
 
         .windows .dialog-text {
-          font-family: Roboto;
           font-weight: 400;
           font-size: 7.84722px;
           margin: 0;
