@@ -132,6 +132,8 @@ If a certain description is not specified, the default one is used.
     }
   }
   ```
+- `disabledPlatforms`: String indicating the platforms that shouldn't be previewed. The name of the platforms should be separated by white space (eg: `'iOS android'`)
+  - Default: `''`
 
 ## Development
 For contributing to this project, download the source code from [the repository](https://github.com/MariaSolOsso/PWABuilder-previewer), run `npm install` and then `npm start:build`. This will start the web dev server in your default browser. Your changes will be automatically reflected on the running application.

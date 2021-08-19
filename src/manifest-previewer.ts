@@ -251,6 +251,11 @@ export class ManifestPreviewer extends LitElement {
   @property() cardTitle = 'Preview';
 
   /**
+   * Platforms that shouldn't be previewed.
+   */
+  @property() disabledPlatforms = '';
+
+  /**
    * The URL used for icon previews.
    */
   @state() private iconUrl = '';
@@ -525,39 +530,48 @@ export class ManifestPreviewer extends LitElement {
       <div part="card" class="card">
         <h1 part="card-title" class="title">${this.cardTitle}</h1>
         <div part="platform-buttons" class="buttons-div">
-          <button 
-          part="platform-button"
-          aria-pressed=${this.platform === 'windows'}
-          class=${classMap({ 
-            'platform-button': true, 
-            selected: this.platform === 'windows' 
-          })} 
-          name="windows"
-          @click=${this.handlePlatformChange}>
-            Windows
-          </button>
-          <button 
-          part="platform-button"
-          aria-pressed=${this.platform === 'android'}
-          class=${classMap({ 
-            'platform-button': true, 
-            selected: this.platform === 'android' 
-          })} 
-          name="android"
-          @click=${this.handlePlatformChange}>
-            Android
-          </button>
-          <button
-          part="platform-button"
-          aria-pressed=${this.platform === 'iOS'}
-          class=${classMap({
-            'platform-button': true,
-            selected: this.platform === 'iOS'
-          })}
-          name="iOS"
-          @click=${this.handlePlatformChange}>
-            iOS
-          </button>
+          ${this.disabledPlatforms.includes('windows') ? 
+            null :
+            html`
+            <button 
+            part="platform-button"
+            aria-pressed=${this.platform === 'windows'}
+            class=${classMap({ 
+              'platform-button': true, 
+              selected: this.platform === 'windows' 
+            })} 
+            name="windows"
+            @click=${this.handlePlatformChange}>
+              Windows
+            </button>`}
+          ${this.disabledPlatforms.includes('android') ? 
+            null :
+            html`
+            <button 
+            part="platform-button"
+            aria-pressed=${this.platform === 'android'}
+            class=${classMap({ 
+              'platform-button': true, 
+              selected: this.platform === 'android' 
+            })} 
+            name="android"
+            @click=${this.handlePlatformChange}>
+              Android
+            </button>`}
+          ${this.disabledPlatforms.includes('iOS') ? 
+            null :
+            html`
+            <button
+            part="platform-button"
+            aria-pressed=${this.platform === 'iOS'}
+            class=${classMap({
+              'platform-button': true,
+              selected: this.platform === 'iOS'
+            })}
+            name="iOS"
+            @click=${this.handlePlatformChange}>
+              iOS
+            </button>`}
         </div>
         <div part="app-name" class="name">${this.manifest.name || 'PWA App'}</div>
         <p aria-live="polite" part="screen-title" class="screen-title">${this.titles[this.stage]}</p>
