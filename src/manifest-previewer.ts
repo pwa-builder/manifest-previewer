@@ -612,6 +612,6 @@ export class ManifestPreviewer extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "manifest-previewer": ManifestPreviewer
+    'manifest-previewer': ManifestPreviewer
   }
 }

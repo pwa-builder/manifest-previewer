@@ -24,6 +24,7 @@ export class ThemecolorScreen extends ScreenTemplate {
           width: 100%;
           height: 50px;
           background-color: var(--pwa-theme-color, #EBD0FE);
+          box-shadow: var(--card-box-shadow);
         }
     
         .android .app-icon {
