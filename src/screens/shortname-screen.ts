@@ -128,18 +128,6 @@ export class ShortnameScreen extends ScreenTemplate {
 
   renderAndroid() {
     return html`
-      <!-- <div 
-      role="img" 
-      tabindex="0" 
-      aria-label="The short name attribute in Android" 
-      class="android container">
-        <div class="icon-container">
-          ${this.iconUrl ?
-            html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : null}
-        </div>
-        <div class="app-name">${this.shortName || 'PWA App'}</div>
-        <img class="homescreen" alt="Android's home screen" src="../assets/images/android/homescreen.png" />
-      </div> -->
       <div
       role="img"
       tabindex="0"
