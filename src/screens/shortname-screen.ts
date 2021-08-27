@@ -24,6 +24,9 @@ export class ShortnameScreen extends ScreenTemplate {
         .android.container {
           margin-top: 50px;
           width: 225px;
+          height: 285px;
+          background: linear-gradient(#C08FA7, #E7A0BF);
+          border-radius: 10px;
         }
 
         .android .homescreen {
@@ -32,35 +35,33 @@ export class ShortnameScreen extends ScreenTemplate {
           box-shadow: var(--card-box-shadow);
         }
 
-        .android .icon-container {
+        .android .icon-and-label-container {
           display: flex;
           align-items: center;
           justify-content: center;
+          flex-direction: column;
           position: absolute;
-          background-color: #FFF;
           bottom: 140px;
-          right: 23px;
-          padding: 3px 4px;
+          left: 23px;
           border-radius: 13px;
         }
 
         .android .app-icon {
           border-radius: 50%;
-          width: 27px;
-          height: 27px;
+          width: 44px;
+          height: 44px;
         }
 
         .android .app-name {
-          right: 21px;
-          font-size: 7px;
-          position: absolute;
-          bottom: 127px;
-          max-width: 52px;
+          font-size: 12px;
+          max-width: 56px;
           min-width: 40px;
           text-align: center;
           white-space: nowrap;
           overflow: hidden;
-          background-color: rgb(221, 175, 198, 0.98);
+          text-overflow: ellipsis;
+          text-shadow: 0 0 7px rgb(0 0 0 / 50%);
+          color: rgb(255,255,255, 0.85);
         }
 
         .ios .background {
@@ -127,7 +128,7 @@ export class ShortnameScreen extends ScreenTemplate {
 
   renderAndroid() {
     return html`
-      <div 
+      <!-- <div 
       role="img" 
       tabindex="0" 
       aria-label="The short name attribute in Android" 
@@ -138,6 +139,19 @@ export class ShortnameScreen extends ScreenTemplate {
         </div>
         <div class="app-name">${this.shortName || 'PWA App'}</div>
         <img class="homescreen" alt="Android's home screen" src="../assets/images/android/homescreen.png" />
+      </div> -->
+      <div
+      role="img"
+      tabindex="0"
+      aria-label="Short name in Android"
+      class="android container">
+        <div class="icon-and-label-container">
+          <div class="icon-container">
+            ${this.iconUrl ?
+              html`<img alt="Application's icon" src=${this.iconUrl} class="app-icon" />` : null}
+          </div>
+          <div class="app-name">${this.shortName || 'PWA App'}</div>
+          </div>
       </div>
     `;
   }

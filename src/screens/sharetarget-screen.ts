@@ -187,12 +187,12 @@ export class ShareTarget extends ScreenTemplate {
       `
     ];
   }
- 
+
   /**
    * The splash screen's icon.
    */
   @property() iconUrl?: string;
- 
+
   /**
    * Name attribute on the manifest.
    */
@@ -202,19 +202,15 @@ export class ShareTarget extends ScreenTemplate {
    * Short name attribute on the manifest.
    */
   @property() shortName?: string;
- 
+
   /**
    * The app's URL.
    */
   @property() siteUrl = '';
 
-  renderWindows() { 
+  renderWindows() {
     return html`
-      <div 
-      role="img" 
-      tabindex="0" 
-      aria-label="Share target in Windows" 
-      class="container windows">
+      <div role="img" tabindex="0" aria-label="Share target in Windows" class="container windows">
         <img class="dialog" alt="Web share trigger" src="../assets/images/windows/share-dialog.png" />
         <div class="contacts">
           <div class="avatar">
@@ -232,13 +228,9 @@ export class ShareTarget extends ScreenTemplate {
 
   renderAndroid() {
     return html`
-      <div 
-      role="img" 
-      tabindex="0" 
-      aria-label="Share target in Android"
-      class="container android">
+      <div role="img" tabindex="0" aria-label="Share target in Android" class="container android">
         <div class="share-title">Share</div>
-        <div class="media-url">via Media Content https://media-content.com</div>
+        <!-- <div class="media-url">via Media Content https://media-content.com</div> -->
         <div class="action-buttons">
           <div>Copy</div>
           <div>Nearby</div>
@@ -261,11 +253,7 @@ export class ShareTarget extends ScreenTemplate {
 
   renderiOS() {
     return html`
-      <div 
-      role="img" 
-      tabindex="0" 
-      aria-label="Share target in iOS" 
-      class="container ios">
+      <div role="img" tabindex="0" aria-label="Share target in iOS" class="container ios">
         <img class="dialog" alt="" src="../assets/images/ios/share-dialog.jpg" />
         <div class="app">
           ${this.iconUrl ? html`<img alt="PWA icon" src=${this.iconUrl} />` : null}

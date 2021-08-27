@@ -10,7 +10,8 @@ export const PREVIEW_STAGES = [
   'shortcuts',
   'display',
   'categories',
-  'shareTarget'
+  'shareTarget',
+  'description',
 ] as const;
 export type PreviewStage = typeof PREVIEW_STAGES[number];
 
@@ -32,7 +33,7 @@ export type Platform = 'windows' | 'android' | 'iOS';
 /**
  * Reference: https://www.w3.org/TR/image-resource/#dom-imageresource
  */
- export type ImageResource = {
+export type ImageResource = {
   src: string;
   sizes?: string;
   type?: string;

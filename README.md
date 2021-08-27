@@ -14,6 +14,7 @@ Attribute | Description | Screen
 `shortcuts` | Array of shortcuts or links to key tasks or pages within a web app, assembling a context menu to be displayed by the OS when a user engages with the app's icon. | ![Shortcuts](https://github.com/MariaSolOsso/PWABuilder-previewer/blob/main/assets/readme-images/shortcuts.png)
 `categories` | Defines the names of categories that describe your application. Used by stores for listing web applications. | ![Categories](https://github.com/MariaSolOsso/PWABuilder-previewer/blob/main/assets/readme-images/categories.png)
 `share_target` | Allows the PWA to receive media content from other apps. | ![Share target](https://github.com/MariaSolOsso/PWABuilder-previewer/blob/main/assets/readme-images/sharetarget.png)
+`description` | Description of your app. Used by stores in app listings. | ![Description](https://github.com/MariaSolOsso/PWABuilder-previewer/blob/main/assets/readme-images/categories.png)
 
 ## Built with
 - [Lit](https://lit.dev/)
@@ -50,7 +51,7 @@ In addition, the properties below can be added for further programmatic control:
 - `platform`: The platform to preview (this component currently supports `'windows'`, `'android'` and `'iOS'`). Note that clicking the platform buttons also changes the value of this property.
   - Default: `windows`
 - `stage`: The preview screen. It must be one of `'install'`, `'splashScreen'`, `'name'`, `'shortName'`
-`'themeColor'`, `'shortcuts'`, `'display'`, `'categories'`, or `'shareTarget'`.
+`'themeColor'`, `'shortcuts'`, `'display'`, `'categories'`, `'shareTarget'`, or `'description'`.
 The navigation arrows change this value as well. 
   - Default: `name`
 - `titles`: Object with key-value pairs of stage names and custom screen titles. For example, if a custom description for the `name` screen is desired, then `titles` should be:
@@ -70,7 +71,8 @@ The navigation arrows change this value as well.
   shortcuts: 'The shortcuts attribute',
   display: 'The display attribute',
   categories: 'The categories attribute',
-  shareTarget: 'The share target attribute'
+  shareTarget: 'The share target attribute',
+  description: 'The description attribute'
 }
  ```
 - `descriptions`: Object where the keys are stage names and the values are objects with key-value pairs of platform and a string to be displayed on the respective screen. For example, if a custom description for the `name` screen when `windows` is the selected platform is desired, then `descriptions` should be:
@@ -126,9 +128,14 @@ If a certain description is not specified, the default one is used.
       iOS: "On iOS, your application's categories are set from a predetermined set of options and enhance the discoverability of your app."
     },
     shareTarget: {
-      windows: 'This attribute allows your application to easily share and receive media content on Windows.',
-      android: 'By using the share target attribute, you can quickly share and receive links and files like a native Android application.',
-      iOS: 'By using the share target attribute, you can quickly share and receive links and files like a native iOS application. '
+      windows: 'As a share target, your app can receive text, links, and files from other Windows apps.',
+      android: 'As share target, your app can receive text, links, and files from other Android apps.',
+      iOS: 'As a share target, your app can receive text, links, and files shared from other iOS apps.'
+    },
+    description: {
+      windows: "The Microsoft Store shows the app's description in the app's product description page.",
+      android: "Google Play shows the app's description in the app's product description page.",
+      iOS: "The iOS App Store shows your app's description in the app's product description page."
     }
   }
   ```

@@ -332,14 +332,19 @@ export class ManifestPreviewer extends LitElement {
         iOS: this.descriptions.display?.iOS || "The display mode changes how much of the browser's UI is shown to the user. It can range from browser (the full browser window is shown) to fullscreen (the app is full-screened)."
       },
       categories: {
-        windows: this.descriptions.categories?.windows || "The Microsoft store uses the indicated categories as tags in the app's listing.",
-        android: this.descriptions.categories?.android || "Google Play includes the categories specified in the manifest in the application's listing page.",
+        windows: this.descriptions.categories?.windows || "The Microsoft Store uses the indicated categories as tags in the app's product description page.",
+        android: this.descriptions.categories?.android || "Google Play includes the categories specified in the manifest in the app's product description page.",
         iOS: this.descriptions.categories?.iOS || "On iOS, your application's categories are set from a predetermined set of options and enhance the discoverability of your app."
       },
       shareTarget: {
-        windows: this.descriptions.shareTarget?.windows || 'This attribute allows your application to easily share and receive media content on Windows.',
-        android: this.descriptions.shareTarget?.android || 'By using the share target attribute, you can quickly share and receive links and files like a native Android application.',
+        windows: this.descriptions.shareTarget?.windows || 'As a share target, your app can receive text, links, and files from other Windows apps.',
+        android: this.descriptions.shareTarget?.android || 'As a share target, your app can receive text, links, and files from other Android apps.',
         iOS: this.descriptions.shareTarget?.iOS || 'By using the share target attribute, you can quickly share and receive links and files like a native iOS application. '
+      },
+      description: {
+        windows: this.descriptions.description?.windows || "The Microsoft Store shows the app's description in the app's product description page.",
+        android: this.descriptions.description?.android || "Google Play shows the app's description in the app's product description page.",
+        iOS: this.descriptions.description?.iOS || "The iOS App Store shows your app's description in the app's product description page."
       }
     }
   }
@@ -352,10 +357,11 @@ export class ManifestPreviewer extends LitElement {
       shortName: this.titles.shortName || 'The short name attribute',
       themeColor: this.titles.themeColor || 'The theme color attribute',
       shortcuts: this.titles.shortcuts || 'The shortcuts attribute',
-      display:  this.titles.display || 'The display attribute',
+      display: this.titles.display || 'The display attribute',
       categories: this.titles.categories || 'The categories attribute',
-      shareTarget: this.titles.shareTarget || 'The share target attribute'
-    }
+      shareTarget: this.titles.shareTarget || 'The share target attribute',
+      description: this.titles.description || 'The description attribute'
+    };
   }
 
   /**
@@ -500,6 +506,7 @@ export class ManifestPreviewer extends LitElement {
       case 'categories':
         return html`
           <categories-screen
+          highlight='categories'
           .isInFullScreen=${this.isInFullScreen}
           .platform=${this.platform}
           .categories=${this.manifest.categories}
@@ -520,6 +527,13 @@ export class ManifestPreviewer extends LitElement {
           .shortName=${this.manifest.short_name}
           .siteUrl=${this.siteUrl}>
           </share-target>
+        `;
+      case 'description':
+        return html`
+          <categories-screen highlight='description' .isInFullScreen=${this.isInFullScreen} .platform=${this.platform}
+            .categories=${this.manifest.categories} .appName=${this.manifest.name} .iconUrl=${this.iconUrl}
+            .description=${this.manifest.description} .screenshots=${this.manifest.screenshots} .manifestUrl=${this.manifestUrl}>
+          </categories-screen>
         `;
       default: return null;
     }
@@ -610,8 +624,8 @@ export class ManifestPreviewer extends LitElement {
   }
 }
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'manifest-previewer': ManifestPreviewer
-  }
-}
+// declare global {
+//   interface HTMLElementTagNameMap {
+//     'manifest-previewer': ManifestPreviewer
+//   }
+// }

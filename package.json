@@ -29,7 +29,7 @@
   "main": "dist/manifest-previewer.js",
   "module": "dist/manifest-previewer.js",
   "dependencies": {
-    "lit": "^2.0.0-rc.2"
+    "lit": "^2.0.0-rc.3"
   },
   "types": "dist/manifest-previewer.d.ts",
   "keywords": [

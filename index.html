@@ -9,7 +9,7 @@
 
   <title>PWABuilder - Preview component</title>
 
-  <script type="module" src="./manifest-previewer.js"></script>
+  <script type="module" src="./build/manifest-previewer.js"></script>
 
   <style type="text/css" media="screen, print">
     @font-face {
@@ -64,9 +64,7 @@
 </head>
 
 <body>
-  <manifest-previewer
-  manifesturl="https://www.pwabuilder.com/"
-  manifest='{
+  <manifest-previewer manifesturl="https://www.pwabuilder.com/" manifest='{
   "name": "PWABuilder",
   "display": "standalone",
   "short_name": "PWABuilder",
@@ -123,8 +121,7 @@
       ]
     }
   ]
-  }'
-  siteurl="https://www.pwabuilder.com/">
+  }' siteurl="https://www.pwabuilder.com/">
   </manifest-previewer>
 </body>
 

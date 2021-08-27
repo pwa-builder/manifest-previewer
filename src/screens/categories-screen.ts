@@ -197,6 +197,11 @@ export class CategoriesScreen extends ScreenTemplate {
   @property() manifestUrl = '';
 
   /**
+   * We use this screen for both categories and description. This controls what we highlight.
+   */
+  @property() highlight: 'categories' | 'description' = 'categories';
+
+  /**
    * @param src - The src property of the screenshot
    * @returns The icon URL for the respective screenshot
    */
@@ -248,11 +253,13 @@ export class CategoriesScreen extends ScreenTemplate {
   }
 
   renderiOS() {
+    const message = this.highlight === 'categories' ?
+      html`Categories in iOS App Store may not necessarily be related to the manifest's categories.` :
+      html`Description in iOS App Store may not necessarily related to the manifest's description.`;
     return html`
       <div class="ios-message">
         <disclaimer-message>
-          These categories are not necessarily related to those specified on 
-          the manifest. 
+          ${message}
         </disclaimer-message>
       </div>
     `;
