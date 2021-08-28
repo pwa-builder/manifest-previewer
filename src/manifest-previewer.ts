@@ -1,6 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, state, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { getSuitableIcon } from './utils.js';
 
 import './screens/install-screen.js';
 import './screens/splash-screen.js';
@@ -207,10 +208,14 @@ export class ManifestPreviewer extends LitElement {
     type: Object,
     converter: value => {
       if (!value) {
-        return undefined;
+        return { } as Manifest;
+      }
+
+      if (typeof value === "string") {
+        return JSON.parse(value);
       }
       
-      return JSON.parse(value);
+      return value;
     }
   })
   manifest = {} as Manifest;
@@ -271,18 +276,7 @@ export class ManifestPreviewer extends LitElement {
   @query('#content') content!: Element;
 
   firstUpdated() {
-    // Set the icon URL.
-    if (this.manifest.icons && this.manifest.icons.length > 0) {
-      // Try to get the largest icon so that it looks good everywhere, or the first one by default
-      let iconUrl = this.manifest.icons.find(icon => icon.sizes?.includes('512x512'))?.src;
-      if (!iconUrl) {
-        iconUrl = this.manifest.icons[0]?.src;
-      }
-      if (iconUrl) {
-        const absoluteUrl = new URL(iconUrl, this.manifestUrl).href;
-        this.iconUrl = `https://pwabuilder-safe-url.azurewebsites.net/api/getsafeurl?url=${absoluteUrl}`;
-      }
-    }
+    this.updateIconUrl();
 
     // Set the site URL if not defined (assuming it can be derived from the manifest's URL)
     if (!this.siteUrl) {
@@ -292,6 +286,25 @@ export class ManifestPreviewer extends LitElement {
     // Set default values
     this.setDefaultDescriptions();
     this.setDefaultTitles();
+  }
+
+  update(changedProperties: Map<string | number | symbol, unknown>) {
+    // If the manifest changed, update the icon URL
+    if (changedProperties.get("manifest")) {
+      this.updateIconUrl();
+    }
+
+    super.update(changedProperties);
+  }
+
+  private updateIconUrl() {
+    const suitableIcon = getSuitableIcon(this.manifest?.icons || []);
+    if (suitableIcon) {
+      const absoluteUrl = new URL(suitableIcon.src, this.manifestUrl).href;
+      this.iconUrl = `https://pwabuilder-safe-url.azurewebsites.net/api/getsafeurl?url=${encodeURIComponent(absoluteUrl)}`;
+    } else {
+      this.iconUrl = '';
+    }
   }
 
   private setDefaultDescriptions() {
@@ -540,6 +553,10 @@ export class ManifestPreviewer extends LitElement {
   }
 
   render() {
+    if (!this.manifest) {
+      return html``;
+    }
+
     return html`
       <div part="card" class="card">
         <h1 part="card-title" class="title">${this.cardTitle}</h1>

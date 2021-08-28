@@ -64,65 +64,67 @@
 </head>
 
 <body>
-  <manifest-previewer manifesturl="https://www.pwabuilder.com/" manifest='{
-  "name": "PWABuilder",
-  "display": "standalone",
-  "short_name": "PWABuilder",
-  "theme_color": "#FFF",
-  "description": "All the tools you need to build and deploy your Progressive Web Apps.",
-  "background_color": "#FFFFFF",
-  "icons": [
-    {
-      "src": "/assets/icons/icon_512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/assets/screenshots/screen1.png",
-      "sizes": "2880x1800",
-      "type": "image/png",
-      "description": "PWABuilder Home Screen"
-    },
-    {
-      "src": "/assets/screenshots/screen2.png",
-      "sizes": "2880/1800",
-      "type": "image/png",
-      "description": "PWABuilder Report Card"
-    },
-    {
-      "src": "/assets/screenshots/screen3.png",
-      "sizes": "2880x1800",
-      "type": "image/png",
-      "description": "Manifest information on the Report Card"
-    }
-  ],
-  "categories": [
-    "web development",
-    "PWA",
-    "Dev tool"
-  ],
-  "shortcuts": [
-    {
-      "name": "Go to homescreen",
-      "icons": [
-        {
-          "src": "https://img.icons8.com/ios/48/000000/home--v1.png"
-        }
-      ]
-    },
-    {
-      "name": "Notifications",
-      "icons": [
-        {
-          "src": "https://img.icons8.com/windows/64/000000/appointment-reminders--v1.png"
-        }
-      ]
-    }
-  ]
-  }' siteurl="https://www.pwabuilder.com/">
+  <manifest-previewer>
   </manifest-previewer>
+
+
+  <input type="url" id="url-input" placeholder="Type a URL" value="https://www.pwabuilder.com" />
+  <button onclick="loadPwa()">Go</button>
+  <p id="error-dump" style="color: darkred;"></p>
+  <textarea id="manifestCodeEditor" oninput="codeEditorChanged()"
+    style="overflow: scroll; width: 500px; height: 500px;"></textarea>
+
+  <script type="text/javascript">
+
+    const errorElement = document.querySelector("#error-dump");
+    const urlInput = document.querySelector("#url-input");
+    const manifestPreviewer = document.querySelector("manifest-previewer");
+    const codeEditor = document.querySelector("#manifestCodeEditor");
+
+    loadPwa();
+
+    async function loadPwa() {
+      // Clear any error text
+      errorElement.innerText = "";
+
+      // Fetch the manifest for the URL
+      const url = urlInput.value;
+      const fetchResult = await fetch(`https://pwabuilder-manifest-finder.azurewebsites.net/api/findmanifest?url=${encodeURIComponent(url)}`);
+      if (!fetchResult.ok) {
+        errorElement.innerText = `Error fetching manifest: ${fetchResult.status} - ${fetchResult.statusText}`;
+        return;
+      }
+
+      const manifestDetection = await fetchResult.json();
+      if (!manifestDetection.manifestContents) {
+        errorElement.innerText = `Error fetching manifest: ${manifestDetection.error}`;
+        return;
+      }
+
+      // Update the manifest previewer.
+      manifestPreviewer.siteUrl = url;
+      manifestPreviewer.manifestUrl = manifestDetection.manifestUrl;
+      manifestPreviewer.manifest = manifestDetection.manifestContents;
+      codeEditor.value = JSON.stringify(manifestDetection.manifestContents, undefined, 2);
+    }
+
+    function codeEditorChanged() {
+      // Is the JSON valid?
+      let isJsonValid = false;
+      let newManifest = null;
+      try {
+        newManifest = JSON.parse(codeEditor.value);
+        isJsonValid = true;
+        errorElement.innerText = "";
+      } catch (error) {
+        errorElement.innerText = `Invalid JSON: ${error}`;
+        return;
+      }
+
+      manifestPreviewer.manifest = newManifest;
+    }
+
+  </script>
 </body>
 
 </html>

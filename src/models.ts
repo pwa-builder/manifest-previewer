@@ -38,6 +38,7 @@ export type ImageResource = {
   sizes?: string;
   type?: string;
   label?: string;
+  purpose?: string;
 }
 
 /**

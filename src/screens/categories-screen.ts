@@ -49,6 +49,10 @@ export class CategoriesScreen extends ScreenTemplate {
           width: 80px;
         }
 
+        .windows .app-header h4 {
+          text-align: center;
+        }
+
         .windows .description {
           background-color: #FFF;
           position: absolute;

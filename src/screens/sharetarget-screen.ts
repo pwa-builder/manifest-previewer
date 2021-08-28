@@ -64,21 +64,27 @@ export class ShareTarget extends ScreenTemplate {
 
         .windows .app {
           position: absolute;
-          bottom: 57px;
+          bottom: 63px;
           background-color: #F3F3F3;
           font-weight: 400;
           font-size: 9px;
           margin-left: 14px;
           min-width: 46px;
           max-width: 63px;
-          white-space: nowrap;
-          overflow: hidden;
           min-height: 45px;
         }
 
+        .windows .app .name {
+          text-shadow: 0 0 2px darkgray;
+          max-width: 63px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+
         .windows .app img {
-          width: 30px;
-          height: 30px;
+          width: 22px;
+          height: 22px;
           margin-bottom: 4px;
         }
 
@@ -220,7 +226,9 @@ export class ShareTarget extends ScreenTemplate {
         </div>
         <div class="app">
           ${this.iconUrl ? html`<img alt="PWA icon" src=${this.iconUrl} />` : null}
-          ${this.shortName || this.appName || 'PWA App'}
+          <span class="name">
+            ${this.shortName || this.appName || 'PWAApp'}
+          </span>
         </div>
       </div>
     `;

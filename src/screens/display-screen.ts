@@ -4,7 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
 import { ScreenTemplate } from './screen-template';
-import { getContrastingColor } from '../utils';
+import { getContrastingColor, isDarkColor } from '../utils';
 import { Display } from '../models';
 import '../disclaimer-message.js';
 
@@ -24,6 +24,11 @@ export class DisplayScreen extends ScreenTemplate {
 
         .container.windows {
           font-family: var(--windows-font-family, Arial);
+          height: 160px;
+          border-radius: 5px;
+          margin-top: 50px;
+          box-shadow: rgb(142 142 142) 0px 0px 8px 0px;
+          overflow: hidden;
         }
 
         .container.android {
@@ -120,7 +125,6 @@ export class DisplayScreen extends ScreenTemplate {
           justify-content: center;
           align-items: center;
           flex-direction: column;
-          box-shadow: var(--card-box-shadow);
           background-color: var(--pwa-background-color, #FFF);
         }
 
@@ -134,11 +138,11 @@ export class DisplayScreen extends ScreenTemplate {
         }
 
         .windows .app-background.minimal-ui {
-          width: 260px;
+          width: 100%;
         }
 
         .windows .app-background.standalone {
-          width: 260px;
+          width: 100%;
         }
 
         .windows .app-icon {
@@ -148,7 +152,6 @@ export class DisplayScreen extends ScreenTemplate {
         .windows .app-name {
           width: fit-content;
           margin: 10px auto 0px;
-          font-size: 12px;
         }
 
         .windows .app-url {
@@ -168,6 +171,8 @@ export class DisplayScreen extends ScreenTemplate {
           display: flex;
           justify-content: space-between;
           background-color: var(--pwa-theme-color, #EBD0FE);
+          height: 32px;
+          padding: 5px;
         }
 
         .windows .nav-actions {
@@ -176,8 +181,8 @@ export class DisplayScreen extends ScreenTemplate {
         }
 
         .windows .nav-actions img {
-          width: 10px;
-          height: 8px;
+          width: 16px;
+          height: 16px;
           margin: 4px 2px 0;
           opacity: 0.8;
         }
@@ -188,21 +193,24 @@ export class DisplayScreen extends ScreenTemplate {
 
         .windows .nav-actions .collapse {
           margin: 4px 5px 0;
-          width: 6px;
+          width: 12px;
           height: 1px;
         }
 
         .windows .nav-actions .enlarge {
           margin: 4px 5px 0;
-          width: 6px;
-          height: 6px;
+          width: 12px;
+          height: 12px;
           border-width: 1px;
           border-style: solid;
         }
 
         .windows .title-bar .app-name {
-          margin: 4px;
-          font-size: 6px;
+          margin: 6px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          flex: 1;
         }
 
         .ios-message {
@@ -227,6 +235,8 @@ export class DisplayScreen extends ScreenTemplate {
   set themeColor(val: string) {
     const oldVal = this._themeColor;
     this._themeColor = val === 'none' || val === 'transparent' ? 'darkGray' : val;
+    this.contrastingThemeColor = this._themeColor ? getContrastingColor(this._themeColor) : '#FFF';
+    this.isLightThemeColor = this._themeColor ? !isDarkColor(this._themeColor) : false;
     this.requestUpdate('themeColor', oldVal);
   } 
  
@@ -242,6 +252,7 @@ export class DisplayScreen extends ScreenTemplate {
   set backgroundColor(val: string) {
     const oldVal = this._backgroundColor;
     this._backgroundColor = val === 'none' || val === 'transparent' ? '#FFF' : val;
+    this.contrastingBackgroundColor = getContrastingColor(this._backgroundColor);
     this.requestUpdate('backgroundColor', oldVal);
   } 
  
@@ -264,9 +275,19 @@ export class DisplayScreen extends ScreenTemplate {
   @property() siteUrl = '';
 
   /**
+   * Whether the manifest's theme_color is light or dark.
+   */
+  @state() isLightThemeColor = false;
+
+  /**
    * The color to use on top of the theme color, such that the text is visible.
    */
   @state() private contrastingThemeColor = '';
+
+  /**
+   * The color to use on top of the background color, such that the text is visible.
+   */
+  @state() private contrastingBackgroundColor = '';
 
   firstUpdated() {
     this.contrastingThemeColor = this.themeColor ? getContrastingColor(this.themeColor) : '#000';
@@ -281,7 +302,7 @@ export class DisplayScreen extends ScreenTemplate {
           html`<img class="app-icon" alt="App icon" src=${this.iconUrl} />` : null}
         <h4 
         class="app-name" 
-        style=${styleMap({ color: this.backgroundColor ? getContrastingColor(this.backgroundColor) : '#000' })}>
+        style=${styleMap({ color: this.backgroundColor ? this.contrastingBackgroundColor : '#000' })}>
           ${this.appName || 'PWA App'}
         </h4>
       </div>
@@ -322,14 +343,16 @@ export class DisplayScreen extends ScreenTemplate {
             class="title-bar"
             style=${styleMap({ '--pwa-theme-color': this.themeColor })}>
               <div class="nav-actions">
-                <img alt="Go back" src="../assets/images/windows/backarrow.svg" />
-                <img alt="Refresh page" src="../assets/images/windows/refresharrow.svg" />
+                <img alt="Go back" src="${this.backArrowUrl}" />
+                <img alt="Refresh page" src="${this.refreshArrowUrl}" />
               </div>
-              <span tabindex="-1" class="app-name">${this.appName}</span>
+              <span tabindex="-1" class="app-name" style=${styleMap({ color: this.contrastingThemeColor })}>
+                ${this.appName}
+              </span>
               <div class="nav-actions">
                 <div class="collapse" style=${styleMap({ backgroundColor: this.contrastingThemeColor })}></div>
                 <div class="enlarge" style=${styleMap({ borderColor: this.contrastingThemeColor })}></div>
-                <svg tabindex="-1" class="close" width="6px" height="6px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+                <svg tabindex="-1" class="close" width="12px" height="12px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
                   <g><path style="fill:${this.contrastingThemeColor}" d="M990,61.2L933.3,5.1L500,443.3L66.7,5.1L10,61.2L443.9,500L10,938.8l56.7,56.1L500,556.7l433.3,438.2l56.7-56.1L556.1,500L990,61.2z"/></g>
                 </svg>
               </div>
@@ -351,7 +374,7 @@ export class DisplayScreen extends ScreenTemplate {
               <div class="nav-actions">
                 <div class="collapse" style=${styleMap({ backgroundColor: this.contrastingThemeColor })}></div>
                 <div class="enlarge" style=${styleMap({ borderColor: this.contrastingThemeColor })}></div>
-                <svg tabindex="-1" class="close" width="6px" height="6px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+                <svg tabindex="-1" class="close" width="12px" height="12px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
                   <g><path style="fill:${this.contrastingThemeColor}" d="M990,61.2L933.3,5.1L500,443.3L66.7,5.1L10,61.2L443.9,500L10,938.8l56.7,56.1L500,556.7l433.3,438.2l56.7-56.1L556.1,500L990,61.2z"/></g>
                 </svg>
               </div>
@@ -401,5 +424,21 @@ export class DisplayScreen extends ScreenTemplate {
         </disclaimer-message>
       </div>
     `;
+  }
+
+  get backArrowUrl(): string {
+    if (this.isLightThemeColor) {
+      return "../assets/images/windows/backarrow-dark.svg";
+    }
+
+    return "../assets/images/windows/backarrow-light.svg";
+  }
+
+  get refreshArrowUrl(): string {
+    if (this.isLightThemeColor) {
+      return "../assets/images/windows/refresharrow-dark.svg";
+    }
+
+    return "../assets/images/windows/refresharrow-light.svg";
   }
 }
