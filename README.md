@@ -1,3 +1,5 @@
+Please use our [main repository for any issues/bugs/features suggestion](https://github.com/pwa-builder/PWABuilder/issues/new/choose).
+
 # PWABuilder - Manifest previewer
 A [web component](https://developer.mozilla.org/en-US/docs/Web/Web_Components) that allows you to preview your PWA on Windows, Android and iOS, based on your app's `manifest.json` file!
 
